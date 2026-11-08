@@ -22,6 +22,9 @@
   --accent-ink:#ffffff;
   --band:#151012;
   --band-ink:#f7f1f1;
+  --band-sub:#d9cfd1;
+  --band-accent:#e8262d;
+  --stripe:#c4161c;
   --chip:#efe8e8;
   --amber:#9a5c06; --amber-soft:#fbefdc;
   --display:"Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
@@ -43,6 +46,30 @@
   --accent:#ff4a50; --accent-soft:#3b1416; --accent-ink:#ffffff;
   --band:#000000; --band-ink:#f7f1f1; --chip:#261e20;
   --amber:#f0b35c; --amber-soft:#35260f;
+  color-scheme: dark;
+}
+/* Esquema verde e branco */
+:root[data-scheme="vb"]{
+  --bg:#f1f6f2; --surface:#ffffff; --ink:#10241a; --muted:#4d6155; --line:#cfddd3;
+  --accent:#1d7a40; --accent-soft:#e0f1e6; --accent-ink:#ffffff;
+  --band:#17663a; --band-ink:#ffffff; --band-sub:#dcefe2; --band-accent:#ffffff; --stripe:#ffffff;
+  --chip:#e6efe9; --amber:#8a5a00; --amber-soft:#fbefdc;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root[data-scheme="vb"]:not([data-theme="light"]){
+    --bg:#0b130e; --surface:#121d16; --ink:#eaf4ed; --muted:#a6bcae; --line:#27392e;
+    --accent:#4cc47b; --accent-soft:#163323; --accent-ink:#06140b;
+    --band:#0f3d24; --band-ink:#ffffff; --band-sub:#cfe6d7; --band-accent:#7fe0a5; --stripe:#e9f5ee;
+    --chip:#1a2a20; --amber:#f0b35c; --amber-soft:#35260f;
+    color-scheme: dark;
+  }
+}
+:root[data-scheme="vb"][data-theme="dark"]{
+  --bg:#0b130e; --surface:#121d16; --ink:#eaf4ed; --muted:#a6bcae; --line:#27392e;
+  --accent:#4cc47b; --accent-soft:#163323; --accent-ink:#06140b;
+  --band:#0f3d24; --band-ink:#ffffff; --band-sub:#cfe6d7; --band-accent:#7fe0a5; --stripe:#e9f5ee;
+  --chip:#1a2a20; --amber:#f0b35c; --amber-soft:#35260f;
   color-scheme: dark;
 }
 /* Modo fácil: contraste máximo */
@@ -70,14 +97,14 @@ input,select,textarea{font-size:max(16px,1rem)}
 
 header.top{background:var(--band);color:var(--band-ink);margin:0 -16px;padding:20px 16px 28px;position:relative}
 header.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:10px;
-  background:repeating-linear-gradient(180deg,var(--accent) 0 3px,var(--band) 3px 5px)}
+  background:repeating-linear-gradient(180deg,var(--stripe) 0 3px,var(--band) 3px 5px)}
 header.top .inner{max-width:828px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
-header.top h1 span{color:var(--accent)}
-.sub{color:#d9cfd1;max-width:62ch;margin:0}
+header.top h1 span{color:var(--band-accent)}
+.sub{color:var(--band-sub);max-width:62ch;margin:0}
 .hrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
-.sync{font-size:.82rem;color:#d9cfd1;display:flex;align-items:center;gap:6px}
+.sync{font-size:.82rem;color:var(--band-sub);display:flex;align-items:center;gap:6px}
 .dot{width:8px;height:8px;border-radius:50%;background:#7d7073}
-.dot.on{background:var(--accent)}
+.dot.on{background:var(--band-accent)}
 .easybtn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:8px 16px;border-radius:999px;border:2px solid var(--band-ink);background:transparent;color:var(--band-ink);font-weight:800;font-size:1rem;cursor:pointer}
 .easybtn .aa{font-family:var(--display);font-size:1.5rem;line-height:1}
 .easybtn[aria-pressed="true"]{background:var(--band-ink);color:var(--band)}
@@ -235,9 +262,9 @@ html.easy .sp dl{grid-template-columns:1fr}
 .sp-actions{display:flex;flex-wrap:wrap;gap:8px}
 .group{display:flex;flex-direction:column;gap:16px}
 .group+.group{margin-top:14px}
-.ghead{background:var(--band);color:var(--band-ink);border-radius:12px;padding:12px 16px;border-left:8px solid var(--accent)}
+.ghead{background:var(--band);color:var(--band-ink);border-radius:12px;padding:12px 16px;border-left:8px solid var(--stripe)}
 .ghead h2{font-size:1.6rem}
-.ghead p{margin:2px 0 0;color:#d9cfd1;font-size:.92rem}
+.ghead p{margin:2px 0 0;color:var(--band-sub);font-size:.92rem}
 .cat-head h3{font-size:1.35rem}
 .tag.fish.on{border-style:solid;border-color:var(--accent);color:var(--accent)}
 
@@ -251,7 +278,7 @@ html.easy .form{grid-template-columns:1fr}
 
 .seg{display:inline-grid;grid-template-columns:repeat(4,auto)}
 .seg button+button{border-left:1px solid var(--line)}
-@media (max-width:640px){.seg{display:grid;grid-template-columns:1fr 1fr;border-radius:12px;width:100%}.seg button:nth-child(3){border-left:0}.seg button:nth-child(n+3){border-top:1px solid var(--line)}}
+@media (max-width:1099px){.seg{display:grid;grid-template-columns:1fr 1fr;border-radius:12px;width:100%}.seg button:nth-child(3){border-left:0}.seg button:nth-child(n+3){border-top:1px solid var(--line)}}
 html.easy .seg{grid-template-columns:1fr 1fr}
 html.easy .seg button:nth-child(3){border-left:0}
 html.easy .seg button:nth-child(n+3){border-top:2px solid var(--line)}
@@ -262,6 +289,39 @@ html.easy .seg button:nth-child(n+3){border-top:2px solid var(--line)}
 html.easy .item.st-nao{opacity:1}
 .warn{border:2px solid var(--amber);background:var(--amber-soft);color:var(--ink);border-radius:12px;padding:12px 14px;font-size:.95rem}
 .warn[hidden]{display:none}
+
+/* Seletor de cores */
+.schemes{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.slbl{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--band-sub)}
+.sch{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:6px 14px 6px 8px;border-radius:999px;border:2px solid rgba(255,255,255,.35);background:transparent;color:var(--band-ink);font-weight:700;font-size:.9rem;cursor:pointer}
+.sch[aria-pressed="true"]{border-color:var(--band-ink);background:rgba(255,255,255,.12)}
+.sw2{display:inline-flex;border-radius:50%;overflow:hidden;width:26px;height:26px;border:2px solid var(--band-ink);transform:rotate(45deg)}
+.sw2 i{display:block;width:50%;height:100%}
+
+/* Layout: celular em uma coluna; tablet com itens lado a lado; computador com filtros na lateral */
+.layout{display:flex;flex-direction:column;gap:18px}
+.content{display:flex;flex-direction:column;gap:18px;min-width:0}
+.items{display:grid;grid-template-columns:1fr;gap:12px;align-items:start}
+@media (min-width:760px){
+  .wrap{max-width:1180px}
+  .items{grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+  html.easy .items{grid-template-columns:repeat(auto-fill,minmax(460px,1fr))}
+  .summary{grid-template-columns:repeat(3,1fr)}
+}
+@media (min-width:1100px){
+  .wrap{max-width:1440px;padding-left:24px;padding-right:24px}
+  header.top{margin:0 -24px;padding-left:24px;padding-right:24px}
+  header.top .inner{max-width:1392px}
+  .layout{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;align-items:start}
+  html.easy .layout{grid-template-columns:360px minmax(0,1fr)}
+  .controls,html.easy .controls{position:sticky;top:12px;max-height:calc(100vh - 24px);overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;border-bottom:1px solid var(--line)}
+  .controls .crow{flex-direction:column;align-items:stretch;gap:6px}
+  .controls .chips{flex-wrap:wrap;overflow:visible}
+  .controls .chip{flex:0 1 auto;white-space:normal;text-align:left}
+  .items{grid-template-columns:repeat(auto-fill,minmax(400px,1fr))}
+  html.easy .items{grid-template-columns:repeat(auto-fill,minmax(520px,1fr))}
+  .notes{grid-template-columns:1fr 1fr}
+}
 @media (prefers-reduced-motion: reduce){.toast{transition:none}}
 @media (prefers-contrast: more){:root{--muted:#2e2629;--line:#6f6366}}
 </style>
@@ -274,7 +334,12 @@ html.easy .item.st-nao{opacity:1}
       <p class="sub">Escolha o peixe, veja o que precisa levar, marque o que já tem e compare marcas nas faixas barata, média e alta. Peixes comuns no Paraná, Santa Catarina, São Paulo e Mato Grosso do Sul, no barranco, no barco ou no pesqueiro.</p>
       <div class="hrow">
         <button type="button" class="easybtn" id="easyBtn" aria-pressed="false"><span class="aa" aria-hidden="true">A+</span><span id="easyTxt">Letra grande e modo fácil</span></button>
-        <div class="sync" id="sync" role="status"><span class="dot" id="syncDot"></span><span id="syncText">Salvo neste celular</span></div>
+        <div class="schemes" role="group" aria-label="Cores do app">
+          <span class="slbl">Cores</span>
+          <button type="button" class="sch" data-scheme="rn" aria-pressed="true"><span class="sw2" aria-hidden="true"><i style="background:#c4161c"></i><i style="background:#151012"></i></span>Vermelho e preto</button>
+          <button type="button" class="sch" data-scheme="vb" aria-pressed="false"><span class="sw2" aria-hidden="true"><i style="background:#1d7a40"></i><i style="background:#ffffff"></i></span>Verde e branco</button>
+        </div>
+        <div class="sync" id="sync" role="status"><span class="dot" id="syncDot"></span><span id="syncText">Salvo neste aparelho</span></div>
       </div>
     </div>
   </header>
@@ -298,7 +363,7 @@ html.easy .item.st-nao{opacity:1}
         <button class="btn" type="button" id="copyCep">Copiar CEP</button>
         <button class="btn" type="button" id="copyAddr">Copiar endereço</button>
       </div>
-      <span class="small muted">Fica salvo só neste celular. Cada pessoa que abrir o link tem a própria lista.</span>
+      <span class="small muted">Fica salvo só neste aparelho. Cada pessoa que abrir o link tem a própria lista.</span>
     </div>
     <div class="note law">
       <b>Piracema na bacia do Rio Paraná: até 28/02/2027</b>
@@ -307,17 +372,20 @@ html.easy .item.st-nao{opacity:1}
     </div>
   </div>
 
-  <div class="controls">
+  <div class="layout">
+  <aside class="controls" aria-label="Filtros">
     <div class="crow"><span class="lbl">Peixe</span><div class="chips" id="fFish" role="group" aria-label="Quais peixes você vai pescar (pode escolher mais de um)"></div></div>
     <div class="crow"><span class="lbl">Onde</span><div class="chips" id="fWhere" role="group" aria-label="Onde você vai pescar"></div></div>
     <div class="crow"><span class="lbl">Mostrar</span><div class="chips" id="fStatus" role="group" aria-label="Filtrar por situação"></div></div>
     <div class="crow"><span class="lbl">Ir para</span><div class="chips" id="fCat" role="group" aria-label="Ir para categoria"></div></div>
     <label class="toggle" for="cheap"><input type="checkbox" id="cheap"> Abrir lojas já ordenadas pelo menor preço</label>
-  </div>
-
+  </aside>
+  <div class="content">
   <section class="guide" id="guide" aria-live="polite"></section>
 
   <main id="list"></main>
+  </div>
+  </div>
 
   <section class="panel" id="shopPanel">
     <h2>Lista do que falta</h2>
@@ -941,9 +1009,18 @@ if(!Array.isArray(state.fish))state.fish=[];
 const DEFAULT_EASY=false;
 let easy=DEFAULT_EASY;
 try{const v=localStorage.getItem(LS_EASY); if(v!==null)easy=v==="1";}catch(e){}
+const LS_SCHEME="equipo-pesca-cores";
+let scheme="rn";
+try{const v=localStorage.getItem(LS_SCHEME); if(v==="vb"||v==="rn")scheme=v;}catch(e){}
+if(/(^#|-)verde/.test(location.hash))scheme="vb";
+function applyScheme(){
+  document.documentElement.setAttribute("data-scheme",scheme);
+  document.querySelectorAll("[data-scheme].sch").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.scheme===scheme)));
+  const m=document.querySelector('meta[name="theme-color"]'); if(m)m.setAttribute("content",scheme==="vb"?"#17663a":"#151012");
+}
 let storageOk=false;
 try{localStorage.setItem("equipo-pesca-teste","1"); storageOk=localStorage.getItem("equipo-pesca-teste")==="1"; localStorage.removeItem("equipo-pesca-teste");}catch(e){storageOk=false;}
-if(location.hash==="#facil")easy=true;
+if(/^#facil/.test(location.hash))easy=true;
 function applyEasy(){
   document.documentElement.classList.toggle("easy",easy);
   const b=document.getElementById("easyBtn");
@@ -1110,7 +1187,7 @@ function groupHTML(gid, title, sub, pred){
     html+=`<section class="cat" id="${sid}" aria-labelledby="h-${sid}">
       <div class="cat-head"><h3 id="h-${sid}">${esc(c.name)}</h3><span class="count num" aria-label="${done} de ${need.length} itens">${done}/${need.length}</span></div>
       ${gid==="g1"||c.id==="barco"||c.id==="barranco"||c.id==="util"?`<p class="cat-intro">${esc(c.intro)}</p>`:""}
-      ${shown.length?shown.map(itemHTML).join(""):`<div class="empty">Nada aqui com este filtro.</div>`}
+      ${shown.length?`<div class="items">${shown.map(itemHTML).join("")}</div>`:`<div class="empty">Nada aqui com este filtro.</div>`}
     </section>`;
   });
   return {html:`<div class="group" id="${gid}"><div class="ghead"><h2>${esc(title)}</h2><p>${esc(sub)}</p></div>${html}</div>`, cats};
@@ -1184,6 +1261,7 @@ async function copy(text, ok){
 
 document.addEventListener("click",e=>{
   const b=e.target.closest("button"); if(!b)return;
+  if(b.classList.contains("sch")&&b.dataset.scheme){scheme=b.dataset.scheme; try{localStorage.setItem(LS_SCHEME,scheme);}catch(err){} applyScheme(); toast(scheme==="vb"?"Cores: verde e branco":"Cores: vermelho e preto"); return;}
   if(b.id==="easyBtn"){easy=!easy; try{localStorage.setItem(LS_EASY,easy?"1":"0");}catch(err){} applyEasy(); toast(easy?"Modo fácil ligado":"Modo normal"); return;}
   if(b.dataset.st){const id=b.dataset.id; state.status[id]=b.dataset.st; if(b.dataset.st==="falta")delete state.status[id]; save(); render();
     const nb=document.querySelector(`#it-${CSS.escape(id)} [data-st="${b.dataset.st}"]`); if(nb)nb.focus({preventScroll:true});
@@ -1220,7 +1298,7 @@ $("#addForm").addEventListener("submit",e=>{
   $("#nName").value=""; $("#nQty").value="1";
   save(); renderFilters(); render(); toast("Item adicionado");
 });
-window.addEventListener("hashchange",()=>{if(location.hash==="#facil"&&!easy){easy=true;try{localStorage.setItem(LS_EASY,"1");}catch(e){} applyEasy();}});
+window.addEventListener("hashchange",()=>{if(/^#facil/.test(location.hash)&&!easy){easy=true;try{localStorage.setItem(LS_EASY,"1");}catch(e){} applyEasy();}});
 
 /* ---------- salvar: aparelho + conta (quando a pessoa estiver logada) ---------- */
 let docRef=null, writing=false, dirty=false, timer=null;
@@ -1237,13 +1315,13 @@ async function flush(){
   try{const body=snapshotState(); body.updatedAt=new Date().toISOString(); await docRef.set(body); setSync(true);}
   catch(err){
     if(err&&err.code==="unavailable"){setTimeout(flush,800+Math.random()*800);}
-    else {docRef=null; setSync(false,"Salvo neste celular");}
+    else {docRef=null; setSync(false,"Salvo neste aparelho");}
   }
   finally{writing=false; if(dirty){dirty=false; flush();}}
 }
-function setSync(on,text){$("#syncDot").classList.toggle("on",!!on); $("#syncText").textContent=text||(on?"Salvo na sua conta e neste aparelho":"Salvo neste celular");}
+function setSync(on,text){$("#syncDot").classList.toggle("on",!!on); $("#syncText").textContent=text||(on?"Salvo na sua conta e neste aparelho":"Salvo neste aparelho");}
 
-applyEasy(); renderFilters(); render();
+applyScheme(); applyEasy(); renderFilters(); render();
 if(!storageOk){const w=document.getElementById("storeWarn"); if(w)w.hidden=false;}
 try{if(window.speechSynthesis)window.speechSynthesis.getVoices();}catch(e){}
 
@@ -1257,7 +1335,7 @@ try{if(window.speechSynthesis)window.speechSynthesis.getVoices();}catch(e){}
     if(canW===false)return;
     const ref=db.doc("data/users/"+uid+"/pesca");
     let first=true;
-    const tmo=setTimeout(()=>{if(first)setSync(false,"Salvo neste celular");},10000);
+    const tmo=setTimeout(()=>{if(first)setSync(false,"Salvo neste aparelho");},10000);
     ref.onSnapshot(snap=>{
       if(snap.metadata&&snap.metadata.hasPendingWrites)return;
       const wasFirst=first;
@@ -1278,7 +1356,7 @@ try{if(window.speechSynthesis)window.speechSynthesis.getVoices();}catch(e){}
         const hasLocal=Object.keys(local.status).length||Object.keys(local.price).length||Object.keys(local.link).length||local.custom.length||local.addr||local.cep;
         if(hasLocal)flush();
       }
-    },err=>{clearTimeout(tmo);docRef=null;setSync(false,"Salvo neste celular");});
+    },err=>{clearTimeout(tmo);docRef=null;setSync(false,"Salvo neste aparelho");});
   }catch(e){}
 })();
 })();
