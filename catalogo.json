@@ -1260,7 +1260,10 @@
     "rob",
     "cor",
     "pir",
-    "jun"
+    "jun",
+    "pes",
+    "bmar",
+    "lin"
    ],
    "min": 160,
    "max": 350,
@@ -1278,7 +1281,9 @@
    "fish": [
     "bass",
     "til",
-    "pia"
+    "pia",
+    "crp",
+    "ptg"
    ],
    "min": 120,
    "max": 300,
@@ -1357,7 +1362,10 @@
     "cor",
     "pir",
     "jun",
-    "pia"
+    "pia",
+    "pes",
+    "bmar",
+    "lin"
    ],
    "min": 120,
    "max": 300,
@@ -1375,7 +1383,9 @@
    "fish": [
     "til",
     "bass",
-    "pia"
+    "pia",
+    "crp",
+    "ptg"
    ],
    "min": 70,
    "max": 250,
@@ -1415,7 +1425,9 @@
     "tra",
     "rob",
     "cor",
-    "bass"
+    "bass",
+    "pes",
+    "lin"
    ],
    "min": 40,
    "max": 120,
@@ -1455,7 +1467,10 @@
     "car",
     "jun",
     "lam",
-    "tamb"
+    "tamb",
+    "bmar",
+    "crp",
+    "ptg"
    ],
    "min": 20,
    "max": 60,
@@ -1475,7 +1490,9 @@
     "rob",
     "cor",
     "bass",
-    "dou"
+    "dou",
+    "pes",
+    "lin"
    ],
    "min": 35,
    "max": 90,
@@ -1531,7 +1548,9 @@
     "rob",
     "cor",
     "bass",
-    "dou"
+    "dou",
+    "pes",
+    "lin"
    ],
    "min": 10,
    "max": 25,
@@ -1590,7 +1609,9 @@
     "tuc",
     "bass",
     "rob",
-    "cor"
+    "cor",
+    "pes",
+    "lin"
    ],
    "min": 15,
    "max": 40,
@@ -1608,7 +1629,9 @@
    "fish": [
     "til",
     "lam",
-    "pia"
+    "pia",
+    "crp",
+    "ptg"
    ],
    "min": 10,
    "max": 25,
@@ -1629,7 +1652,9 @@
     "car",
     "jun",
     "cor",
-    "pir"
+    "pir",
+    "bmar",
+    "pes"
    ],
    "min": 15,
    "max": 35,
@@ -1670,7 +1695,11 @@
     "jun",
     "pin",
     "tamb",
-    "tra"
+    "tra",
+    "bmar",
+    "crp",
+    "lin",
+    "pes"
    ],
    "min": 15,
    "max": 35,
@@ -1763,7 +1792,8 @@
     "tuc",
     "tra",
     "rob",
-    "cor"
+    "cor",
+    "pes"
    ],
    "min": 25,
    "max": 65,
@@ -1834,7 +1864,9 @@
     "tra",
     "bass",
     "rob",
-    "cor"
+    "cor",
+    "pes",
+    "lin"
    ],
    "min": 20,
    "max": 50,
@@ -1852,7 +1884,9 @@
    "fish": [
     "rob",
     "cor",
-    "tuc"
+    "tuc",
+    "pes",
+    "lin"
    ],
    "min": 15,
    "max": 45,
@@ -1871,7 +1905,8 @@
     "cor",
     "dou",
     "rob",
-    "tuc"
+    "tuc",
+    "pes"
    ],
    "min": 13,
    "max": 40,
@@ -1889,7 +1924,8 @@
    "fish": [
     "tra",
     "tuc",
-    "bass"
+    "bass",
+    "ptg"
    ],
    "min": 20,
    "max": 75,
@@ -1906,7 +1942,8 @@
    "qty": 1,
    "fish": [
     "tra",
-    "dou"
+    "dou",
+    "ptg"
    ],
    "min": 15,
    "max": 35,
@@ -1927,7 +1964,8 @@
     "tamb",
     "car",
     "pia",
-    "lam"
+    "lam",
+    "ptg"
    ],
    "min": 15,
    "max": 50,
@@ -1973,6 +2011,44 @@
    "spec": "<b>Isca natural que pega quase tudo</b> no fundo. Costuma ser comprada na loja de isca perto do rio.",
    "q": "minhocuçu isca pesca",
    "ph": "minhocuçu isca"
+  },
+  {
+   "id": "isca-mar",
+   "cat": "naturais",
+   "ic": "soft",
+   "prio": "R",
+   "qty": 1,
+   "fish": [
+    "rob",
+    "pes",
+    "bmar",
+    "crp",
+    "lin"
+   ],
+   "min": 15,
+   "max": 45,
+   "name": "Isca do mar: camarão vivo, sardinha e corrupto",
+   "spec": "<b>Para baía, trapiche e estuário.</b> Camarão vivo é a isca que mais pega robalo e pescada; sardinha e corrupto para bagre e carapeba. Compre na marina ou loja de isca do local e leve num balde com aerador.",
+   "q": "camarão vivo isca pesca",
+   "ph": "camarão vivo isca pesca"
+  },
+  {
+   "id": "puca-camarao",
+   "cat": "naturais",
+   "ic": "net",
+   "prio": "O",
+   "qty": 1,
+   "fish": [
+    "rob",
+    "pes",
+    "lin"
+   ],
+   "min": 25,
+   "max": 90,
+   "name": "Viveiro flutuante para camarão vivo",
+   "spec": "<b>Mantém o camarão vivo o dia todo</b> dentro d'água, no barco ou no trapiche. Mais barato que comprar camarão duas vezes.",
+   "q": "viveiro camarão vivo pesca flutuante",
+   "ph": "viveiro camarão pesca"
   },
   {
    "id": "peneira",
