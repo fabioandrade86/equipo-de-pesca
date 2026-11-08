@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#151012">
+<title>Equipo de Pesca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: faixa preta com listras rubras no topo; abaixo, compartimentos por categoria como uma caixa de pesca.
+   Modo fácil: letra grande, alto contraste, botões largos e leitura em voz alta. */
+:root{
+  --bg:#f5f1f1;
+  --surface:#ffffff;
+  --ink:#151012;
+  --muted:#5f5356;
+  --line:#ddd1d2;
+  --accent:#c4161c;
+  --accent-soft:#fbe4e4;
+  --accent-ink:#ffffff;
+  --band:#151012;
+  --band-ink:#f7f1f1;
+  --chip:#efe8e8;
+  --amber:#9a5c06; --amber-soft:#fbefdc;
+  --display:"Barlow Condensed", "Arial Narrow", system-ui, sans-serif;
+  --body:"Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --tap:40px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e0b0c; --surface:#181314; --ink:#f3eded; --muted:#b3a5a8; --line:#352a2c;
+    --accent:#ff4a50; --accent-soft:#3b1416; --accent-ink:#ffffff;
+    --band:#000000; --band-ink:#f7f1f1; --chip:#261e20;
+    --amber:#f0b35c; --amber-soft:#35260f;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e0b0c; --surface:#181314; --ink:#f3eded; --muted:#b3a5a8; --line:#352a2c;
+  --accent:#ff4a50; --accent-soft:#3b1416; --accent-ink:#ffffff;
+  --band:#000000; --band-ink:#f7f1f1; --chip:#261e20;
+  --amber:#f0b35c; --amber-soft:#35260f;
+  color-scheme: dark;
+}
+/* Modo fácil: contraste máximo */
+html.easy{font-size:128%;--tap:56px}
+html.easy:root{--muted:#2e2629;--line:#8c7f82}
+@media (prefers-color-scheme: dark){html.easy:root:not([data-theme="light"]){--muted:#e2d8da;--line:#8a7c7f;--bg:#000;--surface:#0f0c0d}}
+html.easy:root[data-theme="dark"]{--muted:#e2d8da;--line:#8a7c7f;--bg:#000;--surface:#0f0c0d}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1rem;line-height:1.45;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:860px;margin:0 auto;padding:0 16px 64px;display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:.01em}
+h1{font-size:2.3rem;line-height:1;font-weight:700}
+h2{font-size:1.5rem;font-weight:700}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+input,select,textarea{font-size:max(16px,1rem)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.muted{color:var(--muted)}
+.small{font-size:.88rem}
+.num{font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+header.top{background:var(--band);color:var(--band-ink);margin:0 -16px;padding:20px 16px 28px;position:relative}
+header.top::after{content:"";position:absolute;left:0;right:0;bottom:0;height:10px;
+  background:repeating-linear-gradient(180deg,var(--accent) 0 3px,var(--band) 3px 5px)}
+header.top .inner{max-width:828px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+header.top h1 span{color:var(--accent)}
+.sub{color:#d9cfd1;max-width:62ch;margin:0}
+.hrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.sync{font-size:.82rem;color:#d9cfd1;display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:#7d7073}
+.dot.on{background:var(--accent)}
+.easybtn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:8px 16px;border-radius:999px;border:2px solid var(--band-ink);background:transparent;color:var(--band-ink);font-weight:800;font-size:1rem;cursor:pointer}
+.easybtn .aa{font-family:var(--display);font-size:1.5rem;line-height:1}
+.easybtn[aria-pressed="true"]{background:var(--band-ink);color:var(--band)}
+
+.summary{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat{min-width:0}
+.stat .k{font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700}
+.stat .v{font-family:var(--display);font-size:1.8rem;font-weight:700;line-height:1.1}
+.stat .v small{font-size:1rem;color:var(--muted);font-weight:600}
+.bar{grid-column:1/-1;height:12px;border-radius:6px;background:var(--chip);overflow:hidden;display:flex;border:1px solid var(--line)}
+.bar span{display:block;height:100%}
+.bar .b-ok{background:var(--accent)} .bar .b-ped{background:var(--amber)}
+.legend{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px;font-size:.86rem;color:var(--muted)}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+@media (max-width:560px){.summary{grid-template-columns:1fr 1fr}.stat.budget{grid-column:1/-1}}
+
+.notes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:640px){.notes{grid-template-columns:1fr}}
+.notes>.note{min-width:0}
+.note{border-radius:12px;padding:12px 14px;border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:8px}
+.note.ship{border-left:5px solid var(--ink)}
+.note.law{border-left:5px solid var(--amber)}
+.note b{font-weight:700}
+.note .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.ship-grid{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:8px}
+@media (max-width:380px){.ship-grid{grid-template-columns:1fr}}
+.field{display:flex;flex-direction:column;gap:3px;font-size:.82rem;color:var(--muted);font-weight:700}
+.field input,.field select{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 10px;min-width:0;min-height:var(--tap)}
+
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;cursor:pointer;font-weight:700;font-size:.9rem;min-height:var(--tap)}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+.controls{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid var(--line)}
+html.easy .controls{position:static}
+@media (max-width:640px){.controls{position:static}}
+.crow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.crow .lbl{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);min-width:4.5em}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;flex:1;min-width:0}
+.chips::-webkit-scrollbar{display:none}
+html.easy .chips{flex-wrap:wrap;overflow:visible}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:.9rem;cursor:pointer;font-weight:700;color:var(--muted);min-height:calc(var(--tap) - 4px)}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.toggle{display:flex;align-items:center;gap:10px;font-size:.92rem;color:var(--muted);cursor:pointer;user-select:none;min-height:var(--tap)}
+.toggle input{width:22px;height:22px;accent-color:var(--accent)}
+
+section.cat{display:flex;flex-direction:column;gap:12px}
+.cat-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;border-bottom:3px solid var(--ink);padding-bottom:4px;position:relative}
+.cat-head::after{content:"";position:absolute;left:0;bottom:-6px;width:56px;height:3px;background:var(--accent)}
+.cat-head .count{font-size:.9rem;color:var(--muted);font-weight:700}
+.cat-intro{font-size:.95rem;color:var(--muted);margin:4px 0 0;max-width:65ch}
+
+.item{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;grid-template-columns:64px minmax(0,1fr);gap:12px}
+html.easy .item{grid-template-columns:1fr;border-width:2px;border-left-width:8px;padding:16px}
+.item.st-tenho{border-left-color:var(--accent)}
+.item.st-pedido{border-left-color:var(--amber)}
+.ill{width:64px;height:64px;border-radius:12px;background:var(--chip);color:var(--ink);display:grid;place-items:center}
+a.ill{text-decoration:none;border:2px solid transparent}
+a.ill:hover,a.ill:focus-visible{border-color:var(--accent)}
+.ill svg{width:48px;height:48px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.ill svg .a{fill:var(--accent);stroke:currentColor}
+.ill svg .as{stroke:var(--accent)}
+html.easy .ill{width:96px;height:96px}
+html.easy .ill svg{width:76px;height:76px}
+.body{display:flex;flex-direction:column;gap:8px;min-width:0}
+.head{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
+html.easy .head{flex-direction:column;align-items:stretch}
+.title-block{display:flex;flex-direction:column;gap:5px;min-width:0;flex:1 1 220px}
+html.easy .title-block{flex-basis:auto}
+.name{font-weight:800;font-size:1.06rem;line-height:1.25}
+html.easy .name{font-size:1.25rem}
+.item.st-tenho .name{text-decoration:line-through;text-decoration-thickness:2px;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tag{font-size:.74rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:2px 7px;border-radius:5px;background:var(--chip);color:var(--ink)}
+.tag.p-E{background:var(--accent);color:var(--accent-ink)}
+.tag.p-R{background:var(--ink);color:var(--bg)}
+.tag.p-O{background:transparent;border:1px solid var(--line);color:var(--muted)}
+.tag.fish{background:transparent;border:1px dashed var(--line);color:var(--muted);text-transform:none;letter-spacing:0;font-weight:700}
+
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex:0 0 auto}
+html.easy .seg{display:grid;grid-template-columns:repeat(3,1fr);border-radius:12px;border-width:2px}
+.seg button{border:0;background:transparent;padding:6px 12px;font-size:.88rem;font-weight:800;cursor:pointer;color:var(--muted);min-height:var(--tap)}
+html.easy .seg button{font-size:1rem;padding:8px 4px}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"].s-falta{background:var(--chip);color:var(--ink)}
+.seg button[aria-pressed="true"].s-pedido{background:var(--amber-soft);color:var(--amber)}
+.seg button[aria-pressed="true"].s-tenho{background:var(--accent);color:var(--accent-ink)}
+
+.spec{margin:0;font-size:.95rem;max-width:68ch}
+.spec b{font-weight:700}
+.models{font-size:.9rem;color:var(--muted);margin:0}
+.meta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;font-size:.92rem}
+.price{font-weight:800}
+.say{border:1px solid var(--line);background:var(--bg);border-radius:999px;padding:4px 12px;font-weight:700;font-size:.86rem;cursor:pointer;display:none;align-items:center;gap:6px;min-height:var(--tap)}
+html.easy .say{display:inline-flex}
+.say svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+
+.tiers{display:flex;flex-direction:column;gap:6px;border-top:1px dashed var(--line);padding-top:8px}
+.tiers .th{font-size:.8rem;color:var(--muted);font-weight:700}
+.tier{display:grid;grid-template-columns:64px minmax(0,1fr);gap:8px;align-items:start}
+html.easy .tier{grid-template-columns:1fr}
+.tier .lv{font-family:var(--display);font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:.04em;padding-top:4px}
+.tier.t-b .lv{color:var(--muted)}
+.tier.t-m .lv{color:var(--ink)}
+.tier.t-a .lv{color:var(--accent)}
+.tier .ms{display:flex;flex-wrap:wrap;gap:6px}
+.m{display:inline-flex;align-items:baseline;gap:6px;text-decoration:none;color:var(--ink);font-size:.88rem;border:1px solid var(--line);border-radius:8px;padding:5px 9px;background:var(--bg);min-height:calc(var(--tap) - 6px)}
+.m:hover{border-color:var(--accent)}
+.m .pp{color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+
+.links{display:flex;flex-wrap:wrap;gap:6px}
+html.easy .links{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lk{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:.88rem;font-weight:800;padding:6px 11px;border-radius:10px;border:1px solid var(--line);color:var(--ink);background:var(--bg);min-height:var(--tap)}
+html.easy .lk{justify-content:center;font-size:1rem;border-width:2px}
+html.easy .lk.minor{display:none}
+.lk:hover{border-color:var(--accent)}
+.lk .sw{width:10px;height:10px;border-radius:2px;flex:0 0 auto}
+.lk.photo{border-color:var(--ink)}
+.lk.photo svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.mine{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.mine label{font-size:.82rem;color:var(--muted);font-weight:700}
+.mine input{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:6px 9px;min-width:0;min-height:var(--tap)}
+.mine input.p{width:120px}
+.mine input.u{flex:1 1 200px}
+.mine a{font-size:.88rem;font-weight:800}
+details.more summary{cursor:pointer;font-size:.88rem;color:var(--muted);font-weight:700;min-height:32px;display:flex;align-items:center}
+details.more[open] summary{margin-bottom:6px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.panel ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:68ch}
+.form{display:grid;grid-template-columns:2fr 1fr 90px auto;gap:8px;align-items:end}
+@media (max-width:640px){.form{grid-template-columns:1fr 1fr}.form .wide{grid-column:1/-1}}
+.empty{color:var(--muted);font-size:.95rem;padding:8px 0}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:.95rem;font-weight:700;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center}
+.toast.show{opacity:1}
+textarea.copybox{width:100%;min-height:150px;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:10px;font-family:var(--body);color:var(--ink)}
+
+.guide{display:flex;flex-direction:column;gap:10px}
+.guide-empty{margin:0;padding:12px 14px;border:2px dashed var(--line);border-radius:12px;color:var(--muted);font-weight:600}
+.gtitle{font-size:1.5rem}
+.species{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+html.easy .species{grid-template-columns:1fr}
+.sp{background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--accent);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+html.easy .sp{border-width:2px;border-top-width:6px}
+.sp-head{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between}
+.sp-head h3{font-size:1.4rem}
+.rule{font-size:.76rem;font-weight:800;padding:3px 8px;border-radius:6px}
+.r-exo{background:var(--ink);color:var(--bg)}
+.r-nat{background:var(--amber-soft);color:var(--amber);border:1px solid var(--amber)}
+.r-mar,.r-pq{background:var(--chip);color:var(--ink);border:1px solid var(--line)}
+.sp dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:.93rem}
+html.easy .sp dl{grid-template-columns:1fr}
+.sp dt{font-weight:800;color:var(--muted)}
+.sp dd{margin:0}
+.sp-actions{display:flex;flex-wrap:wrap;gap:8px}
+.group{display:flex;flex-direction:column;gap:16px}
+.group+.group{margin-top:14px}
+.ghead{background:var(--band);color:var(--band-ink);border-radius:12px;padding:12px 16px;border-left:8px solid var(--accent)}
+.ghead h2{font-size:1.6rem}
+.ghead p{margin:2px 0 0;color:#d9cfd1;font-size:.92rem}
+.cat-head h3{font-size:1.35rem}
+.tag.fish.on{border-style:solid;border-color:var(--accent);color:var(--accent)}
+
+.field input,.field select{width:100%;max-width:100%}
+.form>*{min-width:0}
+.m{max-width:100%;flex-wrap:wrap}
+.m span:first-child{min-width:0;overflow-wrap:anywhere}
+html.easy .crow{flex-direction:column;align-items:stretch;gap:4px}
+html.easy .chip{flex:0 1 auto;max-width:100%;white-space:normal;text-align:left}
+html.easy .form{grid-template-columns:1fr}
+
+.seg{display:inline-grid;grid-template-columns:repeat(4,auto)}
+.seg button+button{border-left:1px solid var(--line)}
+@media (max-width:640px){.seg{display:grid;grid-template-columns:1fr 1fr;border-radius:12px;width:100%}.seg button:nth-child(3){border-left:0}.seg button:nth-child(n+3){border-top:1px solid var(--line)}}
+html.easy .seg{grid-template-columns:1fr 1fr}
+html.easy .seg button:nth-child(3){border-left:0}
+html.easy .seg button:nth-child(n+3){border-top:2px solid var(--line)}
+.seg button[aria-pressed="true"].s-nao{background:var(--muted);color:var(--surface)}
+.item.st-nao{border-left-color:var(--muted);border-style:dashed;opacity:.72}
+.item.st-nao .name{color:var(--muted)}
+.item.st-nao .spec,.item.st-nao .models,.item.st-nao .meta,.item.st-nao .tiers,.item.st-nao .links,.item.st-nao details.more{display:none}
+html.easy .item.st-nao{opacity:1}
+.warn{border:2px solid var(--amber);background:var(--amber-soft);color:var(--ink);border-radius:12px;padding:12px 14px;font-size:.95rem}
+.warn[hidden]{display:none}
+@media (prefers-reduced-motion: reduce){.toast{transition:none}}
+@media (prefers-contrast: more){:root{--muted:#2e2629;--line:#6f6366}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="inner">
+      <h1>Equipo de <span>Pesca</span></h1>
+      <p class="sub">Escolha o peixe, veja o que precisa levar, marque o que já tem e compare marcas nas faixas barata, média e alta. Peixes comuns no Paraná, Santa Catarina, São Paulo e Mato Grosso do Sul, no barranco, no barco ou no pesqueiro.</p>
+      <div class="hrow">
+        <button type="button" class="easybtn" id="easyBtn" aria-pressed="false"><span class="aa" aria-hidden="true">A+</span><span id="easyTxt">Letra grande e modo fácil</span></button>
+        <div class="sync" id="sync" role="status"><span class="dot" id="syncDot"></span><span id="syncText">Salvo neste celular</span></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="warn" id="storeWarn" role="alert" hidden><b>Atenção: este navegador não está guardando suas marcações.</b> Salve o arquivo no celular (pasta Downloads) e abra pelo Chrome. Se abrir direto pela prévia do WhatsApp ou do iPhone, o que você marcar some ao fechar.</div>
+
+  <div class="summary" id="summary"></div>
+
+  <div class="notes">
+    <div class="note ship">
+      <b>Meu endereço de entrega</b>
+      <div class="ship-grid">
+        <label class="field" for="addr">Endereço
+          <input id="addr" placeholder="Rua, número, bairro, cidade" autocomplete="street-address">
+        </label>
+        <label class="field" for="cep">CEP
+          <input id="cep" class="num" placeholder="00000-000" inputmode="numeric" autocomplete="postal-code">
+        </label>
+      </div>
+      <div class="row">
+        <button class="btn" type="button" id="copyCep">Copiar CEP</button>
+        <button class="btn" type="button" id="copyAddr">Copiar endereço</button>
+      </div>
+      <span class="small muted">Fica salvo só neste celular. Cada pessoa que abrir o link tem a própria lista.</span>
+    </div>
+    <div class="note law">
+      <b>Piracema na bacia do Rio Paraná: até 28/02/2027</b>
+      <span class="small">Desde 1º/11 a pesca de espécies nativas está restrita na bacia do Rio Paraná (inclui o Iguaçu). Exóticos como tucunaré, tilápia, black bass, carpa e corvina seguem liberados. Nativos como traíra, dourado, pintado, pacu, piapara e lambari ficam restritos. SP e MS têm calendário parecido; no litoral (robalo) as regras são outras. Confira sempre o órgão ambiental do seu estado.</span>
+      <a class="small" href="https://www.parana.pr.gov.br/Audio/Piracema-restricao-de-pesca-comeca-neste-sabado-e-vai-ate-28-de-fevereiro-no-Parana">Aviso do Governo do Paraná</a>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="crow"><span class="lbl">Peixe</span><div class="chips" id="fFish" role="group" aria-label="Quais peixes você vai pescar (pode escolher mais de um)"></div></div>
+    <div class="crow"><span class="lbl">Onde</span><div class="chips" id="fWhere" role="group" aria-label="Onde você vai pescar"></div></div>
+    <div class="crow"><span class="lbl">Mostrar</span><div class="chips" id="fStatus" role="group" aria-label="Filtrar por situação"></div></div>
+    <div class="crow"><span class="lbl">Ir para</span><div class="chips" id="fCat" role="group" aria-label="Ir para categoria"></div></div>
+    <label class="toggle" for="cheap"><input type="checkbox" id="cheap"> Abrir lojas já ordenadas pelo menor preço</label>
+  </div>
+
+  <section class="guide" id="guide" aria-live="polite"></section>
+
+  <main id="list"></main>
+
+  <section class="panel" id="shopPanel">
+    <h2>Lista do que falta</h2>
+    <p class="small muted" style="margin:0">Texto pronto para colar no WhatsApp ou nas notas.</p>
+    <textarea class="copybox" id="copyText" readonly aria-label="Lista do que falta comprar"></textarea>
+    <div><button class="btn primary" type="button" id="copyList">Copiar lista</button></div>
+  </section>
+
+  <section class="panel">
+    <h2>Adicionar item seu</h2>
+    <form class="form" id="addForm">
+      <label class="field wide" for="nName">Item
+        <input id="nName" required placeholder="ex.: Isca hélice dupla 9 cm">
+      </label>
+      <label class="field" for="nCat">Categoria
+        <select id="nCat"></select>
+      </label>
+      <label class="field" for="nQty">Qtd.
+        <input id="nQty" type="number" min="1" value="1" inputmode="numeric">
+      </label>
+      <button class="btn primary" type="submit">Adicionar</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Comprar barato sem cair em golpe</h2>
+    <ul>
+      <li><b>Mercado Livre:</b> prefira “Loja oficial” ou vendedor MercadoLíder com boa reputação. A compra fica coberta pela Compra Garantida.</li>
+      <li><b>Amazon:</b> procure “Enviado pela Amazon” ou “Vendido e entregue por Amazon”. Devolução é mais simples.</li>
+      <li><b>Shopee e TikTok Shop:</b> veja se o envio é nacional (chega em dias) ou do exterior (pode levar semanas). Leia avaliações com foto e prefira lojas oficiais.</li>
+      <li><b>Marca famosa muito barata é sinal de falsificação.</b> Shimano, Daiwa, Nelson Nakamura e Yara abaixo do preço de mercado costumam ser réplica.</li>
+      <li><b>Pague sempre dentro da plataforma.</b> Nunca Pix por fora, link no WhatsApp ou “desconto para pagar direto”.</li>
+      <li><b>Colete salva-vidas:</b> só vale se for homologado pela Marinha. Os de “auxílio de flutuação” não servem para barco.</li>
+      <li><b>Libragem e lado da manivela:</b> confira se a vara aguenta a linha escolhida e se a carretilha é de manivela esquerda ou direita.</li>
+      <li><b>Ordenar pelo menor preço</b> às vezes mostra peças avulsas. Confira foto, título e medidas antes de comparar.</li>
+      <li>Para pescar legalmente você precisa da <a href="https://www.gov.br/pt-br/servicos/solicitar-licenca-de-pescador-amador-ou-esportivoo">Licença de Pesca Amadora no gov.br</a>.</li>
+    </ul>
+    <p class="small muted" style="margin:0">As figuras de cada item são ilustrações. Toque em “Ver fotos” para ver fotos reais. Preços com “≈” são referências de novembro de 2026 tiradas de anúncios e comparadores; o preço muda todo dia.</p>
+  </section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- ilustrações (64x64) ---------- */
+const IC = {
+  rod:'<path d="M8 56L58 6"/><path d="M8 56l12-12" stroke-width="7"/><circle cx="30" cy="34" r="2.5"/><circle cx="42" cy="22" r="2"/><circle cx="52" cy="12" r="1.5"/>',
+  bait:'<rect x="8" y="20" width="38" height="24" rx="12"/><circle cx="27" cy="32" r="5" class="a"/><path d="M46 32h8M54 24v16"/><circle cx="54" cy="21" r="3"/><circle cx="54" cy="43" r="3"/>',
+  spin:'<circle cx="30" cy="24" r="14"/><circle cx="30" cy="24" r="6" class="a"/><path d="M30 38v12M18 54h24M44 24h8l4 8"/>',
+  spool:'<rect x="14" y="10" width="36" height="44" rx="4"/><path d="M14 20h36M14 44h36"/><path d="M19 28h26M19 33h26M19 38h26" class="as"/>',
+  leader:'<path d="M6 32c8-10 16 10 24 0s16 10 24 0"/><circle cx="57" cy="32" r="4"/><circle cx="6" cy="32" r="3" class="a"/>',
+  swivel:'<circle cx="32" cy="12" r="6"/><rect x="25" y="20" width="14" height="22" rx="7" class="a"/><circle cx="32" cy="50" r="6"/>',
+  snap:'<path d="M24 56V18a8 8 0 0 1 16 0v26a5 5 0 0 1-10 0V24"/><circle cx="24" cy="58" r="3" class="a"/>',
+  hook:'<path d="M38 10v32a12 12 0 0 1-24 0v-6l7 6"/><circle cx="38" cy="8" r="3.5"/>',
+  treble:'<circle cx="32" cy="8" r="3.5"/><path d="M32 12v26"/><path d="M32 38c-9 0-14 6-14 13l5-4M32 38c9 0 14 6 14 13l-5-4M32 38v16l-4-4"/>',
+  jig:'<circle cx="22" cy="32" r="11" class="a"/><path d="M33 32h16a9 9 0 0 1-9 13"/><circle cx="18" cy="29" r="2"/>',
+  stick:'<path d="M6 30c10-11 36-12 52 0-16 12-42 11-52 0z"/><circle cx="16" cy="28" r="3" class="a"/><path d="M24 40l-3 9M42 40l3 9"/><path d="M19 49h4M43 49h4"/>',
+  prop:'<path d="M12 32c8-9 30-10 40 0-10 10-32 9-40 0z"/><circle cx="19" cy="30" r="2.5" class="a"/><path d="M6 24v16M58 24v16" class="as" stroke-width="4"/><path d="M6 32h6M52 32h6"/>',
+  popper:'<path d="M14 20c-5 8-5 16 0 24h26c16 0 20-24 0-24z"/><path d="M14 20c4 8 4 16 0 24"/><circle cx="22" cy="29" r="3" class="a"/>',
+  minnow:'<path d="M12 30c10-10 36-11 46 1-10 11-36 10-46-1z"/><path d="M12 30l-7 9" stroke-width="5"/><circle cx="20" cy="28" r="3" class="a"/><path d="M30 41l-2 8M46 40l2 8"/>',
+  frog:'<ellipse cx="32" cy="32" rx="15" ry="13"/><circle cx="25" cy="22" r="3.5" class="a"/><circle cx="39" cy="22" r="3.5" class="a"/><path d="M20 42l-12 12M44 42l12 12"/>',
+  soft:'<path d="M6 34c10-12 30-12 40-4l12-8v24l-12-8c-10 8-30 8-40-4z"/><circle cx="14" cy="32" r="2"/>',
+  spinner:'<path d="M14 52L32 30l18 22"/><path d="M32 30L22 16"/><ellipse cx="18" cy="11" rx="6" ry="9" class="a"/><path d="M50 52l7 4"/>',
+  spoon:'<path d="M22 8c16 0 26 22 14 42-5 8-20 4-20-8 0-14 0-34 6-34z" class="a"/><circle cx="24" cy="10" r="2.5"/>',
+  lipgrip:'<path d="M14 56l18-20"/><path d="M32 36l14-24M32 36l22-8"/><circle cx="12" cy="58" r="4"/><circle cx="32" cy="36" r="3" class="a"/>',
+  pliers:'<path d="M28 6l4 22 4-22"/><circle cx="32" cy="31" r="3.5" class="a"/><path d="M30 34l-10 24M34 34l10 24"/>',
+  scissors:'<circle cx="20" cy="47" r="7"/><circle cx="44" cy="47" r="7"/><path d="M24 41L46 8M40 41L18 8"/>',
+  box:'<rect x="8" y="22" width="48" height="32" rx="4"/><path d="M8 34h48M24 22v-8h16v8"/><rect x="28" y="38" width="8" height="6" rx="1" class="a"/>',
+  bag:'<path d="M12 22h40l-4 32H16z"/><path d="M22 22c0-11 20-11 20 0"/><path d="M20 34h24" class="as"/>',
+  tube:'<rect x="26" y="4" width="12" height="56" rx="6"/><path d="M26 16h12" class="as"/>',
+  glasses:'<circle cx="20" cy="34" r="10"/><circle cx="44" cy="34" r="10"/><path d="M30 32h4M10 30L4 24M54 30l6-6"/>',
+  hat:'<path d="M14 40c0-16 8-24 18-24s18 8 18 24"/><path d="M6 40h52" stroke-width="4"/><path d="M18 30h28" class="as"/>',
+  aid:'<rect x="10" y="16" width="44" height="36" rx="6"/><path d="M26 16v-6h12v6"/><path d="M32 24v20M22 34h20" class="as" stroke-width="5"/>',
+  ruler:'<rect x="6" y="24" width="52" height="16" rx="2"/><path d="M14 24v6M22 24v9M30 24v6M38 24v9M46 24v6"/>',
+  net:'<circle cx="24" cy="24" r="16"/><path d="M12 15l24 18M14 33l20-19M24 8v32M8 24h32"/><path d="M36 36l22 22" stroke-width="4"/>',
+  bucket:'<path d="M14 22h36l-4 34H18z"/><path d="M14 22c0-11 36-11 36 0"/><circle cx="28" cy="40" r="2" class="as"/><circle cx="36" cy="34" r="1.5" class="as"/><circle cx="33" cy="46" r="1.5" class="as"/>',
+  sinker:'<ellipse cx="32" cy="18" rx="8" ry="10" class="a"/><path d="M32 4v4M32 28v8"/><ellipse cx="32" cy="47" rx="6" ry="9"/>',
+  doc:'<path d="M16 6h22l10 10v42H16z"/><path d="M38 6v10h10M22 28h20M22 36h20M22 44h12"/>',
+  chair:'<path d="M16 10v22h32V10M16 32l-5 22M48 32l5 22M14 44h36"/><path d="M16 18h32" class="as"/>',
+  holder:'<path d="M30 60V26"/><path d="M20 26c0-10 20-10 20 0"/><path d="M22 60h16"/><path d="M38 20L58 4" class="as" stroke-width="4"/>',
+  lamp:'<path d="M8 34c0-14 48-14 48 0"/><rect x="23" y="20" width="18" height="13" rx="3" class="a"/><path d="M26 40l-6 16M38 40l6 16M32 40v18" class="as"/>',
+  boot:'<path d="M20 6h16v34l18 6v12H20z"/><path d="M20 50h34M20 16h16"/>',
+  cooler:'<rect x="8" y="22" width="48" height="32" rx="4"/><path d="M8 32h48M22 22v-6h20v6"/><path d="M28 42h8" class="as"/>',
+  umbrella:'<path d="M6 32a26 26 0 0 1 52 0z"/><path d="M32 32v20a5 5 0 0 1-10 0"/><path d="M19 32c0-12 6-22 13-22s13 10 13 22" class="as"/>',
+  vest:'<path d="M20 8l6 6h12l6-6 10 8v40H10V16z" class="a"/><path d="M32 14v42M10 34h44"/>',
+  anchor:'<circle cx="32" cy="10" r="5"/><path d="M32 15v42M20 24h24M10 40c2 12 12 17 22 17s20-5 22-17"/>',
+  drybag:'<path d="M16 18h32v38H16z"/><path d="M14 10h36v8H14z" class="a"/><path d="M28 10V4h8v6"/>',
+  phone:'<rect x="20" y="6" width="24" height="50" rx="6"/><path d="M28 48h8"/><path d="M12 20c-4 6-4 18 0 24M52 20c4 6 4 18 0 24" class="as"/>',
+  knife:'<rect x="10" y="28" width="44" height="12" rx="6"/><path d="M18 28L42 8l4 4-18 16" class="as"/><circle cx="46" cy="34" r="2"/>',
+  bottle:'<path d="M26 4h12v8l4 6v40H22V18l4-6z"/><path d="M22 32h20M22 44h20" class="as"/>',
+  power:'<rect x="16" y="8" width="32" height="48" rx="6"/><path d="M34 18l-8 14h10l-8 14" class="as" stroke-width="3.5"/>',
+  scale:'<path d="M32 4v10"/><rect x="20" y="14" width="24" height="20" rx="4"/><path d="M26 24h12" class="as"/><path d="M32 34v12a6 6 0 1 1-6 6"/>',
+  trash:'<path d="M14 18h36l-4 38H18z"/><path d="M10 18h44M26 18v-6h12v6M26 28v20M38 28v20"/>',
+  oil:'<path d="M20 26h22v30H20z"/><path d="M26 26v-8h10v8M36 18l12-10"/><path d="M26 40h10" class="as"/>',
+  sun:'<circle cx="32" cy="32" r="11" class="a"/><path d="M32 6v8M32 50v8M6 32h8M50 32h8M13 13l6 6M45 45l6 6M13 51l6-6M45 19l6-6"/>',
+  rain:'<path d="M18 40a12 12 0 0 1 2-24 16 16 0 0 1 30 4 10 10 0 0 1 0 20z"/><path d="M24 48l-3 8M34 48l-3 8M44 48l-3 8" class="as"/>',
+  whistle:'<path d="M8 28h32a12 12 0 1 1-12 12H8z"/><path d="M40 28V18h10"/><circle cx="28" cy="40" r="3" class="a"/>',
+  rodboat:'<path d="M6 46h52l-6 10H12z"/><path d="M22 46V20M42 46V20"/><path d="M22 20L10 6M42 20L54 6" class="as"/>',
+  cam:'<rect x="6" y="18" width="52" height="34" rx="6"/><circle cx="32" cy="35" r="10"/><path d="M22 18l4-8h12l4 8"/>',
+  speak:'<path d="M6 24h10l12-10v36L16 40H6z"/><path d="M38 22c4 4 4 16 0 20M44 16c8 8 8 24 0 32"/>'
+};
+function svg(k,cls){return `<svg viewBox="0 0 64 64" aria-hidden="true"${cls?` class="${cls}"`:""}>${IC[k]||IC.box}</svg>`}
+
+/* Espécies comuns em PR, SC, SP e MS.
+   rule: exo = exótica/alóctone na bacia do Paraná (em geral liberada na piracema); nat = nativa (restrita na piracema);
+         mar = litoral (regras próprias de tamanho e cota); pq = mais pescada em pesqueiro (vale a regra do pesqueiro) */
+const SPECIES = [
+  {id:"tuc", name:"Tucunaré", rule:"exo", where:"Represas do Rio Paraná, Tietê, Paranapanema e Itaipu (PR, SP, MS).",
+   gear:"Vara 10–20 lb com carretilha ou molinete 3000, multifilamento 20–30 lb e líder de fluorcarbono.",
+   baits:"Zara, hélice, popper, meia-água e soft. Ataca muito na superfície de manhã e no fim da tarde."},
+  {id:"tra", name:"Traíra", rule:"nat", where:"Lagoas, brejos, rios lentos e açudes em todos os quatro estados.",
+   gear:"Vara 10–20 lb, multifilamento 20–30 lb e líder de aço (dentes muito afiados). Alicate de contenção é obrigatório.",
+   baits:"Sapo anti-enrosco, zara, spinnerbait, colher anti-enrosco e tuvira viva."},
+  {id:"bass", name:"Black bass", rule:"exo", where:"Represas de água mais fria no PR, SC e SP.",
+   gear:"Vara leve 6–14 lb, molinete 1000–2500 ou carretilha leve, multi 10–20 lb com líder de fluorcarbono.",
+   baits:"Soft (minhoca e shad) com anzol offset, crankbait pequeno, spinnerbait e sapo."},
+  {id:"rob", name:"Robalo", rule:"mar", where:"Litoral de SP, PR e SC: estuários, mangues, canais e baías.",
+   gear:"Vara 10–20 lb, molinete 3000 ou carretilha, multi 20–30 lb e líder de fluorcarbono 30–40 lb.",
+   baits:"Meia-água, camarão artificial, jig head com shad e camarão vivo."},
+  {id:"dou", name:"Dourado", rule:"nat", where:"Rios de correnteza das bacias do Paraná e do Paraguai (SP, PR, MS).",
+   gear:"Vara 20–40 lb, carretilha ou molinete forte, multi 40–50 lb e líder de aço (boca dura e dentes).",
+   baits:"Meia-água grande (12–15 cm), jig, tuvira e lambari vivos. Em MS a captura é proibida: só pesque e solte."},
+  {id:"pin", name:"Pintado / Surubim", rule:"nat", where:"Rios grandes: Paraná, Paraguai e Pantanal (MS).",
+   gear:"Vara 30–50 lb, linha 0,50 mm ou multi 50 lb, chumbada de fundo e anzol circle 6/0–8/0.",
+   baits:"Tuvira, muçum, lambari e minhocuçu, quase sempre de noite e no fundo."},
+  {id:"pac", name:"Pacu", rule:"nat", where:"Rios do MS e do Rio Paraná, e em quase todo pesqueiro.",
+   gear:"Vara 20–30 lb, molinete 4000 ou carretilha, linha 0,35–0,40 mm e anzol 1/0–3/0 reforçado.",
+   baits:"Massa, ração, milho e frutas como coquinho. Morde forte e corre."},
+  {id:"tamb", name:"Tambaqui / Tambacu", rule:"pq", where:"Pesqueiros (pesque-pague) nos quatro estados.",
+   gear:"Vara 30–50 lb, molinete 5000+ ou carretilha forte, linha 0,40–0,50 mm e anzol 2/0–4/0.",
+   baits:"Ração na boia, massa e frutas. Peixe pesado: regule bem a fricção."},
+  {id:"til", name:"Tilápia", rule:"exo", where:"Represas, açudes e pesqueiros em todo lugar.",
+   gear:"Vara leve ou telescópica, molinete 1000–2000, linha 0,20–0,25 mm, anzol nº 10–14 e boia.",
+   baits:"Massa, ração, minhoca e milho verde. Ceva ajuda a juntar o cardume."},
+  {id:"pia", name:"Piapara / Piau", rule:"nat", where:"Rios do PR, SP e MS, principalmente com ceva.",
+   gear:"Vara 2,10 m leve a média, molinete 2000–3000, linha 0,25–0,30 mm e anzol pequeno.",
+   baits:"Milho cozido, massa e ceva de milho ou soja."},
+  {id:"car", name:"Carpa", rule:"exo", where:"Represas, lagos e pesqueiros.",
+   gear:"Vara 2,10 m ou mais, molinete 4000, linha 0,30–0,35 mm e chuveirinho.",
+   baits:"Massa, milho e ração. Precisa de paciência e fricção solta."},
+  {id:"lam", name:"Lambari", rule:"nat", where:"Rios, riachos e represas: também serve de isca viva para predadores.",
+   gear:"Vara de mão ou telescópica 3–4 m, linha 0,18–0,20 mm, anzol nº 16–20 e boia pequena.",
+   baits:"Massa, minhoca e milho. No PR o lambari é protegido na piracema."},
+  {id:"jun", name:"Jundiá / Bagre / Mandi", rule:"nat", where:"Rios e represas, no fundo, principalmente à noite.",
+   gear:"Vara média 15–30 lb, molinete 3000–4000, chumbada de fundo e anzol 1/0–3/0.",
+   baits:"Minhoca, minhocuçu, coração de frango e pedaço de peixe."},
+  {id:"cor", name:"Corvina", rule:"exo", where:"Represas do Rio Paraná e do Tietê (SP, PR, MS).",
+   gear:"Vara 10–20 lb, molinete 3000 e multi 20 lb com líder.",
+   baits:"Tuvira e lambari vivos, camarão, jig e meia-água de fundo."},
+  {id:"pir", name:"Piranha", rule:"exo", where:"Rios e represas do MS e SP (a piranha-preta é exótica no PR).",
+   gear:"Vara média, molinete 3000, líder de aço e anzol 1/0–2/0.",
+   baits:"Pedaço de peixe e coração de frango."}
+];
+const FISH = Object.fromEntries(SPECIES.map(s=>[s.id,s.name]));
+const RULE = {
+  exo:{t:"Exótica: em geral liberada na piracema", c:"r-exo"},
+  nat:{t:"Nativa: restrita na piracema (nov–fev)", c:"r-nat"},
+  mar:{t:"Litoral: regras próprias de tamanho e cota", c:"r-mar"},
+  pq:{t:"Pesqueiro: vale a regra do local", c:"r-pq"}
+};
+const PRIO = {E:"Essencial", R:"Recomendado", O:"Opcional"};
+const TIER_NAMES = {b:"Barata", m:"Média", a:"Alta"};
+const WHERE = {todos:"Tudo", bar:"Barranco", emb:"Barco"};
+
+const CATS = [
+  {id:"varas", name:"Varas", intro:"Escolha a vara pela libragem do peixe: leve para tilápia e bass, média para tucunaré e traíra, pesada para dourado, pintado e peixe de pesqueiro."},
+  {id:"reels", name:"Carretilha e molinete", intro:"Tamanho 1000–2000 para peixe pequeno, 2500–3000 para tucunaré e traíra, 4000+ ou carretilha forte para peixe grande."},
+  {id:"linhas", name:"Linhas e líderes", intro:"Multifilamento para artificiais, monofilamento para isca natural. Peixe com dente pede líder de aço."},
+  {id:"terminais", name:"Girador, snaps, anzóis e chumbadas", intro:"O girador é o que impede a linha de torcer e enrolar. O snap deixa trocar de isca em segundos."},
+  {id:"iscas", name:"Iscas artificiais", intro:"Superfície para tucunaré, bass e traíra; meia-água e jig para robalo, corvina e dourado; anti-enrosco para o mato."},
+  {id:"naturais", name:"Iscas naturais, massas e ceva", intro:"Para tilápia, pacu, carpa, piapara, bagre e peixe de pesqueiro. Minhoca e isca viva costumam ser compradas perto do local."},
+  {id:"tuvira", name:"Isca viva: tuvira e lambari", intro:"Para pegar e manter viva a isca de traíra, pintado, dourado, corvina e tucunaré."},
+  {id:"ferramentas", name:"Ferramentas e organização", intro:"O alicate de contenção evita mordida e anzol na mão com qualquer peixe."},
+  {id:"protecao", name:"Proteção e conforto", intro:"Óculos polarizado protege os olhos de anzol e ajuda a ver o peixe na água."},
+  {id:"util", name:"Utilidades", intro:"O que faz falta quando você já está na beira da água: luz, água gelada, celular protegido e bateria."},
+  {id:"barranco", name:"Para pescar no barranco", intro:"Onde sentar, onde apoiar a vara e proteção contra mato e bicho."},
+  {id:"barco", name:"Para pescar de barco", intro:"Colete homologado é obrigatório. O resto deixa a pescaria embarcada mais segura."},
+  {id:"docs", name:"Documentos", intro:"Exigida para pesca amadora, inclusive pesque e solte. Em pesqueiro particular, confira com o local."},
+  {id:"meus", name:"Meus itens", intro:"Itens que você adicionou."}
+];
+
+/* Marcas e modelos por faixa: [nome, preço de referência] */
+const TIERS = {
+  "vara-carr": {
+    b:[["Lumis Ibiza 1,80 m 25 lb","≈R$ 130"],["Saint Lancer 1,73 m 17 lb","≈R$ 185"],["Lumis Intense 1,68 m 6–17 lb","≈R$ 230"]],
+    m:[["Marine Sports Zest Fox 1,68 m 17 lb","≈R$ 270"],["Marine Sports Evolution 17 lb","≈R$ 290"],["Daiwa Laguna 1,83 m 10–25 lb","≈R$ 380"],["Marine Sports Venza C571M 10–20 lb","≈R$ 410"],["Saint Hammer 581BC 10–25 lb","≈R$ 500"]],
+    a:[["Shimano Sellus 1,73 m 25 lb","≈R$ 600–690"],["Saint 25 Anos 1,83 m 17 lb","≈R$ 880"],["Albatroz Enzo Premium 1,80 m 8–17 lb","≈R$ 1.200"],["Lumis Provoker 1,80 m 25 lb","≈R$ 1.490"]]
+  },
+  "vara-mol": {
+    b:[["Albatroz Viper 602 1,83 m 8–17 lb","≈R$ 170"]],
+    m:[["Marine Sports Venza S571ML 17 lb molinete","≈R$ 350"],["Marine Sports Venza S571MH 30 lb molinete","≈R$ 385"]],
+    a:[["Shimano Saguaro Spinning","consulte"],["Shimano Nasci Spinning vara","consulte"]]
+  },
+  "vara-pesada": {
+    b:[["Albatroz Bicuda 2,40 m 15–30 lb molinete","≈R$ 180"]],
+    m:[["Marine Sports Evolution GT2 1,83 m 40–80 lb molinete","≈R$ 380"],["Saint Classic IM10 2,40 m 20–50 lb","≈R$ 415"],["Marine Sports Evolution GT 1,83 m 20–60 lb carretilha","≈R$ 490"]],
+    a:[["Saint 25 Anos 2,40 m 50 lb","≈R$ 1.430"]]
+  },
+  "carretilha": {
+    b:[["Saint Plus Voxxi CC3","≈R$ 120"],["Albatroz Krait BG","≈R$ 300"],["Marine Sports Ventura VT10","≈R$ 335–420"]],
+    m:[["Maruri Naja Carbon","≈R$ 680"],["Shimano Caius 150 HG","≈R$ 750–950"]],
+    a:[["Daiwa Tatula TW 100","≈R$ 1.050–1.250"],["Shimano Curado M 150","≈R$ 1.400–1.500"],["Shimano SLX A 150 HG","≈R$ 1.600"]]
+  },
+  "molinete": {
+    b:[["Marine Sports Elite 3000 FD","≈R$ 80–110"],["Maruri Kyuu Full Spin 3000","≈R$ 120"],["Shimano FX 2500 FC","≈R$ 190–260"]],
+    m:[["Shimano Sienna FG 2500","≈R$ 490"],["Daiwa Laguna LT 3000","≈R$ 530"],["Daiwa Revros LT 2500","≈R$ 680"]],
+    a:[["Shimano Sedona FJ 2500","≈R$ 1.000+"],["Shimano Sahara FJ 2500","≈R$ 1.150+"]]
+  },
+  "molinete-peq": {
+    b:[["Marine Sports Elite 2000 FD","≈R$ 105"],["Shimano FX 1000 FC","consulte"]],
+    m:[["Daiwa Laguna LT 2000","consulte"]],
+    a:[["Shimano Sedona FJ 1000","≈R$ 1.000+"]]
+  },
+  "reel-forte": {
+    b:[["Maruri Magnum Delux 4000","≈R$ 170"],["Shimano FX 4000 FC","≈R$ 190–360"]],
+    m:[["Daiwa Sweepfire 4000","≈R$ 390"],["Marine Sports Black Max 20 carretilha","≈R$ 725"]],
+    a:[["Shimano Sedona FI 6000","≈R$ 1.380"]]
+  },
+  "multi": {
+    b:[["Sougayilang multifilamento 8 fios 300m","≈R$ 40–80"],["Fishermans multifilamento 8 fios","≈R$ 40–80"]],
+    m:[["Daiwa J-Braid X8 150m","≈R$ 120–180"],["Power Pro multifilamento 135m","≈R$ 100–170"]],
+    a:[["Sufix 832 multifilamento","≈R$ 180+"],["Daiwa J-Braid Grand X8","≈R$ 200+"]]
+  },
+  "zara": {
+    b:[["CMIK Zig Zara 804","≈R$ 26–36"],["Voxxi Zara 10 cm VC1","≈R$ 42"]],
+    m:[["Nelson Nakamura Zig Zarinha 90","≈R$ 40–60"],["Nelson Nakamura Sará Sará 100","≈R$ 50–75"],["Yara Mad Dog 9 cm","≈R$ 45–60"],["Borboleta Trick Stick 7,5 cm","≈R$ 68"]],
+    a:[["Borboleta Zazari 11 cm","≈R$ 109"],["Lori-M 105 zara","≈R$ 118–170"],["Moriah Zumba 125","≈R$ 150"]]
+  },
+  "helice": {
+    b:[["Isca de madeira tubarão com hélice","≈R$ 19–50"],["Maruri Indiana 80H hélice","≈R$ 55"]],
+    m:[["Nelson Nakamura Jet 90 hélice","≈R$ 53–70"],["Yara hélice 9 cm madeira","≈R$ 66"]],
+    a:[["Nelson Nakamura Jet 120","≈R$ 66–98"],["Nelson Nakamura Rocket 140","consulte"]]
+  },
+  "meiaagua": {
+    b:[["Maruri Lambari 70 meia água","≈R$ 24"],["Marine Sports Inna 70","≈R$ 24–46"],["CMIK lambari articulado 855","≈R$ 36"]],
+    m:[["Marine Sports Rei do Rio 80","≈R$ 50"],["Marine Sports Rei do Rio 95","≈R$ 50–60"],["Marine Sports Brava 90","≈R$ 62"],["Nelson Nakamura Queen 90","≈R$ 43"],["OCL Ziza Shad 90","consulte"]],
+    a:[["Nelson Nakamura Sogra 90","≈R$ 53–78"],["Borboleta Juana 140","≈R$ 88"],["Monster 3X Act X 120","≈R$ 95"]]
+  },
+  "iscadourado": {
+    m:[["Marine Sports Rei do Rio 120","≈R$ 60–75"],["Lucky Nelson Nakamura Borá 14 cm","consulte"]],
+    a:[["Borboleta Juana 140","≈R$ 88"],["Monster 3X Dance 125 sinking","≈R$ 102"]]
+  },
+  "crank": {
+    b:[["Matadeira crank raso","≈R$ 51"]],
+    m:[["Lori Laker 55","consulte"]],
+    a:[["Lori Face 65 spin tail (3 un.)","≈R$ 220"]]
+  },
+  "sapo": {
+    b:[["Kit 5 sapinhos anti enrosco 4,5 cm","≈R$ 27"],["Maruri Sapo Max Frog","≈R$ 34"],["CMIK kit 5 sapinhos 80154","≈R$ 57"]],
+    m:[["Matadeira Monster.Z 60 sapinho","≈R$ 28–58"],["Monster 3X Baby Toad 9 cm (2 un.)","≈R$ 49"]],
+    a:[["Monster 3X Big Toad 11,5 cm (2 un.)","≈R$ 57"],["Kit 3 Matadeira Monster Frog","≈R$ 73–140"]]
+  },
+  "soft": {
+    b:[["Kit isca silicone realista tucunaré","≈R$ 15–20"]],
+    m:[["Monster 3X X-Tail (3 un.)","≈R$ 27"],["Monster 3X Rip Tail 13,5 cm (3 un.)","≈R$ 30"]],
+    a:[["Monster 3X E-Shad 12 cm (5 un.)","≈R$ 76"],["Monster 3X Amazon Shad Eduardo Monteiro","consulte"]]
+  },
+  "camarao": {
+    b:[["Monster 3X camarão Ultrasoft 9 cm","≈R$ 16"]],
+    m:[["Kit 10 camarões de silicone aromatizado","consulte"]]
+  },
+  "jig": {
+    b:[["Lori Jig M 12 g","≈R$ 13–18"]],
+    m:[["Yara Killer jig 10 g","consulte"]]
+  },
+  "spinner": {
+    b:[["Spinnerbait genérico 10 g","≈R$ 20"]],
+    m:[["Yara King Spinner 26 g anti enrosco","consulte"]],
+    a:[["Yara Encrenca Spin 9 cm","≈R$ 75"]]
+  },
+  "colete": {
+    b:[["Colete Ativa Canga Classe III homologado","≈R$ 60"]],
+    m:[["Colete Jogá Sport Classe V homologado","≈R$ 230"]],
+    a:[["Colete salva-vidas neoprene Classe V homologado","consulte"]]
+  }
+};
+
+/* fish: espécies em que o item é usado; all:true = serve para qualquer pescaria.
+   where: "bar" barranco, "emb" barco; sem campo = serve para os dois */
+const PRED=["tuc","tra","rob","cor"];
+const ITEMS = [
+  /* ---- varas ---- */
+  {id:"vara-carr", cat:"varas", ic:"rod", prio:"E", qty:1, fish:["tuc","tra","rob","cor","bass"], min:170, max:350,
+   name:"Vara para carretilha 1,68–1,83 m, 10–20 lb",
+   spec:"<b>Procure:</b> carbono, ação rápida, inteiriça ou 2 partes, iscas de 7 a 21 g. Serve para superfície e meia-água.",
+   q:"vara carretilha 17 lb tucunaré traíra", ph:"vara de pesca para carretilha tucunaré"},
+  {id:"vara-mol", cat:"varas", ic:"rod", prio:"E", qty:1, fish:["tuc","tra","rob","cor","pir","jun"], min:160, max:350,
+   name:"Vara para molinete 1,70–1,83 m, 8–17 lb",
+   spec:"<b>Procure:</b> passadores grandes, cabo de EVA, ação média-rápida. Boa também para pescar com isca viva.",
+   q:"vara molinete 1,80 8-17 lb tucunaré", ph:"vara de pesca para molinete"},
+  {id:"vara-leve", cat:"varas", ic:"rod", prio:"E", qty:1, fish:["bass","til","pia"], min:120, max:300,
+   name:"Vara leve 1,68–2,10 m, 6–14 lb",
+   spec:"<b>Para peixe menor e isca leve:</b> sente melhor a beliscada da tilápia e o ataque do bass.",
+   q:"vara molinete 6-14 lb ultra light", ph:"vara de pesca ultra light"},
+  {id:"vara-pesada", cat:"varas", ic:"rod", prio:"E", qty:1, fish:["dou","pin","pac","tamb","car"], min:180, max:500,
+   name:"Vara pesada 1,80–2,40 m, 20–50 lb",
+   spec:"<b>Para peixe grande e briga longa:</b> dourado, pintado, pacu, tambaqui e carpa. Combine com molinete 4000+ ou carretilha forte.",
+   q:"vara pesca 20-50 lb pesqueiro", ph:"vara de pesca pesada pesqueiro"},
+  {id:"vara-mao", cat:"varas", ic:"rod", prio:"E", qty:1, fish:["lam","til"], min:30, max:120,
+   name:"Vara de mão ou telescópica 3–4,5 m",
+   spec:"<b>Sem molinete:</b> linha amarrada na ponta. A forma mais simples e barata de pegar lambari e tilápia na beira.",
+   q:"vara telescópica 3,60 m pesca", ph:"vara telescópica de mão pesca"},
+  /* ---- molinete e carretilha ---- */
+  {id:"carretilha", cat:"reels", ic:"bait", prio:"E", qty:1, fish:["tuc","tra","rob","cor","bass"], min:150, max:420,
+   name:"Carretilha perfil baixo",
+   spec:"<b>Procure:</b> relação 7.x:1, drag a partir de 5 kg, freio magnético ou centrífugo, 5+ rolamentos. Escolha o lado da manivela (destro costuma usar esquerda).",
+   q:"carretilha perfil baixo 7.1 drag 5kg", ph:"carretilha perfil baixo pesca"},
+  {id:"molinete", cat:"reels", ic:"spin", prio:"E", qty:1, fish:["tuc","tra","rob","cor","pir","jun","pia"], min:120, max:300,
+   name:"Molinete 2500 a 3000",
+   spec:"<b>Procure:</b> carretel de alumínio, drag de 5 kg ou mais, 3+ rolamentos. É o tamanho mais versátil.",
+   q:"molinete 3000 drag 5kg pesca tucunaré", ph:"molinete de pesca 3000"},
+  {id:"molinete-peq", cat:"reels", ic:"spin", prio:"E", qty:1, fish:["til","bass","pia"], min:70, max:250,
+   name:"Molinete pequeno 1000 a 2000",
+   spec:"<b>Leve e equilibrado</b> com vara leve. Use linha 0,20–0,25 mm ou multi fina.",
+   q:"molinete 2000 pesca leve", ph:"molinete 2000 pesca"},
+  {id:"reel-forte", cat:"reels", ic:"spin", prio:"E", qty:1, fish:["dou","pin","pac","tamb","car"], min:170, max:750,
+   name:"Molinete 4000–6000 ou carretilha perfil alto",
+   spec:"<b>Muita linha e fricção forte</b> para segurar peixe grande em correnteza ou no pesqueiro.",
+   q:"molinete 5000 drag 10kg", ph:"molinete 5000 pesca pesada"},
+  /* ---- linhas ---- */
+  {id:"multi", cat:"linhas", ic:"spool", prio:"E", qty:2, fish:["tuc","tra","rob","cor","bass"], min:40, max:120,
+   name:"Linha multifilamento 8 fios 20–30 lb (150 m)",
+   spec:"<b>Uma bobina para cada equipamento</b> (ou uma de 300 m dividida). Cerca de 0,20–0,28 mm.",
+   q:"linha multifilamento 8 fios 0,23 150m", ph:"linha multifilamento pesca bobina"},
+  {id:"multi-forte", cat:"linhas", ic:"spool", prio:"E", qty:1, fish:["dou","pin","tamb"], min:60, max:180,
+   name:"Multifilamento forte 40–60 lb (150–300 m)",
+   spec:"<b>Para peixe grande e correnteza.</b> Cerca de 0,30–0,40 mm.",
+   q:"linha multifilamento 50 lb 300m", ph:"linha multifilamento 50 lb"},
+  {id:"mono", cat:"linhas", ic:"spool", prio:"E", qty:1, fish:["til","pac","pia","car","jun","lam","tamb"], min:20, max:60,
+   name:"Linha monofilamento (nylon) 0,20–0,40 mm",
+   spec:"<b>A mais usada com isca natural.</b> 0,20 mm para lambari e tilápia, 0,30 mm para piapara e carpa, 0,40 mm para pacu e tambaqui.",
+   q:"linha monofilamento pesca 0,30mm", ph:"linha de nylon pesca"},
+  {id:"fluor", cat:"linhas", ic:"spool", prio:"E", qty:1, fish:["tuc","rob","cor","bass","dou"], min:35, max:90,
+   name:"Fluorcarbono para líder 30–40 lb",
+   spec:"<b>Use</b> 50 a 80 cm na ponta da multi. Resiste à abrasão de pau e pedra e quase some na água.",
+   models:"Bobinas de 50 m rendem muitos líderes.",
+   q:"linha fluorcarbono 40 lb líder pesca", ph:"linha fluorcarbono pesca"},
+  {id:"aco", cat:"linhas", ic:"leader", prio:"E", qty:1, fish:["tra","dou","pir"], min:15, max:40,
+   name:"Líder de aço / encastoado (kit)",
+   spec:"<b>Para peixe com dente:</b> traíra, dourado e piranha cortam até fluorcarbono. Encastoado pronto com snap, 15 a 25 cm, 30–50 lb.",
+   models:"Kits de 10 a 20 unidades costumam sair mais barato.",
+   q:"encastoado aço pesca traíra kit snap", ph:"encastoado de aço pesca"},
+  /* ---- terminais ---- */
+  {id:"girador", cat:"terminais", ic:"swivel", prio:"E", qty:1, all:true, min:12, max:35,
+   name:"Girador com snap (kit)",
+   spec:"<b>É o que evita a linha torcer e enrolar.</b> Tamanhos 2 a 6. Serve para qualquer pescaria, com isca natural ou artificial.",
+   models:"Kit com 50 peças sortidas cobre tudo.",
+   q:"girador com snap kit pesca", ph:"girador com snap pesca"},
+  {id:"snap", cat:"terminais", ic:"snap", prio:"R", qty:1, fish:["tuc","tra","rob","cor","bass","dou"], min:10, max:25,
+   name:"Snap clip sem girador (kit)",
+   spec:"<b>Para iscas de superfície e meia-água:</b> não atrapalha o nado como o girador. Troca de isca rápida.",
+   q:"snap clip pesca isca artificial kit", ph:"snap clip pesca"},
+  {id:"garateia", cat:"terminais", ic:"treble", prio:"R", qty:1, fish:["tuc","tra","rob","cor","bass","dou"], min:20, max:50,
+   name:"Garateias e argolas de reposição",
+   spec:"<b>Garateia</b> nº 2 a 6 e argola (split ring). Troque as das iscas baratas, que costumam abrir no tranco.",
+   q:"garateia pesca kit argola split ring", ph:"garateia de pesca"},
+  {id:"offset", cat:"terminais", ic:"hook", prio:"E", qty:1, fish:["tra","tuc","bass","rob"], min:15, max:35,
+   name:"Anzóis com anti-enrosco (offset / EWG) 2/0–4/0",
+   spec:"<b>Para soft bait e sapo:</b> a ponta fica escondida na isca e passa pelo mato sem enroscar.",
+   q:"anzol offset ewg anti enrosco 3/0", ph:"anzol offset ewg"},
+  {id:"jighead", cat:"terminais", ic:"jig", prio:"R", qty:1, fish:["tuc","bass","rob","cor"], min:15, max:40,
+   name:"Anzóis sem anti-enrosco (jig head 7–14 g)",
+   spec:"<b>Para shad e minhoca</b> em água aberta e no fundo. Fisga melhor que o offset quando não tem mato.",
+   q:"jig head 10g kit pesca", ph:"jig head pesca"},
+  {id:"anzol-peq", cat:"terminais", ic:"hook", prio:"E", qty:1, fish:["til","lam","pia"], min:10, max:25,
+   name:"Anzóis pequenos nº 8 a 20",
+   spec:"<b>Boca pequena, anzol pequeno:</b> nº 16–20 para lambari, nº 10–14 para tilápia, nº 8–10 para piapara.",
+   q:"anzol pequeno pesca tilápia lambari kit", ph:"anzol pequeno pesca"},
+  {id:"anzol-med", cat:"terminais", ic:"hook", prio:"E", qty:1, fish:["pac","tamb","car","jun","cor","pir"], min:15, max:35,
+   name:"Anzóis médios reforçados 1/0 a 4/0",
+   spec:"<b>Para isca natural e massa</b> com peixe de boca forte: pacu, tambaqui, carpa, bagre e piranha.",
+   q:"anzol 2/0 reforçado pesca", ph:"anzol 2/0 pesca"},
+  {id:"anzol-gr", cat:"terminais", ic:"hook", prio:"E", qty:1, fish:["pin","dou"], min:20, max:45,
+   name:"Anzóis grandes circle 5/0 a 8/0",
+   spec:"<b>Para isca viva grande:</b> o circle fisga no canto da boca e facilita a soltura.",
+   q:"anzol circle 6/0", ph:"anzol circle 6/0"},
+  {id:"chumbo", cat:"terminais", ic:"sinker", prio:"E", qty:1, fish:["til","lam","pac","pia","car","jun","pin","tamb","tra"], min:15, max:35,
+   name:"Chumbadas e boias (kit sortido)",
+   spec:"<b>Chumbada oliva ou de fundo</b> para levar a isca até o peixe; <b>boia</b> para isca em meia-água e para ver a beliscada.",
+   q:"chumbada oliva boia pesca kit", ph:"chumbada oliva e boia pesca"},
+  {id:"chuveirinho", cat:"terminais", ic:"treble", prio:"R", qty:2, fish:["car","til","pia","tamb"], min:10, max:30,
+   name:"Chuveirinho para massa",
+   spec:"<b>Mola com vários anzóis</b> que segura a massa no fundo. Clássico para carpa e tilápia.",
+   q:"chuveirinho pesca carpa", ph:"chuveirinho pesca"},
+  /* ---- iscas artificiais ---- */
+  {id:"zara", cat:"iscas", ic:"stick", prio:"E", qty:2, fish:["tuc","tra","rob","bass"], min:30, max:70,
+   name:"Zara / stick de superfície 9–11 cm",
+   spec:"<b>Zigue-zague na superfície.</b> Clássica para tucunaré e traíra em água calma. Leve uma clara e uma escura.",
+   q:"isca zara superfície tucunaré traíra", ph:"isca artificial zara superfície"},
+  {id:"helice", cat:"iscas", ic:"prop", prio:"E", qty:2, fish:["tuc"], min:30, max:75,
+   name:"Isca de hélice (simples ou dupla)",
+   spec:"<b>Faz barulho e espirra água:</b> chama o tucunaré de longe. Trabalhe com puxadas e pausas.",
+   q:"isca hélice tucunaré", ph:"isca artificial hélice tucunaré"},
+  {id:"popper", cat:"iscas", ic:"popper", prio:"R", qty:1, fish:["tuc","tra","bass","rob"], min:20, max:50,
+   name:"Popper 6–9 cm",
+   spec:"<b>“Estala” na superfície.</b> Bom quando o peixe está batendo mas não pega a zara.",
+   models:"Kits de 4 poppers são comuns e baratos.",
+   q:"isca popper superfície tucunaré traíra", ph:"isca popper pesca"},
+  {id:"meiaagua", cat:"iscas", ic:"minnow", prio:"E", qty:2, fish:["tuc","tra","rob","cor"], min:25, max:65,
+   name:"Meia-água (minnow / jerkbait) 8–10 cm",
+   spec:"<b>Para quando o sol esquenta</b> e o peixe desce. Trabalhe com toques de ponta de vara. A Rei do Rio é das mais usadas no Brasil.",
+   q:"isca meia água minnow 9cm tucunaré", ph:"isca Marine Sports Rei do Rio"},
+  {id:"iscadourado", cat:"iscas", ic:"minnow", prio:"E", qty:2, fish:["dou"], min:60, max:100,
+   name:"Meia-água grande 12–15 cm, reforçada",
+   spec:"<b>Para dourado:</b> corpo maciço e garateia forte, porque a boca dele esmaga isca fraca.",
+   q:"isca meia água 12cm dourado", ph:"isca artificial dourado meia água"},
+  {id:"crank", cat:"iscas", ic:"minnow", prio:"R", qty:1, fish:["bass","tuc","tra"], min:25, max:75,
+   name:"Crankbait pequeno 5–7 cm",
+   spec:"<b>Mergulha e vibra</b> ao recolher. Muito usado para black bass em pedra e galhada.",
+   q:"isca crankbait 6cm", ph:"isca crankbait"},
+  {id:"sapo", cat:"iscas", ic:"frog", prio:"E", qty:1, fish:["tra","bass"], min:30, max:75,
+   name:"Sapo anti-enrosco (kit 3–5)",
+   spec:"<b>A isca da traíra no mato:</b> passa por cima de vegetação e aguapé sem enroscar.",
+   q:"isca sapo anti enrosco traíra", ph:"isca sapo frog traíra"},
+  {id:"soft", cat:"iscas", ic:"soft", prio:"E", qty:1, fish:["tuc","tra","bass","rob","cor"], min:20, max:50,
+   name:"Soft bait: shad e minhoca (kit)",
+   spec:"<b>Use com anzol offset ou jig head.</b> Versátil e barata, ótima para dias difíceis.",
+   q:"isca soft shad silicone kit tucunaré", ph:"isca soft shad pesca"},
+  {id:"camarao", cat:"iscas", ic:"soft", prio:"E", qty:1, fish:["rob","cor","tuc"], min:15, max:45,
+   name:"Camarão artificial de silicone",
+   spec:"<b>A isca número um do robalo</b> e ótima para corvina. Trabalhe devagar, perto do fundo.",
+   q:"camarão artificial silicone pesca robalo", ph:"camarão artificial pesca"},
+  {id:"jig", cat:"iscas", ic:"jig", prio:"R", qty:2, fish:["cor","dou","rob","tuc"], min:13, max:40,
+   name:"Jig 10–20 g",
+   spec:"<b>Para pescar no fundo e em correnteza:</b> solte até o fundo e dê toques de ponta de vara.",
+   q:"isca jig 12g pesca", ph:"isca jig pesca"},
+  {id:"spinner", cat:"iscas", ic:"spinner", prio:"R", qty:1, fish:["tra","tuc","bass"], min:20, max:75,
+   name:"Spinnerbait / spinner anti-enrosco",
+   spec:"<b>Atravessa galhada e mato</b> com pouco enrosco. Boa em água turva por causa do brilho e da vibração.",
+   q:"spinnerbait pesca traíra", ph:"spinnerbait isca"},
+  {id:"colher", cat:"iscas", ic:"spoon", prio:"O", qty:1, fish:["tra","dou"], min:15, max:35,
+   name:"Colher anti-enrosco (weedless)",
+   spec:"<b>Rasante sobre vegetação</b>, boa para traíra. Use com girador para não torcer a linha.",
+   q:"colher anti enrosco pesca traíra", ph:"isca colher anti enrosco"},
+  /* ---- naturais ---- */
+  {id:"massa", cat:"naturais", ic:"bucket", prio:"E", qty:1, fish:["til","pac","tamb","car","pia","lam"], min:15, max:50,
+   name:"Massa pronta, ração e milho",
+   spec:"<b>A base da pesca em pesqueiro e represa.</b> Ração flutuante para pacu e tambaqui, massa e milho para tilápia, carpa e piapara.",
+   q:"massa pronta pesca tilápia carpa", ph:"massa de pesca pronta"},
+  {id:"ceva", cat:"naturais", ic:"bucket", prio:"R", qty:1, fish:["pia","til","car"], min:15, max:40,
+   name:"Ceva (milho, quirera ou farelo)",
+   spec:"<b>Joga no ponto antes de pescar</b> para juntar o cardume. Confira se o local permite cevar.",
+   q:"ceva pesca piapara tilápia", ph:"ceva para pesca"},
+  {id:"minhoca", cat:"naturais", ic:"soft", prio:"R", qty:1, fish:["jun","pin","til","lam","tra"], min:10, max:40,
+   name:"Minhoca ou minhocuçu",
+   spec:"<b>Isca natural que pega quase tudo</b> no fundo. Costuma ser comprada na loja de isca perto do rio.",
+   q:"minhocuçu isca pesca", ph:"minhocuçu isca"},
+  /* ---- isca viva ---- */
+  {id:"peneira", cat:"tuvira", ic:"net", prio:"O", qty:1, fish:["tra","pin","dou","cor","tuc"], min:30, max:90,
+   name:"Peneira ou puçá para pegar tuvira e lambari",
+   spec:"<b>Tuvira fica no brejo e na vegetação da margem.</b> Peneira de tela fina ou puçá de cabo.",
+   q:"puçá pesca isca viva malha fina", ph:"puçá de pesca"},
+  {id:"viveiro", cat:"tuvira", ic:"bucket", prio:"O", qty:1, fish:["tra","pin","dou","cor","tuc"], min:40, max:120,
+   name:"Balde ou viveiro com aerador a pilha",
+   spec:"<b>Mantém a isca viva</b> durante a pescaria. O aerador faz toda a diferença.",
+   q:"aerador oxigenador a pilha isca viva balde", ph:"balde viveiro isca viva aerador"},
+  {id:"anzolvivo", cat:"tuvira", ic:"hook", prio:"O", qty:1, fish:["tra","cor","tuc"], min:15, max:30,
+   name:"Anzóis para isca viva 1/0 a 3/0",
+   spec:"<b>Wide gap ou circle:</b> fisga no canto da boca e machuca menos para soltar.",
+   q:"anzol wide gap 2/0 isca viva", ph:"anzol circle wide gap"},
+  /* ---- comuns a todas ---- */
+  {id:"lipgrip", cat:"ferramentas", ic:"lipgrip", prio:"E", qty:1, all:true, min:25, max:70,
+   name:"Alicate de contenção (lip grip)",
+   spec:"<b>Segura a boca do peixe</b> sem pôr a mão nos dentes nem nos espinhos. Prefira o de alumínio, que não enferruja.",
+   models:"Muitos já vêm com balança embutida.",
+   q:"alicate contenção pesca lip grip", ph:"alicate de contenção pesca"},
+  {id:"alicate", cat:"ferramentas", ic:"pliers", prio:"E", qty:1, all:true, min:25, max:80,
+   name:"Alicate de bico (tirar anzol e abrir argola)",
+   spec:"<b>Bico longo</b> para tirar o anzol da boca e ponta de abrir argola.",
+   q:"alicate bico pesca abrir argola", ph:"alicate de bico pesca"},
+  {id:"tesoura", cat:"ferramentas", ic:"scissors", prio:"R", qty:1, all:true, min:10, max:35,
+   name:"Tesoura de linha",
+   spec:"<b>Multifilamento não corta com cortador comum.</b> Tesoura própria economiza linha e paciência.",
+   q:"tesoura linha multifilamento pesca", ph:"tesoura para linha multifilamento"},
+  {id:"estojo", cat:"ferramentas", ic:"box", prio:"E", qty:2, all:true, min:20, max:70,
+   name:"Estojo / caixa organizadora",
+   spec:"<b>Uma para iscas, outra para anzóis, chumbadas e terminais.</b> Divisórias removíveis ajudam.",
+   q:"estojo caixa organizadora iscas artificiais", ph:"estojo organizador iscas pesca"},
+  {id:"bolsa", cat:"ferramentas", ic:"bag", prio:"R", qty:1, all:true, min:70, max:220,
+   name:"Bolsa ou mochila de pesca",
+   spec:"<b>Leva os estojos, alicates e água.</b> Fundo emborrachado não encharca no barranco nem no barco.",
+   q:"bolsa mochila pesca estojos", ph:"bolsa de pesca"},
+  {id:"capa", cat:"ferramentas", ic:"tube", prio:"O", qty:1, all:true, min:25, max:60,
+   name:"Capa para vara e carretilha",
+   spec:"<b>Protege no transporte</b> de carro ou ônibus.",
+   q:"capa vara pesca neoprene carretilha", ph:"capa protetora vara de pesca"},
+  {id:"oleo", cat:"ferramentas", ic:"oil", prio:"O", qty:1, all:true, min:20, max:50,
+   name:"Óleo e graxa para carretilha e molinete",
+   spec:"<b>Uma gota depois de cada pescaria</b> evita barulho e ferrugem e faz o equipamento durar anos.",
+   q:"óleo graxa manutenção carretilha molinete", ph:"óleo lubrificante carretilha"},
+  {id:"oculos", cat:"protecao", ic:"glasses", prio:"R", qty:1, all:true, min:40, max:150,
+   name:"Óculos polarizado",
+   spec:"<b>Corta o reflexo</b> da água e protege de anzol voando no arremesso. Teste na tela do celular: a imagem escurece ao girar.",
+   q:"óculos polarizado pesca", ph:"óculos polarizado pesca"},
+  {id:"uv", cat:"protecao", ic:"hat", prio:"R", qty:1, all:true, min:40, max:120,
+   name:"Chapéu com proteção de nuca e camiseta UV",
+   spec:"<b>Sol na beira da água queima rápido.</b> Manga longa UV 50+ dispensa reaplicar protetor nos braços.",
+   q:"camiseta uv pesca manga longa", ph:"chapéu pesca proteção nuca"},
+  {id:"protetor", cat:"protecao", ic:"sun", prio:"R", qty:1, all:true, min:30, max:70,
+   name:"Protetor solar e repelente",
+   spec:"<b>Mosquito e borrachudo</b> aparecem no fim da tarde, que costuma ser a melhor hora de pesca.",
+   q:"repelente protetor solar kit", ph:"repelente e protetor solar"},
+  {id:"socorros", cat:"protecao", ic:"aid", prio:"R", qty:1, all:true, min:25, max:60,
+   name:"Kit de primeiros socorros compacto",
+   spec:"<b>Antisséptico, curativo e esparadrapo</b> para corte de dente, espinho ou anzol.",
+   q:"kit primeiros socorros pequeno bolsa", ph:"kit primeiros socorros pequeno"},
+  {id:"fita", cat:"protecao", ic:"ruler", prio:"O", qty:1, all:true, min:20, max:60,
+   name:"Régua ou fita métrica de peixe",
+   spec:"<b>Para conferir tamanho mínimo</b> e registrar o peixe antes de soltar.",
+   q:"régua medir peixe pesca", ph:"régua para medir peixe"},
+  {id:"lanterna", cat:"util", ic:"lamp", prio:"R", qty:1, all:true, min:30, max:90,
+   name:"Lanterna de cabeça recarregável",
+   spec:"<b>Mãos livres para dar nó e tirar anzol</b> quando escurece. Essencial para pintado e bagre, que são de noite.",
+   q:"lanterna de cabeça recarregável pesca", ph:"lanterna de cabeça pesca"},
+  {id:"termica", cat:"util", ic:"cooler", prio:"R", qty:1, all:true, min:60, max:200,
+   name:"Caixa térmica pequena",
+   spec:"<b>Água gelada, lanche e, se a regra permitir, o peixe.</b> 12 a 26 litros é um bom tamanho para levar a pé.",
+   q:"caixa térmica 12 litros", ph:"caixa térmica pequena"},
+  {id:"agua", cat:"util", ic:"bottle", prio:"R", qty:1, all:true, min:30, max:80,
+   name:"Garrafa térmica de água",
+   spec:"<b>Pelo menos 1 litro por pessoa.</b> Sol e calor na beira da água desidratam rápido.",
+   q:"garrafa térmica 1 litro", ph:"garrafa térmica água 1 litro"},
+  {id:"chuva", cat:"util", ic:"rain", prio:"R", qty:1, all:true, min:25, max:80,
+   name:"Capa de chuva ou poncho",
+   spec:"<b>Pancada de chuva de verão</b> chega rápido na represa. Ocupa pouco espaço na mochila.",
+   q:"capa de chuva poncho impermeável", ph:"poncho capa de chuva"},
+  {id:"celular", cat:"util", ic:"phone", prio:"R", qty:1, all:true, min:15, max:40,
+   name:"Capa à prova d'água para celular",
+   spec:"<b>Bolsinha com cordão no pescoço.</b> Dá para tirar foto do peixe sem medo de molhar.",
+   q:"capa à prova d'água celular cordão", ph:"capa prova dagua celular"},
+  {id:"powerbank", cat:"util", ic:"power", prio:"R", qty:1, all:true, min:60, max:150,
+   name:"Carregador portátil (power bank)",
+   spec:"<b>10.000 mAh carrega o celular duas vezes.</b> Importante para GPS e emergência.",
+   q:"power bank 10000mah", ph:"power bank 10000 mah"},
+  {id:"canivete", cat:"util", ic:"knife", prio:"R", qty:1, all:true, min:40, max:120,
+   name:"Canivete ou alicate multiuso",
+   spec:"<b>Corta corda, abre embalagem e conserta</b> o que soltar no meio da pescaria.",
+   q:"alicate multiuso canivete", ph:"alicate multiuso canivete"},
+  {id:"lixo", cat:"util", ic:"trash", prio:"R", qty:1, all:true, min:10, max:30,
+   name:"Sacos de lixo e pano ou toalha",
+   spec:"<b>Leve seu lixo de volta</b> e tenha um pano para secar as mãos e segurar o peixe.",
+   q:"saco de lixo resistente rolo", ph:"saco de lixo"},
+  {id:"balanca", cat:"util", ic:"scale", prio:"O", qty:1, all:true, min:20, max:50,
+   name:"Balança digital de mão",
+   spec:"<b>Para pesar o peixe</b> antes de soltar. Dispensável se o alicate de contenção já tiver balança.",
+   q:"balança digital pesca 50kg", ph:"balança digital de pesca"},
+  {id:"cadeira", cat:"barranco", where:"bar", ic:"chair", prio:"R", qty:1, all:true, min:60, max:150,
+   name:"Cadeira ou banqueta dobrável",
+   spec:"<b>Leve e com bolsa de transporte.</b> Banqueta ocupa menos espaço; cadeira com encosto cansa menos.",
+   q:"cadeira dobrável pesca", ph:"cadeira dobrável pesca"},
+  {id:"suporte", cat:"barranco", where:"bar", ic:"holder", prio:"R", qty:2, all:true, min:20, max:60,
+   name:"Suporte de vara para barranco",
+   spec:"<b>Espeta no chão e segura a vara</b> enquanto você troca isca ou espera com isca natural.",
+   q:"suporte vara pesca barranco", ph:"suporte de vara barranco"},
+  {id:"bota", cat:"barranco", where:"bar", ic:"boot", prio:"R", qty:1, all:true, min:60, max:200,
+   name:"Bota de borracha ou perneira",
+   spec:"<b>Protege no brejo e no mato alto.</b> Perneira ajuda contra picada de cobra.",
+   q:"bota de borracha cano alto", ph:"bota de borracha cano alto"},
+  {id:"guarda", cat:"barranco", where:"bar", ic:"umbrella", prio:"O", qty:1, all:true, min:40, max:120,
+   name:"Guarda-sol com ponta para fincar",
+   spec:"<b>Sombra no barranco sem árvore.</b> Prefira o com proteção UV e ponta de espetar.",
+   q:"guarda sol pesca ponta", ph:"guarda sol pesca"},
+  {id:"colete", cat:"barco", where:"emb", ic:"vest", prio:"E", qty:1, all:true, min:60, max:230,
+   name:"Colete salva-vidas homologado pela Marinha",
+   spec:"<b>Obrigatório em embarcação.</b> Classe III serve para rios, lagos e represas. Confira o selo de homologação e a faixa de peso.",
+   q:"colete salva vidas homologado classe III", ph:"colete salva vidas homologado"},
+  {id:"apito", cat:"barco", where:"emb", ic:"whistle", prio:"R", qty:1, all:true, min:10, max:25,
+   name:"Apito preso ao colete",
+   spec:"<b>Chama atenção de longe</b> se o motor parar ou alguém cair na água.",
+   q:"apito de emergência náutico", ph:"apito de emergência"},
+  {id:"drybag", cat:"barco", where:"emb", ic:"drybag", prio:"R", qty:1, all:true, min:30, max:90,
+   name:"Bolsa estanque (dry bag) 10–20 L",
+   spec:"<b>Documento, chave e roupa seca</b> não molham nem se o barco virar.",
+   q:"bolsa estanque dry bag 20 litros", ph:"bolsa estanque dry bag"},
+  {id:"passagua", cat:"barco", where:"emb", ic:"net", prio:"R", qty:1, all:true, min:50, max:150,
+   name:"Passaguá (rede de embarque)",
+   spec:"<b>Tira o peixe da água sem forçar a linha</b> nem a vara. Rede emborrachada machuca menos para soltar.",
+   q:"passaguá rede pesca emborrachada", ph:"passaguá pesca"},
+  {id:"portavara", cat:"barco", where:"emb", ic:"rodboat", prio:"O", qty:2, all:true, min:30, max:80,
+   name:"Porta-vara para barco",
+   spec:"<b>Deixa as varas de reserva em pé</b> e longe do pé de quem está arremessando.",
+   q:"porta vara barco pesca", ph:"porta vara para barco"},
+  {id:"ancora", cat:"barco", where:"emb", ic:"anchor", prio:"O", qty:1, all:true, min:60, max:150,
+   name:"Âncora pequena com corda",
+   spec:"<b>Para ficar parado no ponto</b> sem o vento levar o barco. 20 a 30 m de corda.",
+   q:"âncora garatéia barco pequeno corda", ph:"âncora garatéia barco"},
+  {id:"licenca", cat:"docs", ic:"doc", prio:"E", qty:1, all:true, min:20, max:60,
+   name:"Licença de Pesca Amadora (anual)",
+   spec:"<b>Feita online no gov.br</b> com conta prata ou ouro. Desembarcada (barranco) ou embarcada (barco). Valor anual baixo; confira a taxa no site.",
+   q:"", official:"https://www.gov.br/pt-br/servicos/solicitar-licenca-de-pescador-amador-ou-esportivoo"}
+];
+
+const STORES = [
+  {id:"ml", name:"Mercado Livre", color:"#f5d000", url:(q,c)=>"https://lista.mercadolivre.com.br/"+slug(q)+(c?"_OrderId_PRICE_NoIndex_True":"")},
+  {id:"shopee", name:"Shopee", color:"#ee4d2d", url:(q,c)=>"https://shopee.com.br/search?keyword="+enc(q)+(c?"&order=asc&page=0&sortBy=price":"")},
+  {id:"amazon", name:"Amazon", color:"#ff9900", url:(q,c)=>"https://www.amazon.com.br/s?k="+enc(q)+(c?"&s=price-asc-rank":"")},
+  {id:"tiktok", name:"TikTok Shop", color:"#25f4ee", minor:true, url:(q)=>"https://www.tiktok.com/search?q="+enc(q+" tiktok shop")},
+  {id:"google", name:"Lojas de pesca", color:"#4285f4", minor:true, url:(q,c)=>"https://www.google.com/search?tbm=shop&hl=pt-BR&gl=br&q="+enc(q)+(c?"&tbs=p_ord:p":"")},
+  {id:"zoom", name:"Zoom", color:"#7a3cff", minor:true, url:(q)=>"https://www.zoom.com.br/search?q="+enc(q)}
+];
+function photoUrl(q){return "https://www.google.com/search?tbm=isch&hl=pt-BR&gl=br&q="+enc(q)}
+
+function enc(s){return encodeURIComponent(s)}
+function slug(s){return s.normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9.,/]+/g,"-").replace(/[/,]/g,"-").replace(/-+/g,"-").replace(/^-|-$/g,"")}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function brl(n){return "R$ "+Math.round(n).toLocaleString("pt-BR")}
+function range(a,b){return a===b?brl(a):brl(a)+"–"+Math.round(b).toLocaleString("pt-BR")}
+function parseMoney(v){if(v==null)return null;const s=String(v).replace(/[^\d,.-]/g,"").replace(/\.(?=\d{3}(\D|$))/g,"").replace(",",".");const n=parseFloat(s);return isFinite(n)&&n>0?n:null}
+function modelQuery(name){return name.replace(/\(.*?\)/g,"").trim()}
+function plain(html){return String(html).replace(/<[^>]+>/g,"")}
+
+/* ---------- estado ---------- */
+const LS_KEY="equipo-pesca-v1", LS_EASY="equipo-pesca-facil";
+let state = {status:{}, price:{}, link:{}, custom:[], cheap:true, addr:"", cep:"", where:"todos", fish:[]};
+let filter = "todos";
+try{const raw=localStorage.getItem(LS_KEY); if(raw){state=Object.assign(state, JSON.parse(raw));}}catch(e){}
+if(!Array.isArray(state.fish))state.fish=[];
+
+const DEFAULT_EASY=false;
+let easy=DEFAULT_EASY;
+try{const v=localStorage.getItem(LS_EASY); if(v!==null)easy=v==="1";}catch(e){}
+let storageOk=false;
+try{localStorage.setItem("equipo-pesca-teste","1"); storageOk=localStorage.getItem("equipo-pesca-teste")==="1"; localStorage.removeItem("equipo-pesca-teste");}catch(e){storageOk=false;}
+if(location.hash==="#facil")easy=true;
+function applyEasy(){
+  document.documentElement.classList.toggle("easy",easy);
+  const b=document.getElementById("easyBtn");
+  b.setAttribute("aria-pressed",String(easy));
+  document.getElementById("easyTxt").textContent=easy?"Modo fácil ligado":"Letra grande e modo fácil";
+}
+
+function allItems(){
+  return ITEMS.concat((state.custom||[]).map(c=>({id:c.id, cat:c.cat||"meus", ic:"box", prio:"R", qty:c.qty||1, all:true, fish:[], min:0, max:0, name:c.name, spec:"", q:c.name, ph:c.name, custom:true})));
+}
+function st(id){return state.status[id]||"falta"}
+function inWhere(i){const w=state.where||"todos"; return w==="todos"||!i.where||i.where===w;}
+function inFish(i){const sel=state.fish||[]; if(!sel.length||i.all)return true; return (i.fish||[]).some(f=>sel.includes(f));}
+function visible(i){return inWhere(i)&&inFish(i);}
+function fullAddr(){const a=(state.addr||"").trim(), c=(state.cep||"").trim(); return [a, c?("CEP "+c):""].filter(Boolean).join(" - ");}
+function selNames(){return (state.fish||[]).map(f=>FISH[f]).filter(Boolean);}
+function joinPt(arr){return arr.length<2?arr.join(""):arr.slice(0,-1).join(", ")+" e "+arr[arr.length-1];}
+
+/* ---------- render ---------- */
+const $=s=>document.querySelector(s);
+
+function renderSummary(){
+  const all=allItems().filter(visible);
+  const nao=all.filter(i=>st(i.id)==="nao").length;
+  const items=all.filter(i=>st(i.id)!=="nao");
+  const ess=items.filter(i=>i.prio==="E");
+  const total=items.length;
+  const tenho=items.filter(i=>st(i.id)==="tenho").length;
+  const pedido=items.filter(i=>st(i.id)==="pedido").length;
+  const essOk=ess.filter(i=>st(i.id)!=="falta").length;
+  let lo=0, hi=0, gasto=0, essLo=0, essHi=0;
+  items.forEach(i=>{
+    const p=parseMoney(state.price[i.id]);
+    if(st(i.id)==="falta"){
+      const a=p||i.min*i.qty, b=p||i.max*i.qty;
+      lo+=a; hi+=b; if(i.prio==="E"){essLo+=a;essHi+=b;}
+    } else if(st(i.id)==="pedido" && p){gasto+=p;}
+  });
+  const pOk=total?tenho/total*100:0, pPed=total?pedido/total*100:0;
+  const names=selNames();
+  $("#summary").innerHTML=`
+    <div class="stat"><div class="k">Essenciais cobertos</div><div class="v num">${essOk}<small>/${ess.length}</small></div></div>
+    <div class="stat"><div class="k">Itens no total</div><div class="v num">${tenho+pedido}<small>/${total}</small></div></div>
+    <div class="stat budget"><div class="k">Falta comprar (faixa barata a média)</div><div class="v num">${range(lo,hi)}</div>
+      <div class="small muted num">Só essenciais: ${range(essLo,essHi)}${gasto?` · Pedidos: ${brl(gasto)}`:""}</div></div>
+    <div class="bar" aria-hidden="true"><span class="b-ok" style="width:${pOk}%"></span><span class="b-ped" style="width:${pPed}%"></span></div>
+    <div class="legend"><span><i style="background:var(--accent)"></i>Tenho ${tenho}</span><span><i style="background:var(--amber)"></i>Pedido ${pedido}</span><span><i style="background:var(--chip);border:1px solid var(--line)"></i>Falta ${total-tenho-pedido}</span>${nao?`<span><i style="background:transparent;border:1px dashed var(--muted)"></i>Não preciso ${nao} (fora da conta)</span>`:""}<span>${names.length?"Contando só: "+esc(joinPt(names)):"Contando todos os peixes"}${state.where&&state.where!=="todos"?" · "+WHERE[state.where]:""}</span></div>`;
+}
+
+function renderFilters(){
+  const sel=state.fish||[];
+  $("#fFish").innerHTML=`<button type="button" class="chip" data-fish="__all" aria-pressed="${!sel.length}">Todos</button>`+
+    SPECIES.map(s=>`<button type="button" class="chip" data-fish="${s.id}" aria-pressed="${sel.includes(s.id)}">${esc(s.name)}</button>`).join("");
+  $("#fWhere").innerHTML=Object.entries(WHERE).map(([v,l])=>`<button type="button" class="chip" data-where="${v}" aria-pressed="${(state.where||"todos")===v}">${l}</button>`).join("");
+  const opts=[["todos","Tudo"],["falta","Falta"],["pedido","Já pedi"],["tenho","Já tenho"],["nao","Não preciso"],["E","Só essenciais"]];
+  $("#fStatus").innerHTML=opts.map(([v,l])=>`<button type="button" class="chip" data-filter="${v}" aria-pressed="${filter===v}">${l}</button>`).join("");
+  $("#cheap").checked=!!state.cheap;
+  $("#nCat").innerHTML=CATS.map(c=>`<option value="${c.id}"${c.id==="meus"?" selected":""}>${esc(c.name)}</option>`).join("");
+  if(document.activeElement!==$("#addr"))$("#addr").value=state.addr||"";
+  if(document.activeElement!==$("#cep"))$("#cep").value=state.cep||"";
+}
+
+function speciesSpeech(s){return `${s.name}. ${RULE[s.rule].t}. Onde: ${s.where} Equipamento: ${s.gear} Iscas: ${s.baits}`;}
+function renderGuide(){
+  const sel=state.fish||[];
+  const box=$("#guide");
+  if(!sel.length){
+    box.innerHTML=`<p class="guide-empty">Escolha acima um ou mais peixes. A lista mostra só o que serve para eles e, separado, o que serve para qualquer pescaria.</p>`;
+    return;
+  }
+  box.innerHTML=`<h2 class="gtitle">Guia rápido</h2><div class="species">`+SPECIES.filter(s=>sel.includes(s.id)).map(s=>`
+    <article class="sp">
+      <div class="sp-head"><h3>${esc(s.name)}</h3><span class="rule ${RULE[s.rule].c}">${RULE[s.rule].t}</span></div>
+      <dl>
+        <dt>Onde</dt><dd>${esc(s.where)}</dd>
+        <dt>Equipamento</dt><dd>${esc(s.gear)}</dd>
+        <dt>Iscas</dt><dd>${esc(s.baits)}</dd>
+      </dl>
+      <div class="sp-actions"><a class="lk photo" href="${photoUrl("peixe "+s.name)}">${svg("cam")}Ver fotos do peixe</a><button type="button" class="say" data-sayfish="${s.id}">${svg("speak")}Ouvir</button></div>
+    </article>`).join("")+`</div><p class="small muted" style="margin:0">Regras de piracema e tamanho mínimo mudam por estado e por rio. Confira no órgão ambiental antes de levar peixe.</p>`;
+}
+
+function passes(i){
+  if(!visible(i))return false;
+  if(filter==="todos")return true;
+  if(filter==="E")return i.prio==="E"&&st(i.id)!=="nao";
+  return st(i.id)===filter;
+}
+
+function tiersHTML(id){
+  const t=TIERS[id]; if(!t)return "";
+  const ml=STORES[0];
+  const rows=["b","m","a"].filter(k=>t[k]&&t[k].length).map(k=>`<div class="tier t-${k}"><span class="lv">${TIER_NAMES[k]}</span><div class="ms">${
+    t[k].map(([n,p])=>`<a class="m" href="${ml.url(modelQuery(n),state.cheap)}"><span>${esc(n)}</span><span class="pp">${esc(p)}</span></a>`).join("")
+  }</div></div>`).join("");
+  return `<div class="tiers"><span class="th">Marcas conhecidas por faixa de preço. Toque para ver no Mercado Livre.</span>${rows}</div>`;
+}
+
+function fishTags(i){
+  if(i.all)return `<span class="tag fish">Qualquer pescaria</span>`;
+  const sel=state.fish||[];
+  const list=(i.fish||[]).slice().sort((a,b)=>(sel.includes(b)?1:0)-(sel.includes(a)?1:0));
+  const show=list.slice(0,4), rest=list.length-show.length;
+  return show.map(f=>`<span class="tag fish${sel.includes(f)?" on":""}">${esc(FISH[f]||f)}</span>`).join("")+(rest>0?`<span class="tag fish">+${rest}</span>`:"");
+}
+
+const STLABEL={falta:"Falta",pedido:"Já pedi",tenho:"Já tenho",nao:"Não preciso"};
+function itemHTML(i){
+  const s=st(i.id);
+  const tags=[`<span class="tag p-${i.prio}">${PRIO[i.prio]}</span>`]
+    .concat(i.qty>1?[`<span class="tag">${i.qty} un.</span>`]:[])
+    .concat(i.where==="bar"?[`<span class="tag">Barranco</span>`]:i.where==="emb"?[`<span class="tag">Barco</span>`]:[])
+    .join("")+fishTags(i);
+  const seg=`<div class="seg" role="group" aria-label="Situação: ${esc(i.name)}">
+      ${["falta","pedido","tenho","nao"].map(v=>`<button type="button" class="s-${v}" data-st="${v}" data-id="${i.id}" aria-pressed="${s===v}">${STLABEL[v]}</button>`).join("")}
+    </div>`;
+  const priceTxt = i.max ? `<span class="price num">${range(i.min,i.max)}</span><span class="muted">${i.qty>1?"cada, faixa barata a média":"faixa barata a média"}</span>` : "";
+  const sayBtn=`<button type="button" class="say" data-say="${i.id}">${svg("speak")}Ouvir</button>`;
+  let links="";
+  if(i.official){
+    links=`<div class="links"><a class="lk" href="${i.official}"><span class="sw" style="background:#1351b4"></span>Emitir no gov.br</a></div>`;
+  } else if(i.q){
+    links=`<div class="links"><a class="lk photo" href="${photoUrl(i.ph||i.q)}">${svg("cam")}Ver fotos</a>${STORES.map(sx=>`<a class="lk${sx.minor?" minor":""}" href="${sx.url(i.q,state.cheap)}"><span class="sw" style="background:${sx.color}"></span>${sx.name}</a>`).join("")}</div>`;
+  }
+  const myPrice=state.price[i.id]||"", myLink=state.link[i.id]||"";
+  const safeLink=/^https?:\/\//i.test(myLink)?myLink:"";
+  const mine = i.official ? "" : `<details class="more"${(myPrice||myLink)?" open":""}><summary>Anotar o melhor preço que achei</summary>
+      <div class="mine">
+        <label for="p-${i.id}">Preço total</label>
+        <input class="p num" id="p-${i.id}" data-price="${i.id}" inputmode="decimal" placeholder="R$" value="${esc(myPrice)}">
+        <input class="u" id="u-${i.id}" data-link="${i.id}" type="url" placeholder="Cole o link do anúncio" aria-label="Link do anúncio de ${esc(i.name)}" value="${esc(myLink)}">
+        ${safeLink?`<a href="${esc(safeLink)}">Abrir anúncio</a>`:""}
+        ${i.custom?`<button type="button" class="btn" data-del="${i.id}">Remover item</button>`:""}
+      </div></details>`;
+  return `<article class="item st-${s}" id="it-${i.id}" aria-label="${esc(i.name)}, ${STLABEL[s]}">
+    ${i.q?`<a class="ill" href="${photoUrl(i.ph||i.q)}" aria-label="Ver fotos de ${esc(i.name)}" title="Ver fotos">${svg(i.ic)}</a>`:`<div class="ill">${svg(i.ic)}</div>`}
+    <div class="body">
+      <div class="head">
+        <div class="title-block"><div class="name">${esc(i.name)}</div><div class="tags">${tags}</div></div>
+        ${seg}
+      </div>
+      ${i.spec?`<p class="spec">${i.spec}</p>`:""}
+      ${i.models?`<p class="models">${esc(i.models)}</p>`:""}
+      <div class="meta">${priceTxt}${sayBtn}</div>
+      ${tiersHTML(i.id)}
+      ${links}
+      ${mine}
+    </div>
+  </article>`;
+}
+
+function groupHTML(gid, title, sub, pred){
+  const items=allItems().filter(i=>pred(i)&&visible(i));
+  if(!items.length)return {html:"",cats:[]};
+  let html="", cats=[];
+  CATS.forEach(c=>{
+    const inCat=items.filter(i=>i.cat===c.id);
+    if(!inCat.length)return;
+    const shown=inCat.filter(passes);
+    const need=inCat.filter(i=>st(i.id)!=="nao");
+    const done=need.filter(i=>st(i.id)!=="falta").length;
+    const sid=`cat-${gid}-${c.id}`;
+    cats.push({id:sid,name:c.name});
+    html+=`<section class="cat" id="${sid}" aria-labelledby="h-${sid}">
+      <div class="cat-head"><h3 id="h-${sid}">${esc(c.name)}</h3><span class="count num" aria-label="${done} de ${need.length} itens">${done}/${need.length}</span></div>
+      ${gid==="g1"||c.id==="barco"||c.id==="barranco"||c.id==="util"?`<p class="cat-intro">${esc(c.intro)}</p>`:""}
+      ${shown.length?shown.map(itemHTML).join(""):`<div class="empty">Nada aqui com este filtro.</div>`}
+    </section>`;
+  });
+  return {html:`<div class="group" id="${gid}"><div class="ghead"><h2>${esc(title)}</h2><p>${esc(sub)}</p></div>${html}</div>`, cats};
+}
+
+function renderList(){
+  const names=selNames();
+  const g1=groupHTML("g1", names.length?"Para "+joinPt(names):"Equipamento por tipo de peixe",
+    names.length?"Varas, molinetes, linhas, anzóis e iscas que servem para os peixes escolhidos.":"Escolha um peixe acima para ver só o que serve para ele.", i=>!i.all);
+  const g2=groupHTML("g2","Comum a todas as pescarias","Acessórios, ferramentas, segurança e conforto que valem para qualquer peixe.", i=>!!i.all);
+  $("#list").innerHTML=g1.html+g2.html;
+  const cats=g1.cats.map(c=>({...c,name:c.name})).concat(g2.cats.map(c=>({...c,name:c.name})));
+  const seen={};
+  $("#fCat").innerHTML=cats.map(c=>{const n=seen[c.name]?c.name+" (comum)":c.name; seen[c.name]=1; return `<button type="button" class="chip" data-jump="${c.id}" aria-pressed="false">${esc(n)}</button>`;}).join("");
+}
+
+function renderCopy(){
+  const falta=allItems().filter(i=>st(i.id)==="falta" && visible(i));
+  const names=selNames();
+  const lines=["Equipo de pesca – falta comprar"+(names.length?" ("+joinPt(names)+")":""),""];
+  CATS.forEach(c=>{
+    const f=falta.filter(i=>i.cat===c.id); if(!f.length)return;
+    lines.push(c.name.toUpperCase());
+    f.forEach(i=>{const p=parseMoney(state.price[i.id]);lines.push(`- ${i.name}${i.qty>1?` (x${i.qty})`:""}${p?` – achei por ${brl(p)}`:(i.max?` – ${brl(i.min*i.qty)} a ${brl(i.max*i.qty)}`:"")}${state.link[i.id]?` ${state.link[i.id]}`:""}`);});
+    lines.push("");
+  });
+  const a=fullAddr(); if(a)lines.push("Entrega: "+a);
+  $("#copyText").value=lines.join("\n").trim();
+}
+
+const EMBEDDED=(function(){try{return window.self!==window.top;}catch(e){return true;}})();
+function fixLinks(){
+  /* Aberto como arquivo no celular: abre a loja em outra aba e o app continua aberto.
+     Dentro do Claude, o próprio app do Claude abre o link. */
+  if(EMBEDDED)return;
+  document.querySelectorAll('a[href^="http"]').forEach(a=>{a.target="_blank";a.rel="noopener noreferrer";});
+}
+function render(){renderSummary();renderGuide();renderList();renderCopy();fixLinks();}
+
+/* ---------- voz ---------- */
+function speak(text){
+  try{
+    const ss=window.speechSynthesis; if(!ss){toast("Este navegador não lê em voz alta");return;}
+    ss.cancel();
+    const u=new SpeechSynthesisUtterance(text); u.lang="pt-BR"; u.rate=0.95;
+    const v=(ss.getVoices()||[]).find(x=>/^pt(-|_)BR/i.test(x.lang)); if(v)u.voice=v;
+    ss.speak(u);
+  }catch(e){toast("Não deu para ler em voz alta aqui");}
+}
+function itemSpeech(i){
+  const parts=[i.name+".", STLABEL[st(i.id)]+".", plain(i.spec||"")];
+  if(i.max)parts.push("Preço de "+Math.round(i.min)+" a "+Math.round(i.max)+" reais"+(i.qty>1?" cada.":"."));
+  const t=TIERS[i.id]; if(t&&t.m&&t.m.length)parts.push("Marca de preço médio: "+t.m[0][0]+".");
+  return parts.join(" ");
+}
+
+/* ---------- eventos ---------- */
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>el.classList.remove("show"),2200);}
+async function copy(text, ok){
+  if(!text){toast("Preencha antes de copiar");return;}
+  try{ if(!navigator.clipboard||!window.isSecureContext)throw 0; await navigator.clipboard.writeText(text); toast(ok||"Copiado"); return; }catch(e){}
+  try{
+    const ta=document.createElement("textarea"); ta.value=text; ta.setAttribute("readonly","");
+    ta.style.position="fixed"; ta.style.top="0"; ta.style.left="0"; ta.style.opacity="0"; ta.style.fontSize="16px";
+    document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0,text.length);
+    const okc=document.execCommand("copy"); document.body.removeChild(ta);
+    if(okc){toast(ok||"Copiado");return;}
+  }catch(e){}
+  toast("Não deu para copiar: toque e segure no texto para copiar");
+}
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("button"); if(!b)return;
+  if(b.id==="easyBtn"){easy=!easy; try{localStorage.setItem(LS_EASY,easy?"1":"0");}catch(err){} applyEasy(); toast(easy?"Modo fácil ligado":"Modo normal"); return;}
+  if(b.dataset.st){const id=b.dataset.id; state.status[id]=b.dataset.st; if(b.dataset.st==="falta")delete state.status[id]; save(); render();
+    const nb=document.querySelector(`#it-${CSS.escape(id)} [data-st="${b.dataset.st}"]`); if(nb)nb.focus({preventScroll:true});
+    toast(STLABEL[b.dataset.st]); return;}
+  if(b.dataset.fish){const f=b.dataset.fish; let sel=(state.fish||[]).slice();
+    if(f==="__all")sel=[]; else sel=sel.includes(f)?sel.filter(x=>x!==f):sel.concat([f]);
+    state.fish=sel; save(); renderFilters(); render();
+    const nb=document.querySelector(`[data-fish="${f}"]`); if(nb)nb.focus({preventScroll:true});
+    toast(sel.length?"Mostrando: "+joinPt(selNames()):"Mostrando todos os peixes"); return;}
+  if(b.dataset.sayfish){const sp=SPECIES.find(x=>x.id===b.dataset.sayfish); if(sp)speak(speciesSpeech(sp)); return;}
+  if(b.dataset.where){state.where=b.dataset.where; save(); renderFilters(); render(); return;}
+  if(b.dataset.filter){filter=b.dataset.filter; renderFilters(); renderList(); return;}
+  if(b.dataset.say){const it=allItems().find(x=>x.id===b.dataset.say); if(it)speak(itemSpeech(it)); return;}
+  if(b.dataset.jump){const el=document.getElementById(b.dataset.jump); if(el){const off=easy?8:$(".controls").offsetHeight+8; const y=el.getBoundingClientRect().top+window.scrollY-off; window.scrollTo({top:y,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});} return;}
+  if(b.id==="copyCep"){copy((state.cep||"").replace(/\D/g,""),"CEP copiado"); return;}
+  if(b.id==="copyAddr"){copy(fullAddr(),"Endereço copiado"); return;}
+  if(b.dataset.del){state.custom=(state.custom||[]).filter(c=>c.id!==b.dataset.del); delete state.status[b.dataset.del]; delete state.price[b.dataset.del]; delete state.link[b.dataset.del]; save(); renderFilters(); render(); return;}
+  if(b.id==="copyList"){copy($("#copyText").value,"Lista copiada"); return;}
+});
+document.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.id==="cheap"){state.cheap=t.checked; save(); renderList(); return;}
+  if(t.id==="addr"){state.addr=t.value.trim(); save(); renderCopy(); return;}
+  if(t.id==="cep"){state.cep=t.value.trim(); save(); renderCopy(); return;}
+  if(t.dataset.price){const v=t.value.trim(); if(v)state.price[t.dataset.price]=v; else delete state.price[t.dataset.price]; save(); renderSummary(); renderCopy(); return;}
+  if(t.dataset.link){const v=t.value.trim(); if(v)state.link[t.dataset.link]=v; else delete state.link[t.dataset.link]; save(); renderList(); renderCopy(); return;}
+});
+$("#addForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const name=$("#nName").value.trim(); if(!name)return;
+  const qty=Math.max(1,parseInt($("#nQty").value,10)||1);
+  const id="c"+Date.now().toString(36);
+  state.custom=(state.custom||[]).concat([{id,name,cat:$("#nCat").value||"meus",qty}]);
+  $("#nName").value=""; $("#nQty").value="1";
+  save(); renderFilters(); render(); toast("Item adicionado");
+});
+window.addEventListener("hashchange",()=>{if(location.hash==="#facil"&&!easy){easy=true;try{localStorage.setItem(LS_EASY,"1");}catch(e){} applyEasy();}});
+
+/* ---------- salvar: aparelho + conta (quando a pessoa estiver logada) ---------- */
+let docRef=null, writing=false, dirty=false, timer=null;
+function snapshotState(){return JSON.parse(JSON.stringify({status:state.status,price:state.price,link:state.link,custom:state.custom,cheap:state.cheap,addr:state.addr||"",cep:state.cep||"",where:state.where||"todos",fish:state.fish||[]}));}
+function save(){
+  try{localStorage.setItem(LS_KEY,JSON.stringify(snapshotState()));}catch(e){}
+  if(!docRef)return;
+  clearTimeout(timer); timer=setTimeout(flush,700);
+}
+async function flush(){
+  if(!docRef)return;
+  if(writing){dirty=true;return;}
+  writing=true;
+  try{const body=snapshotState(); body.updatedAt=new Date().toISOString(); await docRef.set(body); setSync(true);}
+  catch(err){
+    if(err&&err.code==="unavailable"){setTimeout(flush,800+Math.random()*800);}
+    else {docRef=null; setSync(false,"Salvo neste celular");}
+  }
+  finally{writing=false; if(dirty){dirty=false; flush();}}
+}
+function setSync(on,text){$("#syncDot").classList.toggle("on",!!on); $("#syncText").textContent=text||(on?"Salvo na sua conta e neste aparelho":"Salvo neste celular");}
+
+applyEasy(); renderFilters(); render();
+if(!storageOk){const w=document.getElementById("storeWarn"); if(w)w.hidden=false;}
+try{if(window.speechSynthesis)window.speechSynthesis.getVoices();}catch(e){}
+
+(async function connect(){
+  try{
+    if(!window.claude||typeof window.claude.use!=="function")return;
+    const [db,user]=await Promise.all([window.claude.use("db"),window.claude.use("user")]);
+    if(!db||!user)return;
+    const uid=await user.id(); if(!uid)return;
+    let canW=null; try{ if(typeof user.can==="function") canW=await user.can("data.write"); }catch(e){}
+    if(canW===false)return;
+    const ref=db.doc("data/users/"+uid+"/pesca");
+    let first=true;
+    const tmo=setTimeout(()=>{if(first)setSync(false,"Salvo neste celular");},10000);
+    ref.onSnapshot(snap=>{
+      if(snap.metadata&&snap.metadata.hasPendingWrites)return;
+      const wasFirst=first;
+      if(!snap.metadata||!snap.metadata.fromCache){first=false;clearTimeout(tmo);}
+      docRef=ref;
+      if(snap.exists){
+        const d=snap.data()||{};
+        const incoming={status:d.status||{},price:d.price||{},link:d.link||{},custom:d.custom||[],cheap:d.cheap!==false,addr:d.addr||"",cep:d.cep||"",where:d.where||"todos",fish:Array.isArray(d.fish)?d.fish:[]};
+        if(JSON.stringify(incoming)!==JSON.stringify(snapshotState())){
+          const active=document.activeElement; const typing=active&&active.tagName==="INPUT"&&active.type!=="checkbox";
+          state=Object.assign(state,incoming);
+          try{localStorage.setItem(LS_KEY,JSON.stringify(snapshotState()));}catch(e){}
+          if(!typing){renderFilters();render();}
+        }
+        setSync(true);
+      } else if(wasFirst){
+        const local=snapshotState();
+        const hasLocal=Object.keys(local.status).length||Object.keys(local.price).length||Object.keys(local.link).length||local.custom.length||local.addr||local.cep;
+        if(hasLocal)flush();
+      }
+    },err=>{clearTimeout(tmo);docRef=null;setSync(false,"Salvo neste celular");});
+  }catch(e){}
+})();
+})();
+</script>
+</body>
+</html>
