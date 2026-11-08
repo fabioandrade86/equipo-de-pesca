@@ -48,30 +48,40 @@
   --amber:#f0b35c; --amber-soft:#35260f;
   color-scheme: dark;
 }
-/* Esquema verde e branco */
+/* Esquema verde e branco: base clara, verde só nos detalhes */
 :root[data-scheme="vb"]{
-  --bg:#f1f6f2; --surface:#ffffff; --ink:#10241a; --muted:#4d6155; --line:#cfddd3;
-  --accent:#1d7a40; --accent-soft:#e0f1e6; --accent-ink:#ffffff;
-  --band:#17663a; --band-ink:#ffffff; --band-sub:#dcefe2; --band-accent:#ffffff; --stripe:#ffffff;
-  --chip:#e6efe9; --amber:#8a5a00; --amber-soft:#fbefdc;
+  --bg:#f7faf8; --surface:#ffffff; --ink:#173326; --muted:#5a6e62; --line:#dbe7df;
+  --accent:#23854a; --accent-soft:#eaf6ee; --accent-ink:#ffffff;
+  --band:#ffffff; --band-ink:#173326; --band-sub:#5a6e62; --band-accent:#23854a; --stripe:#23854a;
+  --chip:#eef4f0; --amber:#8a5a00; --amber-soft:#fbf2e0;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark){
   :root[data-scheme="vb"]:not([data-theme="light"]){
-    --bg:#0b130e; --surface:#121d16; --ink:#eaf4ed; --muted:#a6bcae; --line:#27392e;
-    --accent:#4cc47b; --accent-soft:#163323; --accent-ink:#06140b;
-    --band:#0f3d24; --band-ink:#ffffff; --band-sub:#cfe6d7; --band-accent:#7fe0a5; --stripe:#e9f5ee;
-    --chip:#1a2a20; --amber:#f0b35c; --amber-soft:#35260f;
+    --bg:#0d1511; --surface:#131e18; --ink:#e6f1ea; --muted:#9fb5a7; --line:#26372d;
+    --accent:#5fcf8b; --accent-soft:#17291f; --accent-ink:#06140b;
+    --band:#131e18; --band-ink:#e6f1ea; --band-sub:#9fb5a7; --band-accent:#5fcf8b; --stripe:#5fcf8b;
+    --chip:#1a2820; --amber:#f0b35c; --amber-soft:#35260f;
     color-scheme: dark;
   }
 }
 :root[data-scheme="vb"][data-theme="dark"]{
-  --bg:#0b130e; --surface:#121d16; --ink:#eaf4ed; --muted:#a6bcae; --line:#27392e;
-  --accent:#4cc47b; --accent-soft:#163323; --accent-ink:#06140b;
-  --band:#0f3d24; --band-ink:#ffffff; --band-sub:#cfe6d7; --band-accent:#7fe0a5; --stripe:#e9f5ee;
-  --chip:#1a2a20; --amber:#f0b35c; --amber-soft:#35260f;
+  --bg:#0d1511; --surface:#131e18; --ink:#e6f1ea; --muted:#9fb5a7; --line:#26372d;
+  --accent:#5fcf8b; --accent-soft:#17291f; --accent-ink:#06140b;
+  --band:#131e18; --band-ink:#e6f1ea; --band-sub:#9fb5a7; --band-accent:#5fcf8b; --stripe:#5fcf8b;
+  --chip:#1a2820; --amber:#f0b35c; --amber-soft:#35260f;
   color-scheme: dark;
 }
+:root[data-scheme="vb"] header.top{border-bottom:1px solid var(--line)}
+:root[data-scheme="vb"] header.top::after{height:4px;background:var(--stripe)}
+:root[data-scheme="vb"] .ghead{background:var(--accent-soft);color:var(--ink)}
+:root[data-scheme="vb"] .ghead p{color:var(--muted)}
+:root[data-scheme="vb"] .sch{border-color:var(--line)}
+:root[data-scheme="vb"] .sch[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+:root[data-scheme="vb"] .sw2{border-color:var(--line)}
+:root[data-scheme="vb"] .tag.p-R{background:var(--accent-soft);color:var(--accent)}
+:root[data-scheme="vb"] .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+:root[data-scheme="vb"] .r-exo{background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent)}
 /* Modo fácil: contraste máximo */
 html.easy{font-size:128%;--tap:56px}
 html.easy:root{--muted:#2e2629;--line:#8c7f82}
@@ -290,6 +300,50 @@ html.easy .item.st-nao{opacity:1}
 .warn{border:2px solid var(--amber);background:var(--amber-soft);color:var(--ink);border-radius:12px;padding:12px 14px;font-size:.95rem}
 .warn[hidden]{display:none}
 
+
+/* Clima */
+.weather{gap:12px}
+.w-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px}
+.w-search{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:end}
+@media (max-width:640px){.w-search{grid-template-columns:1fr 1fr}.w-search .field{grid-column:1/-1}}
+html.easy .w-search{grid-template-columns:1fr}
+.w-results{display:flex;flex-wrap:wrap;gap:6px}
+.w-results:empty{display:none}
+.w-pre{display:flex;flex-direction:column;gap:6px}
+.w-pre .lbl{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.w-pre .chips{flex-wrap:nowrap;overflow-x:auto}
+@media (min-width:760px){.w-pre .chips{flex-wrap:wrap;overflow:visible}}
+html.easy .w-pre .chips{flex-wrap:wrap;overflow:visible}
+.w-place{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px}
+.w-place h3{font-size:1.4rem}
+.w-now{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.w-now .cell{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.w-now .k{font-size:.74rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.w-now .v{font-family:var(--display);font-size:1.45rem;font-weight:700;line-height:1.15}
+.w-now .s{font-size:.8rem;color:var(--muted)}
+.w-best{border-left:5px solid var(--accent);background:var(--accent-soft);border-radius:10px;padding:10px 12px;font-size:.95rem}
+.w-days{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+html.easy .w-days{grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.wd{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.wd.today{border-color:var(--ink);border-width:2px}
+.wd .top{display:flex;justify-content:space-between;align-items:baseline;gap:6px}
+.wd .day{font-weight:800}
+.wd .cond{font-size:.88rem;color:var(--muted)}
+.wd .temps{font-family:var(--display);font-size:1.35rem;font-weight:700}
+.wd ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px;font-size:.88rem}
+.wd li b{font-weight:700}
+.score{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.dots{display:inline-flex;gap:3px}
+.dots i{width:11px;height:11px;border-radius:50%;background:var(--chip);border:1px solid var(--line)}
+.dots i.on{background:var(--accent);border-color:var(--accent)}
+.score .lb{font-weight:800;font-size:.9rem}
+.why{font-size:.8rem;color:var(--muted)}
+.warnline{color:var(--amber);font-weight:700;font-size:.85rem}
+.w-chart{width:100%;max-width:760px;height:auto;display:block}
+.w-chart text{fill:var(--muted);font-size:11px;font-family:var(--body)}
+.w-tips{font-size:.9rem}
+.w-tips summary{cursor:pointer;font-weight:700}
+.w-tips ul{margin:6px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
 /* Seletor de cores */
 .schemes{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .slbl{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--band-sub)}
@@ -372,6 +426,23 @@ html.easy .item.st-nao{opacity:1}
     </div>
   </div>
 
+  <section class="panel weather" id="clima" aria-labelledby="clima-h">
+    <div class="w-head">
+      <h2 id="clima-h">Clima no local da pescaria</h2>
+      <span class="small muted" id="wSrc">Previsão de 7 dias do Open-Meteo</span>
+    </div>
+    <form class="w-search" id="wForm" role="search">
+      <label class="field" for="wq">Cidade, represa ou rio
+        <input id="wq" placeholder="ex.: Santa Helena, Guaratuba, Avaré" autocomplete="off">
+      </label>
+      <button class="btn primary" type="submit">Buscar</button>
+      <button class="btn" type="button" id="wGeo">Usar minha localização</button>
+    </form>
+    <div class="w-results" id="wRes" aria-live="polite"></div>
+    <div class="w-pre"><span class="lbl">Pesqueiros conhecidos</span><div class="chips" id="wPre" role="group" aria-label="Locais prontos"></div></div>
+    <div id="wOut" aria-live="polite"><p class="guide-empty">Escolha um local para ver chuva, vento, sol, temperatura, pressão e lua, com a nota de pesca de cada dia.</p></div>
+  </section>
+
   <div class="layout">
   <aside class="controls" aria-label="Filtros">
     <div class="crow"><span class="lbl">Peixe</span><div class="chips" id="fFish" role="group" aria-label="Quais peixes você vai pescar (pode escolher mais de um)"></div></div>
@@ -423,11 +494,12 @@ html.easy .item.st-nao{opacity:1}
       <li><b>Ordenar pelo menor preço</b> às vezes mostra peças avulsas. Confira foto, título e medidas antes de comparar.</li>
       <li>Para pescar legalmente você precisa da <a href="https://www.gov.br/pt-br/servicos/solicitar-licenca-de-pescador-amador-ou-esportivoo">Licença de Pesca Amadora no gov.br</a>.</li>
     </ul>
-    <p class="small muted" style="margin:0">As figuras de cada item são ilustrações. Toque em “Ver fotos” para ver fotos reais. Preços com “≈” são referências de novembro de 2026 tiradas de anúncios e comparadores; o preço muda todo dia.</p>
+    <p class="small muted" style="margin:0">As figuras de cada item são ilustrações. Toque em “Ver fotos” para ver fotos reais. Preços com “≈” são referências tiradas de anúncios e comparadores e são revisados toda semana; o preço muda todo dia.</p>
   </section>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+<script type="application/json" id="catalogo-embutido">{"tiers":{"vara-carr":{"b":[["Lumis Ibiza 1,80 m 25 lb","≈R$ 130"],["Saint Lancer 1,73 m 17 lb","≈R$ 185"],["Lumis Intense 1,68 m 6–17 lb","≈R$ 230"]],"m":[["Marine Sports Zest Fox 1,68 m 17 lb","≈R$ 270"],["Marine Sports Evolution 17 lb","≈R$ 290"],["Daiwa Laguna 1,83 m 10–25 lb","≈R$ 380"],["Marine Sports Venza C571M 10–20 lb","≈R$ 410"],["Saint Hammer 581BC 10–25 lb","≈R$ 500"],["Rapala Tonren 1,73 m 17–25 lb","≈R$ 316"]],"a":[["Shimano Sellus 1,73 m 25 lb","≈R$ 600–690"],["Saint 25 Anos 1,83 m 17 lb","≈R$ 880"],["Albatroz Enzo Premium 1,80 m 8–17 lb","≈R$ 1.200"],["Lumis Provoker 1,80 m 25 lb","≈R$ 1.490"],["Marine Sports Venator 1,73 m 12–17 lb","≈R$ 1.290"]]},"vara-mol":{"b":[["Albatroz Viper 602 1,83 m 8–17 lb","≈R$ 170"],["Marine Sports Evolution micro S511L 1,55 m 8–15 lb","≈R$ 220"]],"m":[["Marine Sports Venza S571ML 17 lb molinete","≈R$ 350"],["Marine Sports Venza S571MH 30 lb molinete","≈R$ 385"]],"a":[["Shimano Saguaro Spinning","consulte"],["Shimano Nasci Spinning vara","consulte"]]},"vara-pesada":{"b":[["Albatroz Bicuda 2,40 m 15–30 lb molinete","≈R$ 180"],["Albatroz Albacora 2,40 m 20–50 lb","≈R$ 250"]],"m":[["Marine Sports Evolution GT2 1,83 m 40–80 lb molinete","≈R$ 380"],["Saint Classic IM10 2,40 m 20–50 lb","≈R$ 415"],["Marine Sports Evolution GT 1,83 m 20–60 lb carretilha","≈R$ 490"],["Marine Sports Evolution G3 S601H 1,83 m 20–40 lb","≈R$ 315"]],"a":[["Saint 25 Anos 2,40 m 50 lb","≈R$ 1.430"]]},"carretilha":{"b":[["Saint Plus Voxxi CC3","≈R$ 120"],["Albatroz Krait BG","≈R$ 300"],["Marine Sports Ventura VT10","≈R$ 335–420"],["Albatroz Évora","≈R$ 116"],["Albatroz S22","≈R$ 210"]],"m":[["Maruri Naja Carbon","≈R$ 680"],["Shimano Caius 150 HG","≈R$ 750–950"],["Marine Sports Titan Pro 2 12000","≈R$ 510"]],"a":[["Daiwa Tatula TW 100","≈R$ 1.050–1.250"],["Shimano Curado M 150","≈R$ 1.400–1.500"],["Shimano SLX A 150 HG","≈R$ 1.600"]]},"molinete":{"b":[["Marine Sports Elite 3000 FD","≈R$ 80–110"],["Maruri Kyuu Full Spin 3000","≈R$ 120"],["Shimano FX 2500 FC","≈R$ 190–260"]],"m":[["Shimano Sienna FG 2500","≈R$ 490"],["Daiwa Laguna LT 3000","≈R$ 530"],["Daiwa Revros LT 2500","≈R$ 680"],["Maruri Contest Black 3000","≈R$ 495"]],"a":[["Shimano Sedona FJ 2500","≈R$ 1.000+"],["Shimano Sahara FJ 2500","≈R$ 1.150+"]]},"molinete-peq":{"b":[["Marine Sports Elite 2000 FD","≈R$ 105"],["Shimano FX 1000 FC","consulte"],["Marine Sports Serena 1000","≈R$ 80"]],"m":[["Daiwa Laguna LT 2000","consulte"],["Maruri Black Cracker 1000","≈R$ 225–275"]],"a":[["Shimano Sedona FJ 1000","≈R$ 1.000+"]]},"reel-forte":{"b":[["Maruri Magnum Delux 4000","≈R$ 170"],["Shimano FX 4000 FC","≈R$ 190–360"],["Marine Sports Serena 5000","≈R$ 160"]],"m":[["Daiwa Sweepfire 4000","≈R$ 390"],["Marine Sports Black Max 20 carretilha","≈R$ 725"],["Marine Sports Venza 5000","≈R$ 320–330"],["Maruri Black Cracker 4000","≈R$ 345"]],"a":[["Shimano Sedona FI 6000","≈R$ 1.380"],["Daiwa BG 5000","≈R$ 1.460"]]},"multi":{"b":[["Sougayilang multifilamento 8 fios 300m","≈R$ 40–80"],["Fishermans multifilamento 8 fios","≈R$ 40–80"]],"m":[["Daiwa J-Braid X8 150m","≈R$ 120–180"],["Power Pro multifilamento 135m","≈R$ 100–170"]],"a":[["Sufix 832 multifilamento","≈R$ 180+"],["Daiwa J-Braid Grand X8","≈R$ 200+"]]},"zara":{"b":[["CMIK Zig Zara 804","≈R$ 26–36"],["Voxxi Zara 10 cm VC1","≈R$ 42"]],"m":[["Nelson Nakamura Zig Zarinha 90","≈R$ 40–60"],["Nelson Nakamura Sará Sará 100","≈R$ 50–75"],["Yara Mad Dog 9 cm","≈R$ 45–60"],["Borboleta Trick Stick 7,5 cm","≈R$ 68"],["Nelson Nakamura Zarinha Baby 80","≈R$ 44"]],"a":[["Borboleta Zazari 11 cm","≈R$ 109"],["Lori-M 105 zara","≈R$ 118–170"],["Moriah Zumba 125","≈R$ 150"]]},"helice":{"b":[["Isca de madeira tubarão com hélice","≈R$ 19–50"],["Maruri Indiana 80H hélice","≈R$ 55"]],"m":[["Nelson Nakamura Jet 90 hélice","≈R$ 53–70"],["Yara hélice 9 cm madeira","≈R$ 66"],["Lucky Nelson Nakamura Jet 90","≈R$ 64–70"]],"a":[["Nelson Nakamura Jet 120","≈R$ 66–98"],["Nelson Nakamura Rocket 140","consulte"]]},"meiaagua":{"b":[["Maruri Lambari 70 meia água","≈R$ 24"],["Marine Sports Inna 70","≈R$ 24–46"],["CMIK lambari articulado 855","≈R$ 36"]],"m":[["Marine Sports Rei do Rio 80","≈R$ 50"],["Marine Sports Rei do Rio 95","≈R$ 50–60"],["Marine Sports Brava 90","≈R$ 62"],["Nelson Nakamura Queen 90","≈R$ 43"],["OCL Ziza Shad 90","consulte"],["Marine Sports Savage 85","≈R$ 66"]],"a":[["Nelson Nakamura Sogra 90","≈R$ 53–78"],["Borboleta Juana 140","≈R$ 88"],["Monster 3X Act X 120","≈R$ 95"]]},"iscadourado":{"m":[["Marine Sports Rei do Rio 120","≈R$ 60–75"],["Lucky Nelson Nakamura Borá 14 cm","consulte"]],"a":[["Borboleta Juana 140","≈R$ 88"],["Monster 3X Dance 125 sinking","≈R$ 102"]]},"crank":{"b":[["Matadeira crank raso","≈R$ 51"],["Marine Sports Beat Crank 45","≈R$ 50"]],"m":[["Lori Laker 55","consulte"]],"a":[["Lori Face 65 spin tail (3 un.)","≈R$ 220"]]},"sapo":{"b":[["Kit 5 sapinhos anti enrosco 4,5 cm","≈R$ 27"],["Maruri Sapo Max Frog","≈R$ 34"],["CMIK kit 5 sapinhos 80154","≈R$ 57"],["Albatroz Topfrog 6 cm","≈R$ 24"]],"m":[["Matadeira Monster.Z 60 sapinho","≈R$ 28–58"],["Monster 3X Baby Toad 9 cm (2 un.)","≈R$ 49"]],"a":[["Monster 3X Big Toad 11,5 cm (2 un.)","≈R$ 57"],["Kit 3 Matadeira Monster Frog","≈R$ 73–140"]]},"soft":{"b":[["Kit isca silicone realista tucunaré","≈R$ 15–20"]],"m":[["Monster 3X X-Tail (3 un.)","≈R$ 27"],["Monster 3X Rip Tail 13,5 cm (3 un.)","≈R$ 30"],["Monster 3X Paddle Frog (2 un.)","≈R$ 40"]],"a":[["Monster 3X E-Shad 12 cm (5 un.)","≈R$ 76"],["Monster 3X Amazon Shad Eduardo Monteiro","consulte"]]},"camarao":{"b":[["Monster 3X camarão Ultrasoft 9 cm","≈R$ 16"]],"m":[["Kit 10 camarões de silicone aromatizado","consulte"]]},"jig":{"b":[["Lori Jig M 12 g","≈R$ 13–18"]],"m":[["Yara Killer jig 10 g","consulte"]]},"spinner":{"b":[["Spinnerbait genérico 10 g","≈R$ 20"]],"m":[["Yara King Spinner 26 g anti enrosco","consulte"]],"a":[["Yara Encrenca Spin 9 cm","≈R$ 75"]]},"colete":{"b":[["Colete Ativa Canga Classe III homologado","≈R$ 60"]],"m":[["Colete Jogá Sport Classe V homologado","≈R$ 230"]],"a":[["Colete salva-vidas neoprene Classe V homologado","consulte"]]},"mono":{"b":[["Maruri Max Force 300 m","≈R$ 50"],["Marine Sports Super Raiglon","≈R$ 32–38"]],"m":[["Marine Sports Super Bass Soft 250 m","≈R$ 59"],["Maruri Black Tamba 300 m","≈R$ 50–75"],["Marine Sports Laiglon 600 m","≈R$ 70"]],"a":[["Daiwa BF Nylon 300 m","consulte"],["Sufix Superior","consulte"]]},"multi-forte":{"b":[["Sougayilang 8 fios 50 lb 300 m","≈R$ 60–90"]],"m":[["Daiwa J-Braid X8 50 lb","≈R$ 150–220"],["Power Pro 50 lb","≈R$ 150–200"]],"a":[["Sufix 832 50 lb","≈R$ 220+"]]},"fluor":{"b":[["Crown Fiber Leader 50 m","≈R$ 32"],["Marine Sports Vexter Leader","≈R$ 46"]],"m":[["Daiwa FC Leader","consulte"],["Berkley Trilene Fluorocarbon","consulte"]],"a":[["Seaguar FXR / Ace 50 m","consulte"],["Sufix Invisiline","consulte"]]},"aco":{"b":[["Encastoado com snap (kit 10–20 un.)","≈R$ 15–30"]],"m":[["Marine Sports cabo de aço 10 m (para montar)","consulte"],["Aprazível anzol encastoado com girador","≈R$ 13"]],"a":[["Maruri fio de aço revestido","consulte"]]},"girador":{"b":[["Maruri girador black (10 un.)","≈R$ 8–13"],["Snap com girador Marine (30 un.)","≈R$ 25–35"]],"m":[["Maruri snap giratório (10 un.)","≈R$ 16–24"],["Marine Sports girador BBS gold (50 un.)","consulte"]],"a":[["Owner snap e girador","consulte"]]},"snap":{"b":[["Xingu snap inox (10 un.)","≈R$ 18"],["Summer snap argola (10 un.)","≈R$ 17"]],"m":[["Marine Sports Quick Lock (20 un.)","≈R$ 16–25"],["Matadeira Super Force (10 un.)","≈R$ 16"]],"a":[["Owner snap reforçado","consulte"]]},"garateia":{"b":[["Marine Sports garateia","consulte"]],"m":[["Mustad garateia","consulte"]],"a":[["Owner ST-36 garateia","consulte"],["VMC garateia 4X","consulte"]]},"offset":{"b":[["Crown Offset EWG 1/0–2/0 (5 un.)","≈R$ 7–32"]],"m":[["Gamakatsu Worm Offset EWG (6 un.)","≈R$ 27–36"],["Crown Offset EWG 4/0–6/0 (5 un.)","≈R$ 41–42"]],"a":[["Crown Offset EWG lastreado (5 un.)","≈R$ 46–69"]]},"jighead":{"m":[["Crown jig head offset EWG 9 g (5 un.)","≈R$ 49"],["Jig head facetado 20 g (10 un.)","≈R$ 68"]]},"anzol-peq":{"b":[["Albatroz Octopus Beak nº 10 (30 un.)","≈R$ 11"],["Marine Sports Maruseigo (25 un.)","≈R$ 24"]],"m":[["Crown Iseama / Koiso (10 un.)","≈R$ 17–21"],["Mustad Beak Baitholder (50 un.)","≈R$ 29"]],"a":[["Gamakatsu Tinu / Octopus (cartela)","≈R$ 17–32"]]},"anzol-med":{"b":[["Marine Sports Chinu black nickel (100 un.)","≈R$ 32–46"],["Marine Sports 12147 4/0 (50 un.)","≈R$ 33"]],"m":[["Crown Chinu black nº 9 (10 un.)","≈R$ 20"],["Mustad Beak Baitholder 3/0 (100 un.)","≈R$ 60"]],"a":[["Gamakatsu Octopus / Shiner 1/0–3/0 (6 un.)","≈R$ 17–33"],["Owner 5111","consulte"]]},"anzol-gr":{"b":[["Marine Sports Live Bait 7/0 (10 un.)","≈R$ 63"]],"m":[["Crown In Line Circle 9/0 (6 un.)","≈R$ 49"]],"a":[["Owner 5111 SSW 9/0 (3 un.)","≈R$ 110"]]},"lipgrip":{"b":[["Keep Life alicate de contenção 24 cm","≈R$ 12–19"],["Maruri pega peixe ABS 16 cm","≈R$ 41–44"]],"m":[["Albatroz JYQ-026","≈R$ 68–71"],["MKI pega peixe com balança 12 kg","≈R$ 76"]],"a":[["Albatroz JYQ-025 com balança 15 kg","≈R$ 85–185"],["Marine Sports Boga Grip","≈R$ 220"]]},"alicate":{"b":[["Marine Sports SRP-165 bico longo","≈R$ 54"]],"m":[["Marine Sports PL15C","≈R$ 65"],["Lotus Plus bico longo 23 cm","≈R$ 73"]],"a":[["Albatroz encastoador QZ1009","≈R$ 145"],["Rapala alicate de pescador","consulte"]]},"estojo":{"b":[["Albatroz HZ005 dupla face","≈R$ 33"],["Marine Sports MPB Pocket Box","≈R$ 39"]],"m":[["Marine Sports Tackle Box 315 (20 div.)","≈R$ 66–72"],["Albatroz H548 impermeável","≈R$ 73"]],"a":[["Marine Sports MWR270 vedada","≈R$ 71–90"],["Albatroz H547 impermeável 23 div.","≈R$ 179–198"]]},"bolsa":{"b":[["EP Fishing Golden M","≈R$ 101"],["Albatroz pochete LYB-028","≈R$ 170"]],"m":[["Albatroz mochila BSA-020","≈R$ 194"],["EBF bolsa de apetrechos","≈R$ 205–310"]],"a":[["Pesca Brasil Fishing Bag com 3 estojos","≈R$ 360–515"],["Shimano BackPack XL com 4 estojos","≈R$ 1.400"]]},"termica":{"b":[["Soprano Tropical 12 L","≈R$ 54–58"],["Bel 12 L","≈R$ 53–60"]],"m":[["Termolar SUV 20 L","≈R$ 72–112"],["Mor 12 L","≈R$ 60"]],"a":[["Coleman Excursion 16 QT 15 L","≈R$ 225"],["Coleman Personal 26,5 L","consulte"]]},"cadeira":{"b":[["Mini banqueta dobrável","≈R$ 23–53"]],"m":[["Cadeira dobrável com porta-copo e bolsa (Idea)","≈R$ 64"],["Cadeira alumínio Karibu","≈R$ 152"]],"a":[["Nautika Azteq Osho","≈R$ 259"]]},"suporte":{"b":[["Suporte de vara barranco 19 cm","≈R$ 23"],["Suporte fixo para vara telescópica","≈R$ 20"]],"m":[["Suporte triplo com reforço","≈R$ 59–65"]],"a":[["Suporte retrátil 1,90 m","≈R$ 135"]]},"lanterna":{"b":[["Lanterna de cabeça LED recarregável USB","consulte"]],"m":[["Nautika lanterna de cabeça","consulte"]],"a":[["Petzl Tikka / Actik","consulte"],["Black Diamond Spot 400","consulte"]]},"oculos":{"b":[["Óculos polarizado com estojo","consulte"]],"m":[["Marine Sports óculos polarizado","consulte"],["Rapala óculos polarizado","consulte"]],"a":[["Mormaii polarizado","consulte"]]}},"items":[{"id":"vara-carr","cat":"varas","ic":"rod","prio":"E","qty":1,"fish":["tuc","tra","rob","cor","bass"],"min":170,"max":350,"name":"Vara para carretilha 1,68–1,83 m, 10–20 lb","spec":"<b>Procure:<\/b> carbono, ação rápida, inteiriça ou 2 partes, iscas de 7 a 21 g. Serve para superfície e meia-água.","q":"vara carretilha 17 lb tucunaré traíra","ph":"vara de pesca para carretilha tucunaré"},{"id":"vara-mol","cat":"varas","ic":"rod","prio":"E","qty":1,"fish":["tuc","tra","rob","cor","pir","jun"],"min":160,"max":350,"name":"Vara para molinete 1,70–1,83 m, 8–17 lb","spec":"<b>Procure:<\/b> passadores grandes, cabo de EVA, ação média-rápida. Boa também para pescar com isca viva.","q":"vara molinete 1,80 8-17 lb tucunaré","ph":"vara de pesca para molinete"},{"id":"vara-leve","cat":"varas","ic":"rod","prio":"E","qty":1,"fish":["bass","til","pia"],"min":120,"max":300,"name":"Vara leve 1,68–2,10 m, 6–14 lb","spec":"<b>Para peixe menor e isca leve:<\/b> sente melhor a beliscada da tilápia e o ataque do bass.","q":"vara molinete 6-14 lb ultra light","ph":"vara de pesca ultra light"},{"id":"vara-pesada","cat":"varas","ic":"rod","prio":"E","qty":1,"fish":["dou","pin","pac","tamb","car"],"min":180,"max":500,"name":"Vara pesada 1,80–2,40 m, 20–50 lb","spec":"<b>Para peixe grande e briga longa:<\/b> dourado, pintado, pacu, tambaqui e carpa. Combine com molinete 4000+ ou carretilha forte.","q":"vara pesca 20-50 lb pesqueiro","ph":"vara de pesca pesada pesqueiro"},{"id":"vara-mao","cat":"varas","ic":"rod","prio":"E","qty":1,"fish":["lam","til"],"min":30,"max":120,"name":"Vara de mão ou telescópica 3–4,5 m","spec":"<b>Sem molinete:<\/b> linha amarrada na ponta. A forma mais simples e barata de pegar lambari e tilápia na beira.","q":"vara telescópica 3,60 m pesca","ph":"vara telescópica de mão pesca"},{"id":"carretilha","cat":"reels","ic":"bait","prio":"E","qty":1,"fish":["tuc","tra","rob","cor","bass"],"min":150,"max":420,"name":"Carretilha perfil baixo","spec":"<b>Procure:<\/b> relação 7.x:1, drag a partir de 5 kg, freio magnético ou centrífugo, 5+ rolamentos. Escolha o lado da manivela (destro costuma usar esquerda).","q":"carretilha perfil baixo 7.1 drag 5kg","ph":"carretilha perfil baixo pesca"},{"id":"molinete","cat":"reels","ic":"spin","prio":"E","qty":1,"fish":["tuc","tra","rob","cor","pir","jun","pia"],"min":120,"max":300,"name":"Molinete 2500 a 3000","spec":"<b>Procure:<\/b> carretel de alumínio, drag de 5 kg ou mais, 3+ rolamentos. É o tamanho mais versátil.","q":"molinete 3000 drag 5kg pesca tucunaré","ph":"molinete de pesca 3000"},{"id":"molinete-peq","cat":"reels","ic":"spin","prio":"E","qty":1,"fish":["til","bass","pia"],"min":70,"max":250,"name":"Molinete pequeno 1000 a 2000","spec":"<b>Leve e equilibrado<\/b> com vara leve. Use linha 0,20–0,25 mm ou multi fina.","q":"molinete 2000 pesca leve","ph":"molinete 2000 pesca"},{"id":"reel-forte","cat":"reels","ic":"spin","prio":"E","qty":1,"fish":["dou","pin","pac","tamb","car"],"min":170,"max":750,"name":"Molinete 4000–6000 ou carretilha perfil alto","spec":"<b>Muita linha e fricção forte<\/b> para segurar peixe grande em correnteza ou no pesqueiro.","q":"molinete 5000 drag 10kg","ph":"molinete 5000 pesca pesada"},{"id":"multi","cat":"linhas","ic":"spool","prio":"E","qty":2,"fish":["tuc","tra","rob","cor","bass"],"min":40,"max":120,"name":"Linha multifilamento 8 fios 20–30 lb (150 m)","spec":"<b>Uma bobina para cada equipamento<\/b> (ou uma de 300 m dividida). Cerca de 0,20–0,28 mm.","q":"linha multifilamento 8 fios 0,23 150m","ph":"linha multifilamento pesca bobina"},{"id":"multi-forte","cat":"linhas","ic":"spool","prio":"E","qty":1,"fish":["dou","pin","tamb"],"min":60,"max":180,"name":"Multifilamento forte 40–60 lb (150–300 m)","spec":"<b>Para peixe grande e correnteza.<\/b> Cerca de 0,30–0,40 mm.","q":"linha multifilamento 50 lb 300m","ph":"linha multifilamento 50 lb"},{"id":"mono","cat":"linhas","ic":"spool","prio":"E","qty":1,"fish":["til","pac","pia","car","jun","lam","tamb"],"min":20,"max":60,"name":"Linha monofilamento (nylon) 0,20–0,40 mm","spec":"<b>A mais usada com isca natural.<\/b> 0,20 mm para lambari e tilápia, 0,30 mm para piapara e carpa, 0,40 mm para pacu e tambaqui.","q":"linha monofilamento pesca 0,30mm","ph":"linha de nylon pesca"},{"id":"fluor","cat":"linhas","ic":"spool","prio":"E","qty":1,"fish":["tuc","rob","cor","bass","dou"],"min":35,"max":90,"name":"Fluorcarbono para líder 30–40 lb","spec":"<b>Use<\/b> 50 a 80 cm na ponta da multi. Resiste à abrasão de pau e pedra e quase some na água.","models":"Bobinas de 50 m rendem muitos líderes.","q":"linha fluorcarbono 40 lb líder pesca","ph":"linha fluorcarbono pesca"},{"id":"aco","cat":"linhas","ic":"leader","prio":"E","qty":1,"fish":["tra","dou","pir"],"min":15,"max":40,"name":"Líder de aço / encastoado (kit)","spec":"<b>Para peixe com dente:<\/b> traíra, dourado e piranha cortam até fluorcarbono. Encastoado pronto com snap, 15 a 25 cm, 30–50 lb.","models":"Kits de 10 a 20 unidades costumam sair mais barato.","q":"encastoado aço pesca traíra kit snap","ph":"encastoado de aço pesca"},{"id":"girador","cat":"terminais","ic":"swivel","prio":"E","qty":1,"all":true,"min":12,"max":35,"name":"Girador com snap (kit)","spec":"<b>É o que evita a linha torcer e enrolar.<\/b> Tamanhos 2 a 6. Serve para qualquer pescaria, com isca natural ou artificial.","models":"Kit com 50 peças sortidas cobre tudo.","q":"girador com snap kit pesca","ph":"girador com snap pesca"},{"id":"snap","cat":"terminais","ic":"snap","prio":"R","qty":1,"fish":["tuc","tra","rob","cor","bass","dou"],"min":10,"max":25,"name":"Snap clip sem girador (kit)","spec":"<b>Para iscas de superfície e meia-água:<\/b> não atrapalha o nado como o girador. Troca de isca rápida.","q":"snap clip pesca isca artificial kit","ph":"snap clip pesca"},{"id":"garateia","cat":"terminais","ic":"treble","prio":"R","qty":1,"fish":["tuc","tra","rob","cor","bass","dou"],"min":20,"max":50,"name":"Garateias e argolas de reposição","spec":"<b>Garateia<\/b> nº 2 a 6 e argola (split ring). Troque as das iscas baratas, que costumam abrir no tranco.","q":"garateia pesca kit argola split ring","ph":"garateia de pesca"},{"id":"offset","cat":"terminais","ic":"hook","prio":"E","qty":1,"fish":["tra","tuc","bass","rob"],"min":15,"max":35,"name":"Anzóis com anti-enrosco (offset / EWG) 2/0–4/0","spec":"<b>Para soft bait e sapo:<\/b> a ponta fica escondida na isca e passa pelo mato sem enroscar.","q":"anzol offset ewg anti enrosco 3/0","ph":"anzol offset ewg"},{"id":"jighead","cat":"terminais","ic":"jig","prio":"R","qty":1,"fish":["tuc","bass","rob","cor"],"min":15,"max":40,"name":"Anzóis sem anti-enrosco (jig head 7–14 g)","spec":"<b>Para shad e minhoca<\/b> em água aberta e no fundo. Fisga melhor que o offset quando não tem mato.","q":"jig head 10g kit pesca","ph":"jig head pesca"},{"id":"anzol-peq","cat":"terminais","ic":"hook","prio":"E","qty":1,"fish":["til","lam","pia"],"min":10,"max":25,"name":"Anzóis pequenos nº 8 a 20","spec":"<b>Boca pequena, anzol pequeno:<\/b> nº 16–20 para lambari, nº 10–14 para tilápia, nº 8–10 para piapara.","q":"anzol pequeno pesca tilápia lambari kit","ph":"anzol pequeno pesca"},{"id":"anzol-med","cat":"terminais","ic":"hook","prio":"E","qty":1,"fish":["pac","tamb","car","jun","cor","pir"],"min":15,"max":35,"name":"Anzóis médios reforçados 1/0 a 4/0","spec":"<b>Para isca natural e massa<\/b> com peixe de boca forte: pacu, tambaqui, carpa, bagre e piranha.","q":"anzol 2/0 reforçado pesca","ph":"anzol 2/0 pesca"},{"id":"anzol-gr","cat":"terminais","ic":"hook","prio":"E","qty":1,"fish":["pin","dou"],"min":20,"max":45,"name":"Anzóis grandes circle 5/0 a 8/0","spec":"<b>Para isca viva grande:<\/b> o circle fisga no canto da boca e facilita a soltura.","q":"anzol circle 6/0","ph":"anzol circle 6/0"},{"id":"chumbo","cat":"terminais","ic":"sinker","prio":"E","qty":1,"fish":["til","lam","pac","pia","car","jun","pin","tamb","tra"],"min":15,"max":35,"name":"Chumbadas e boias (kit sortido)","spec":"<b>Chumbada oliva ou de fundo<\/b> para levar a isca até o peixe; <b>boia<\/b> para isca em meia-água e para ver a beliscada.","q":"chumbada oliva boia pesca kit","ph":"chumbada oliva e boia pesca"},{"id":"chuveirinho","cat":"terminais","ic":"treble","prio":"R","qty":2,"fish":["car","til","pia","tamb"],"min":10,"max":30,"name":"Chuveirinho para massa","spec":"<b>Mola com vários anzóis<\/b> que segura a massa no fundo. Clássico para carpa e tilápia.","q":"chuveirinho pesca carpa","ph":"chuveirinho pesca"},{"id":"zara","cat":"iscas","ic":"stick","prio":"E","qty":2,"fish":["tuc","tra","rob","bass"],"min":30,"max":70,"name":"Zara / stick de superfície 9–11 cm","spec":"<b>Zigue-zague na superfície.<\/b> Clássica para tucunaré e traíra em água calma. Leve uma clara e uma escura.","q":"isca zara superfície tucunaré traíra","ph":"isca artificial zara superfície"},{"id":"helice","cat":"iscas","ic":"prop","prio":"E","qty":2,"fish":["tuc"],"min":30,"max":75,"name":"Isca de hélice (simples ou dupla)","spec":"<b>Faz barulho e espirra água:<\/b> chama o tucunaré de longe. Trabalhe com puxadas e pausas.","q":"isca hélice tucunaré","ph":"isca artificial hélice tucunaré"},{"id":"popper","cat":"iscas","ic":"popper","prio":"R","qty":1,"fish":["tuc","tra","bass","rob"],"min":20,"max":50,"name":"Popper 6–9 cm","spec":"<b>“Estala” na superfície.<\/b> Bom quando o peixe está batendo mas não pega a zara.","models":"Kits de 4 poppers são comuns e baratos.","q":"isca popper superfície tucunaré traíra","ph":"isca popper pesca"},{"id":"meiaagua","cat":"iscas","ic":"minnow","prio":"E","qty":2,"fish":["tuc","tra","rob","cor"],"min":25,"max":65,"name":"Meia-água (minnow / jerkbait) 8–10 cm","spec":"<b>Para quando o sol esquenta<\/b> e o peixe desce. Trabalhe com toques de ponta de vara. A Rei do Rio é das mais usadas no Brasil.","q":"isca meia água minnow 9cm tucunaré","ph":"isca Marine Sports Rei do Rio"},{"id":"iscadourado","cat":"iscas","ic":"minnow","prio":"E","qty":2,"fish":["dou"],"min":60,"max":100,"name":"Meia-água grande 12–15 cm, reforçada","spec":"<b>Para dourado:<\/b> corpo maciço e garateia forte, porque a boca dele esmaga isca fraca.","q":"isca meia água 12cm dourado","ph":"isca artificial dourado meia água"},{"id":"crank","cat":"iscas","ic":"minnow","prio":"R","qty":1,"fish":["bass","tuc","tra"],"min":25,"max":75,"name":"Crankbait pequeno 5–7 cm","spec":"<b>Mergulha e vibra<\/b> ao recolher. Muito usado para black bass em pedra e galhada.","q":"isca crankbait 6cm","ph":"isca crankbait"},{"id":"sapo","cat":"iscas","ic":"frog","prio":"E","qty":1,"fish":["tra","bass"],"min":30,"max":75,"name":"Sapo anti-enrosco (kit 3–5)","spec":"<b>A isca da traíra no mato:<\/b> passa por cima de vegetação e aguapé sem enroscar.","q":"isca sapo anti enrosco traíra","ph":"isca sapo frog traíra"},{"id":"soft","cat":"iscas","ic":"soft","prio":"E","qty":1,"fish":["tuc","tra","bass","rob","cor"],"min":20,"max":50,"name":"Soft bait: shad e minhoca (kit)","spec":"<b>Use com anzol offset ou jig head.<\/b> Versátil e barata, ótima para dias difíceis.","q":"isca soft shad silicone kit tucunaré","ph":"isca soft shad pesca"},{"id":"camarao","cat":"iscas","ic":"soft","prio":"E","qty":1,"fish":["rob","cor","tuc"],"min":15,"max":45,"name":"Camarão artificial de silicone","spec":"<b>A isca número um do robalo<\/b> e ótima para corvina. Trabalhe devagar, perto do fundo.","q":"camarão artificial silicone pesca robalo","ph":"camarão artificial pesca"},{"id":"jig","cat":"iscas","ic":"jig","prio":"R","qty":2,"fish":["cor","dou","rob","tuc"],"min":13,"max":40,"name":"Jig 10–20 g","spec":"<b>Para pescar no fundo e em correnteza:<\/b> solte até o fundo e dê toques de ponta de vara.","q":"isca jig 12g pesca","ph":"isca jig pesca"},{"id":"spinner","cat":"iscas","ic":"spinner","prio":"R","qty":1,"fish":["tra","tuc","bass"],"min":20,"max":75,"name":"Spinnerbait / spinner anti-enrosco","spec":"<b>Atravessa galhada e mato<\/b> com pouco enrosco. Boa em água turva por causa do brilho e da vibração.","q":"spinnerbait pesca traíra","ph":"spinnerbait isca"},{"id":"colher","cat":"iscas","ic":"spoon","prio":"O","qty":1,"fish":["tra","dou"],"min":15,"max":35,"name":"Colher anti-enrosco (weedless)","spec":"<b>Rasante sobre vegetação<\/b>, boa para traíra. Use com girador para não torcer a linha.","q":"colher anti enrosco pesca traíra","ph":"isca colher anti enrosco"},{"id":"massa","cat":"naturais","ic":"bucket","prio":"E","qty":1,"fish":["til","pac","tamb","car","pia","lam"],"min":15,"max":50,"name":"Massa pronta, ração e milho","spec":"<b>A base da pesca em pesqueiro e represa.<\/b> Ração flutuante para pacu e tambaqui, massa e milho para tilápia, carpa e piapara.","q":"massa pronta pesca tilápia carpa","ph":"massa de pesca pronta"},{"id":"ceva","cat":"naturais","ic":"bucket","prio":"R","qty":1,"fish":["pia","til","car"],"min":15,"max":40,"name":"Ceva (milho, quirera ou farelo)","spec":"<b>Joga no ponto antes de pescar<\/b> para juntar o cardume. Confira se o local permite cevar.","q":"ceva pesca piapara tilápia","ph":"ceva para pesca"},{"id":"minhoca","cat":"naturais","ic":"soft","prio":"R","qty":1,"fish":["jun","pin","til","lam","tra"],"min":10,"max":40,"name":"Minhoca ou minhocuçu","spec":"<b>Isca natural que pega quase tudo<\/b> no fundo. Costuma ser comprada na loja de isca perto do rio.","q":"minhocuçu isca pesca","ph":"minhocuçu isca"},{"id":"peneira","cat":"tuvira","ic":"net","prio":"O","qty":1,"fish":["tra","pin","dou","cor","tuc"],"min":30,"max":90,"name":"Peneira ou puçá para pegar tuvira e lambari","spec":"<b>Tuvira fica no brejo e na vegetação da margem.<\/b> Peneira de tela fina ou puçá de cabo.","q":"puçá pesca isca viva malha fina","ph":"puçá de pesca"},{"id":"viveiro","cat":"tuvira","ic":"bucket","prio":"O","qty":1,"fish":["tra","pin","dou","cor","tuc"],"min":40,"max":120,"name":"Balde ou viveiro com aerador a pilha","spec":"<b>Mantém a isca viva<\/b> durante a pescaria. O aerador faz toda a diferença.","q":"aerador oxigenador a pilha isca viva balde","ph":"balde viveiro isca viva aerador"},{"id":"anzolvivo","cat":"tuvira","ic":"hook","prio":"O","qty":1,"fish":["tra","cor","tuc"],"min":15,"max":30,"name":"Anzóis para isca viva 1/0 a 3/0","spec":"<b>Wide gap ou circle:<\/b> fisga no canto da boca e machuca menos para soltar.","q":"anzol wide gap 2/0 isca viva","ph":"anzol circle wide gap"},{"id":"lipgrip","cat":"ferramentas","ic":"lipgrip","prio":"E","qty":1,"all":true,"min":25,"max":70,"name":"Alicate de contenção (lip grip)","spec":"<b>Segura a boca do peixe<\/b> sem pôr a mão nos dentes nem nos espinhos. Prefira o de alumínio, que não enferruja.","models":"Muitos já vêm com balança embutida.","q":"alicate contenção pesca lip grip","ph":"alicate de contenção pesca"},{"id":"alicate","cat":"ferramentas","ic":"pliers","prio":"E","qty":1,"all":true,"min":25,"max":80,"name":"Alicate de bico (tirar anzol e abrir argola)","spec":"<b>Bico longo<\/b> para tirar o anzol da boca e ponta de abrir argola.","q":"alicate bico pesca abrir argola","ph":"alicate de bico pesca"},{"id":"tesoura","cat":"ferramentas","ic":"scissors","prio":"R","qty":1,"all":true,"min":10,"max":35,"name":"Tesoura de linha","spec":"<b>Multifilamento não corta com cortador comum.<\/b> Tesoura própria economiza linha e paciência.","q":"tesoura linha multifilamento pesca","ph":"tesoura para linha multifilamento"},{"id":"estojo","cat":"ferramentas","ic":"box","prio":"E","qty":2,"all":true,"min":20,"max":70,"name":"Estojo / caixa organizadora","spec":"<b>Uma para iscas, outra para anzóis, chumbadas e terminais.<\/b> Divisórias removíveis ajudam.","q":"estojo caixa organizadora iscas artificiais","ph":"estojo organizador iscas pesca"},{"id":"bolsa","cat":"ferramentas","ic":"bag","prio":"R","qty":1,"all":true,"min":70,"max":220,"name":"Bolsa ou mochila de pesca","spec":"<b>Leva os estojos, alicates e água.<\/b> Fundo emborrachado não encharca no barranco nem no barco.","q":"bolsa mochila pesca estojos","ph":"bolsa de pesca"},{"id":"capa","cat":"ferramentas","ic":"tube","prio":"O","qty":1,"all":true,"min":25,"max":60,"name":"Capa para vara e carretilha","spec":"<b>Protege no transporte<\/b> de carro ou ônibus.","q":"capa vara pesca neoprene carretilha","ph":"capa protetora vara de pesca"},{"id":"oleo","cat":"ferramentas","ic":"oil","prio":"O","qty":1,"all":true,"min":20,"max":50,"name":"Óleo e graxa para carretilha e molinete","spec":"<b>Uma gota depois de cada pescaria<\/b> evita barulho e ferrugem e faz o equipamento durar anos.","q":"óleo graxa manutenção carretilha molinete","ph":"óleo lubrificante carretilha"},{"id":"oculos","cat":"protecao","ic":"glasses","prio":"R","qty":1,"all":true,"min":40,"max":150,"name":"Óculos polarizado","spec":"<b>Corta o reflexo<\/b> da água e protege de anzol voando no arremesso. Teste na tela do celular: a imagem escurece ao girar.","q":"óculos polarizado pesca","ph":"óculos polarizado pesca"},{"id":"uv","cat":"protecao","ic":"hat","prio":"R","qty":1,"all":true,"min":40,"max":120,"name":"Chapéu com proteção de nuca e camiseta UV","spec":"<b>Sol na beira da água queima rápido.<\/b> Manga longa UV 50+ dispensa reaplicar protetor nos braços.","q":"camiseta uv pesca manga longa","ph":"chapéu pesca proteção nuca"},{"id":"protetor","cat":"protecao","ic":"sun","prio":"R","qty":1,"all":true,"min":30,"max":70,"name":"Protetor solar e repelente","spec":"<b>Mosquito e borrachudo<\/b> aparecem no fim da tarde, que costuma ser a melhor hora de pesca.","q":"repelente protetor solar kit","ph":"repelente e protetor solar"},{"id":"socorros","cat":"protecao","ic":"aid","prio":"R","qty":1,"all":true,"min":25,"max":60,"name":"Kit de primeiros socorros compacto","spec":"<b>Antisséptico, curativo e esparadrapo<\/b> para corte de dente, espinho ou anzol.","q":"kit primeiros socorros pequeno bolsa","ph":"kit primeiros socorros pequeno"},{"id":"fita","cat":"protecao","ic":"ruler","prio":"O","qty":1,"all":true,"min":20,"max":60,"name":"Régua ou fita métrica de peixe","spec":"<b>Para conferir tamanho mínimo<\/b> e registrar o peixe antes de soltar.","q":"régua medir peixe pesca","ph":"régua para medir peixe"},{"id":"lanterna","cat":"util","ic":"lamp","prio":"R","qty":1,"all":true,"min":30,"max":90,"name":"Lanterna de cabeça recarregável","spec":"<b>Mãos livres para dar nó e tirar anzol<\/b> quando escurece. Essencial para pintado e bagre, que são de noite.","q":"lanterna de cabeça recarregável pesca","ph":"lanterna de cabeça pesca"},{"id":"termica","cat":"util","ic":"cooler","prio":"R","qty":1,"all":true,"min":60,"max":200,"name":"Caixa térmica pequena","spec":"<b>Água gelada, lanche e, se a regra permitir, o peixe.<\/b> 12 a 26 litros é um bom tamanho para levar a pé.","q":"caixa térmica 12 litros","ph":"caixa térmica pequena"},{"id":"agua","cat":"util","ic":"bottle","prio":"R","qty":1,"all":true,"min":30,"max":80,"name":"Garrafa térmica de água","spec":"<b>Pelo menos 1 litro por pessoa.<\/b> Sol e calor na beira da água desidratam rápido.","q":"garrafa térmica 1 litro","ph":"garrafa térmica água 1 litro"},{"id":"chuva","cat":"util","ic":"rain","prio":"R","qty":1,"all":true,"min":25,"max":80,"name":"Capa de chuva ou poncho","spec":"<b>Pancada de chuva de verão<\/b> chega rápido na represa. Ocupa pouco espaço na mochila.","q":"capa de chuva poncho impermeável","ph":"poncho capa de chuva"},{"id":"celular","cat":"util","ic":"phone","prio":"R","qty":1,"all":true,"min":15,"max":40,"name":"Capa à prova d'água para celular","spec":"<b>Bolsinha com cordão no pescoço.<\/b> Dá para tirar foto do peixe sem medo de molhar.","q":"capa à prova d'água celular cordão","ph":"capa prova dagua celular"},{"id":"powerbank","cat":"util","ic":"power","prio":"R","qty":1,"all":true,"min":60,"max":150,"name":"Carregador portátil (power bank)","spec":"<b>10.000 mAh carrega o celular duas vezes.<\/b> Importante para GPS e emergência.","q":"power bank 10000mah","ph":"power bank 10000 mah"},{"id":"canivete","cat":"util","ic":"knife","prio":"R","qty":1,"all":true,"min":40,"max":120,"name":"Canivete ou alicate multiuso","spec":"<b>Corta corda, abre embalagem e conserta<\/b> o que soltar no meio da pescaria.","q":"alicate multiuso canivete","ph":"alicate multiuso canivete"},{"id":"lixo","cat":"util","ic":"trash","prio":"R","qty":1,"all":true,"min":10,"max":30,"name":"Sacos de lixo e pano ou toalha","spec":"<b>Leve seu lixo de volta<\/b> e tenha um pano para secar as mãos e segurar o peixe.","q":"saco de lixo resistente rolo","ph":"saco de lixo"},{"id":"balanca","cat":"util","ic":"scale","prio":"O","qty":1,"all":true,"min":20,"max":50,"name":"Balança digital de mão","spec":"<b>Para pesar o peixe<\/b> antes de soltar. Dispensável se o alicate de contenção já tiver balança.","q":"balança digital pesca 50kg","ph":"balança digital de pesca"},{"id":"cadeira","cat":"barranco","where":"bar","ic":"chair","prio":"R","qty":1,"all":true,"min":60,"max":150,"name":"Cadeira ou banqueta dobrável","spec":"<b>Leve e com bolsa de transporte.<\/b> Banqueta ocupa menos espaço; cadeira com encosto cansa menos.","q":"cadeira dobrável pesca","ph":"cadeira dobrável pesca"},{"id":"suporte","cat":"barranco","where":"bar","ic":"holder","prio":"R","qty":2,"all":true,"min":20,"max":60,"name":"Suporte de vara para barranco","spec":"<b>Espeta no chão e segura a vara<\/b> enquanto você troca isca ou espera com isca natural.","q":"suporte vara pesca barranco","ph":"suporte de vara barranco"},{"id":"bota","cat":"barranco","where":"bar","ic":"boot","prio":"R","qty":1,"all":true,"min":60,"max":200,"name":"Bota de borracha ou perneira","spec":"<b>Protege no brejo e no mato alto.<\/b> Perneira ajuda contra picada de cobra.","q":"bota de borracha cano alto","ph":"bota de borracha cano alto"},{"id":"guarda","cat":"barranco","where":"bar","ic":"umbrella","prio":"O","qty":1,"all":true,"min":40,"max":120,"name":"Guarda-sol com ponta para fincar","spec":"<b>Sombra no barranco sem árvore.<\/b> Prefira o com proteção UV e ponta de espetar.","q":"guarda sol pesca ponta","ph":"guarda sol pesca"},{"id":"colete","cat":"barco","where":"emb","ic":"vest","prio":"E","qty":1,"all":true,"min":60,"max":230,"name":"Colete salva-vidas homologado pela Marinha","spec":"<b>Obrigatório em embarcação.<\/b> Classe III serve para rios, lagos e represas. Confira o selo de homologação e a faixa de peso.","q":"colete salva vidas homologado classe III","ph":"colete salva vidas homologado"},{"id":"apito","cat":"barco","where":"emb","ic":"whistle","prio":"R","qty":1,"all":true,"min":10,"max":25,"name":"Apito preso ao colete","spec":"<b>Chama atenção de longe<\/b> se o motor parar ou alguém cair na água.","q":"apito de emergência náutico","ph":"apito de emergência"},{"id":"drybag","cat":"barco","where":"emb","ic":"drybag","prio":"R","qty":1,"all":true,"min":30,"max":90,"name":"Bolsa estanque (dry bag) 10–20 L","spec":"<b>Documento, chave e roupa seca<\/b> não molham nem se o barco virar.","q":"bolsa estanque dry bag 20 litros","ph":"bolsa estanque dry bag"},{"id":"passagua","cat":"barco","where":"emb","ic":"net","prio":"R","qty":1,"all":true,"min":50,"max":150,"name":"Passaguá (rede de embarque)","spec":"<b>Tira o peixe da água sem forçar a linha<\/b> nem a vara. Rede emborrachada machuca menos para soltar.","q":"passaguá rede pesca emborrachada","ph":"passaguá pesca"},{"id":"portavara","cat":"barco","where":"emb","ic":"rodboat","prio":"O","qty":2,"all":true,"min":30,"max":80,"name":"Porta-vara para barco","spec":"<b>Deixa as varas de reserva em pé<\/b> e longe do pé de quem está arremessando.","q":"porta vara barco pesca","ph":"porta vara para barco"},{"id":"ancora","cat":"barco","where":"emb","ic":"anchor","prio":"O","qty":1,"all":true,"min":60,"max":150,"name":"Âncora pequena com corda","spec":"<b>Para ficar parado no ponto<\/b> sem o vento levar o barco. 20 a 30 m de corda.","q":"âncora garatéia barco pequeno corda","ph":"âncora garatéia barco"},{"id":"licenca","cat":"docs","ic":"doc","prio":"E","qty":1,"all":true,"min":20,"max":60,"name":"Licença de Pesca Amadora (anual)","spec":"<b>Feita online no gov.br<\/b> com conta prata ou ouro. Desembarcada (barranco) ou embarcada (barco). Valor anual baixo; confira a taxa no site.","q":"","official":"https://www.gov.br/pt-br/servicos/solicitar-licenca-de-pescador-amador-ou-esportivoo"}],"atualizado":"2026-11-08","nota":"Preços de referência (≈) tirados de anúncios do Mercado Livre, Magalu, Casas Bahia, Zoom e Buscapé. 'consulte' = sem preço confirmado na última atualização."}</script>
 <script>
 (function(){
 "use strict";
@@ -569,416 +641,11 @@ const CATS = [
   {id:"meus", name:"Meus itens", intro:"Itens que você adicionou."}
 ];
 
-/* Marcas e modelos por faixa: [nome, preço de referência] */
-const TIERS = {
-  "vara-carr": {
-    b:[["Lumis Ibiza 1,80 m 25 lb","≈R$ 130"],["Saint Lancer 1,73 m 17 lb","≈R$ 185"],["Lumis Intense 1,68 m 6–17 lb","≈R$ 230"]],
-    m:[["Marine Sports Zest Fox 1,68 m 17 lb","≈R$ 270"],["Marine Sports Evolution 17 lb","≈R$ 290"],["Daiwa Laguna 1,83 m 10–25 lb","≈R$ 380"],["Marine Sports Venza C571M 10–20 lb","≈R$ 410"],["Saint Hammer 581BC 10–25 lb","≈R$ 500"]],
-    a:[["Shimano Sellus 1,73 m 25 lb","≈R$ 600–690"],["Saint 25 Anos 1,83 m 17 lb","≈R$ 880"],["Albatroz Enzo Premium 1,80 m 8–17 lb","≈R$ 1.200"],["Lumis Provoker 1,80 m 25 lb","≈R$ 1.490"]]
-  },
-  "vara-mol": {
-    b:[["Albatroz Viper 602 1,83 m 8–17 lb","≈R$ 170"]],
-    m:[["Marine Sports Venza S571ML 17 lb molinete","≈R$ 350"],["Marine Sports Venza S571MH 30 lb molinete","≈R$ 385"]],
-    a:[["Shimano Saguaro Spinning","consulte"],["Shimano Nasci Spinning vara","consulte"]]
-  },
-  "vara-pesada": {
-    b:[["Albatroz Bicuda 2,40 m 15–30 lb molinete","≈R$ 180"]],
-    m:[["Marine Sports Evolution GT2 1,83 m 40–80 lb molinete","≈R$ 380"],["Saint Classic IM10 2,40 m 20–50 lb","≈R$ 415"],["Marine Sports Evolution GT 1,83 m 20–60 lb carretilha","≈R$ 490"]],
-    a:[["Saint 25 Anos 2,40 m 50 lb","≈R$ 1.430"]]
-  },
-  "carretilha": {
-    b:[["Saint Plus Voxxi CC3","≈R$ 120"],["Albatroz Krait BG","≈R$ 300"],["Marine Sports Ventura VT10","≈R$ 335–420"]],
-    m:[["Maruri Naja Carbon","≈R$ 680"],["Shimano Caius 150 HG","≈R$ 750–950"]],
-    a:[["Daiwa Tatula TW 100","≈R$ 1.050–1.250"],["Shimano Curado M 150","≈R$ 1.400–1.500"],["Shimano SLX A 150 HG","≈R$ 1.600"]]
-  },
-  "molinete": {
-    b:[["Marine Sports Elite 3000 FD","≈R$ 80–110"],["Maruri Kyuu Full Spin 3000","≈R$ 120"],["Shimano FX 2500 FC","≈R$ 190–260"]],
-    m:[["Shimano Sienna FG 2500","≈R$ 490"],["Daiwa Laguna LT 3000","≈R$ 530"],["Daiwa Revros LT 2500","≈R$ 680"]],
-    a:[["Shimano Sedona FJ 2500","≈R$ 1.000+"],["Shimano Sahara FJ 2500","≈R$ 1.150+"]]
-  },
-  "molinete-peq": {
-    b:[["Marine Sports Elite 2000 FD","≈R$ 105"],["Shimano FX 1000 FC","consulte"]],
-    m:[["Daiwa Laguna LT 2000","consulte"]],
-    a:[["Shimano Sedona FJ 1000","≈R$ 1.000+"]]
-  },
-  "reel-forte": {
-    b:[["Maruri Magnum Delux 4000","≈R$ 170"],["Shimano FX 4000 FC","≈R$ 190–360"]],
-    m:[["Daiwa Sweepfire 4000","≈R$ 390"],["Marine Sports Black Max 20 carretilha","≈R$ 725"]],
-    a:[["Shimano Sedona FI 6000","≈R$ 1.380"]]
-  },
-  "multi": {
-    b:[["Sougayilang multifilamento 8 fios 300m","≈R$ 40–80"],["Fishermans multifilamento 8 fios","≈R$ 40–80"]],
-    m:[["Daiwa J-Braid X8 150m","≈R$ 120–180"],["Power Pro multifilamento 135m","≈R$ 100–170"]],
-    a:[["Sufix 832 multifilamento","≈R$ 180+"],["Daiwa J-Braid Grand X8","≈R$ 200+"]]
-  },
-  "zara": {
-    b:[["CMIK Zig Zara 804","≈R$ 26–36"],["Voxxi Zara 10 cm VC1","≈R$ 42"]],
-    m:[["Nelson Nakamura Zig Zarinha 90","≈R$ 40–60"],["Nelson Nakamura Sará Sará 100","≈R$ 50–75"],["Yara Mad Dog 9 cm","≈R$ 45–60"],["Borboleta Trick Stick 7,5 cm","≈R$ 68"]],
-    a:[["Borboleta Zazari 11 cm","≈R$ 109"],["Lori-M 105 zara","≈R$ 118–170"],["Moriah Zumba 125","≈R$ 150"]]
-  },
-  "helice": {
-    b:[["Isca de madeira tubarão com hélice","≈R$ 19–50"],["Maruri Indiana 80H hélice","≈R$ 55"]],
-    m:[["Nelson Nakamura Jet 90 hélice","≈R$ 53–70"],["Yara hélice 9 cm madeira","≈R$ 66"]],
-    a:[["Nelson Nakamura Jet 120","≈R$ 66–98"],["Nelson Nakamura Rocket 140","consulte"]]
-  },
-  "meiaagua": {
-    b:[["Maruri Lambari 70 meia água","≈R$ 24"],["Marine Sports Inna 70","≈R$ 24–46"],["CMIK lambari articulado 855","≈R$ 36"]],
-    m:[["Marine Sports Rei do Rio 80","≈R$ 50"],["Marine Sports Rei do Rio 95","≈R$ 50–60"],["Marine Sports Brava 90","≈R$ 62"],["Nelson Nakamura Queen 90","≈R$ 43"],["OCL Ziza Shad 90","consulte"]],
-    a:[["Nelson Nakamura Sogra 90","≈R$ 53–78"],["Borboleta Juana 140","≈R$ 88"],["Monster 3X Act X 120","≈R$ 95"]]
-  },
-  "iscadourado": {
-    m:[["Marine Sports Rei do Rio 120","≈R$ 60–75"],["Lucky Nelson Nakamura Borá 14 cm","consulte"]],
-    a:[["Borboleta Juana 140","≈R$ 88"],["Monster 3X Dance 125 sinking","≈R$ 102"]]
-  },
-  "crank": {
-    b:[["Matadeira crank raso","≈R$ 51"]],
-    m:[["Lori Laker 55","consulte"]],
-    a:[["Lori Face 65 spin tail (3 un.)","≈R$ 220"]]
-  },
-  "sapo": {
-    b:[["Kit 5 sapinhos anti enrosco 4,5 cm","≈R$ 27"],["Maruri Sapo Max Frog","≈R$ 34"],["CMIK kit 5 sapinhos 80154","≈R$ 57"]],
-    m:[["Matadeira Monster.Z 60 sapinho","≈R$ 28–58"],["Monster 3X Baby Toad 9 cm (2 un.)","≈R$ 49"]],
-    a:[["Monster 3X Big Toad 11,5 cm (2 un.)","≈R$ 57"],["Kit 3 Matadeira Monster Frog","≈R$ 73–140"]]
-  },
-  "soft": {
-    b:[["Kit isca silicone realista tucunaré","≈R$ 15–20"]],
-    m:[["Monster 3X X-Tail (3 un.)","≈R$ 27"],["Monster 3X Rip Tail 13,5 cm (3 un.)","≈R$ 30"]],
-    a:[["Monster 3X E-Shad 12 cm (5 un.)","≈R$ 76"],["Monster 3X Amazon Shad Eduardo Monteiro","consulte"]]
-  },
-  "camarao": {
-    b:[["Monster 3X camarão Ultrasoft 9 cm","≈R$ 16"]],
-    m:[["Kit 10 camarões de silicone aromatizado","consulte"]]
-  },
-  "jig": {
-    b:[["Lori Jig M 12 g","≈R$ 13–18"]],
-    m:[["Yara Killer jig 10 g","consulte"]]
-  },
-  "spinner": {
-    b:[["Spinnerbait genérico 10 g","≈R$ 20"]],
-    m:[["Yara King Spinner 26 g anti enrosco","consulte"]],
-    a:[["Yara Encrenca Spin 9 cm","≈R$ 75"]]
-  },
-  "colete": {
-    b:[["Colete Ativa Canga Classe III homologado","≈R$ 60"]],
-    m:[["Colete Jogá Sport Classe V homologado","≈R$ 230"]],
-    a:[["Colete salva-vidas neoprene Classe V homologado","consulte"]]
-  }
-};
-
-/* fish: espécies em que o item é usado; all:true = serve para qualquer pescaria.
-   where: "bar" barranco, "emb" barco; sem campo = serve para os dois */
-const PRED=["tuc","tra","rob","cor"];
-const ITEMS = [
-  /* ---- varas ---- */
-  {id:"vara-carr", cat:"varas", ic:"rod", prio:"E", qty:1, fish:["tuc","tra","rob","cor","bass"], min:170, max:350,
-   name:"Vara para carretilha 1,68–1,83 m, 10–20 lb",
-   spec:"<b>Procure:</b> carbono, ação rápida, inteiriça ou 2 partes, iscas de 7 a 21 g. Serve para superfície e meia-água.",
-   q:"vara carretilha 17 lb tucunaré traíra", ph:"vara de pesca para carretilha tucunaré"},
-  {id:"vara-mol", cat:"varas", ic:"rod", prio:"E", qty:1, fish:["tuc","tra","rob","cor","pir","jun"], min:160, max:350,
-   name:"Vara para molinete 1,70–1,83 m, 8–17 lb",
-   spec:"<b>Procure:</b> passadores grandes, cabo de EVA, ação média-rápida. Boa também para pescar com isca viva.",
-   q:"vara molinete 1,80 8-17 lb tucunaré", ph:"vara de pesca para molinete"},
-  {id:"vara-leve", cat:"varas", ic:"rod", prio:"E", qty:1, fish:["bass","til","pia"], min:120, max:300,
-   name:"Vara leve 1,68–2,10 m, 6–14 lb",
-   spec:"<b>Para peixe menor e isca leve:</b> sente melhor a beliscada da tilápia e o ataque do bass.",
-   q:"vara molinete 6-14 lb ultra light", ph:"vara de pesca ultra light"},
-  {id:"vara-pesada", cat:"varas", ic:"rod", prio:"E", qty:1, fish:["dou","pin","pac","tamb","car"], min:180, max:500,
-   name:"Vara pesada 1,80–2,40 m, 20–50 lb",
-   spec:"<b>Para peixe grande e briga longa:</b> dourado, pintado, pacu, tambaqui e carpa. Combine com molinete 4000+ ou carretilha forte.",
-   q:"vara pesca 20-50 lb pesqueiro", ph:"vara de pesca pesada pesqueiro"},
-  {id:"vara-mao", cat:"varas", ic:"rod", prio:"E", qty:1, fish:["lam","til"], min:30, max:120,
-   name:"Vara de mão ou telescópica 3–4,5 m",
-   spec:"<b>Sem molinete:</b> linha amarrada na ponta. A forma mais simples e barata de pegar lambari e tilápia na beira.",
-   q:"vara telescópica 3,60 m pesca", ph:"vara telescópica de mão pesca"},
-  /* ---- molinete e carretilha ---- */
-  {id:"carretilha", cat:"reels", ic:"bait", prio:"E", qty:1, fish:["tuc","tra","rob","cor","bass"], min:150, max:420,
-   name:"Carretilha perfil baixo",
-   spec:"<b>Procure:</b> relação 7.x:1, drag a partir de 5 kg, freio magnético ou centrífugo, 5+ rolamentos. Escolha o lado da manivela (destro costuma usar esquerda).",
-   q:"carretilha perfil baixo 7.1 drag 5kg", ph:"carretilha perfil baixo pesca"},
-  {id:"molinete", cat:"reels", ic:"spin", prio:"E", qty:1, fish:["tuc","tra","rob","cor","pir","jun","pia"], min:120, max:300,
-   name:"Molinete 2500 a 3000",
-   spec:"<b>Procure:</b> carretel de alumínio, drag de 5 kg ou mais, 3+ rolamentos. É o tamanho mais versátil.",
-   q:"molinete 3000 drag 5kg pesca tucunaré", ph:"molinete de pesca 3000"},
-  {id:"molinete-peq", cat:"reels", ic:"spin", prio:"E", qty:1, fish:["til","bass","pia"], min:70, max:250,
-   name:"Molinete pequeno 1000 a 2000",
-   spec:"<b>Leve e equilibrado</b> com vara leve. Use linha 0,20–0,25 mm ou multi fina.",
-   q:"molinete 2000 pesca leve", ph:"molinete 2000 pesca"},
-  {id:"reel-forte", cat:"reels", ic:"spin", prio:"E", qty:1, fish:["dou","pin","pac","tamb","car"], min:170, max:750,
-   name:"Molinete 4000–6000 ou carretilha perfil alto",
-   spec:"<b>Muita linha e fricção forte</b> para segurar peixe grande em correnteza ou no pesqueiro.",
-   q:"molinete 5000 drag 10kg", ph:"molinete 5000 pesca pesada"},
-  /* ---- linhas ---- */
-  {id:"multi", cat:"linhas", ic:"spool", prio:"E", qty:2, fish:["tuc","tra","rob","cor","bass"], min:40, max:120,
-   name:"Linha multifilamento 8 fios 20–30 lb (150 m)",
-   spec:"<b>Uma bobina para cada equipamento</b> (ou uma de 300 m dividida). Cerca de 0,20–0,28 mm.",
-   q:"linha multifilamento 8 fios 0,23 150m", ph:"linha multifilamento pesca bobina"},
-  {id:"multi-forte", cat:"linhas", ic:"spool", prio:"E", qty:1, fish:["dou","pin","tamb"], min:60, max:180,
-   name:"Multifilamento forte 40–60 lb (150–300 m)",
-   spec:"<b>Para peixe grande e correnteza.</b> Cerca de 0,30–0,40 mm.",
-   q:"linha multifilamento 50 lb 300m", ph:"linha multifilamento 50 lb"},
-  {id:"mono", cat:"linhas", ic:"spool", prio:"E", qty:1, fish:["til","pac","pia","car","jun","lam","tamb"], min:20, max:60,
-   name:"Linha monofilamento (nylon) 0,20–0,40 mm",
-   spec:"<b>A mais usada com isca natural.</b> 0,20 mm para lambari e tilápia, 0,30 mm para piapara e carpa, 0,40 mm para pacu e tambaqui.",
-   q:"linha monofilamento pesca 0,30mm", ph:"linha de nylon pesca"},
-  {id:"fluor", cat:"linhas", ic:"spool", prio:"E", qty:1, fish:["tuc","rob","cor","bass","dou"], min:35, max:90,
-   name:"Fluorcarbono para líder 30–40 lb",
-   spec:"<b>Use</b> 50 a 80 cm na ponta da multi. Resiste à abrasão de pau e pedra e quase some na água.",
-   models:"Bobinas de 50 m rendem muitos líderes.",
-   q:"linha fluorcarbono 40 lb líder pesca", ph:"linha fluorcarbono pesca"},
-  {id:"aco", cat:"linhas", ic:"leader", prio:"E", qty:1, fish:["tra","dou","pir"], min:15, max:40,
-   name:"Líder de aço / encastoado (kit)",
-   spec:"<b>Para peixe com dente:</b> traíra, dourado e piranha cortam até fluorcarbono. Encastoado pronto com snap, 15 a 25 cm, 30–50 lb.",
-   models:"Kits de 10 a 20 unidades costumam sair mais barato.",
-   q:"encastoado aço pesca traíra kit snap", ph:"encastoado de aço pesca"},
-  /* ---- terminais ---- */
-  {id:"girador", cat:"terminais", ic:"swivel", prio:"E", qty:1, all:true, min:12, max:35,
-   name:"Girador com snap (kit)",
-   spec:"<b>É o que evita a linha torcer e enrolar.</b> Tamanhos 2 a 6. Serve para qualquer pescaria, com isca natural ou artificial.",
-   models:"Kit com 50 peças sortidas cobre tudo.",
-   q:"girador com snap kit pesca", ph:"girador com snap pesca"},
-  {id:"snap", cat:"terminais", ic:"snap", prio:"R", qty:1, fish:["tuc","tra","rob","cor","bass","dou"], min:10, max:25,
-   name:"Snap clip sem girador (kit)",
-   spec:"<b>Para iscas de superfície e meia-água:</b> não atrapalha o nado como o girador. Troca de isca rápida.",
-   q:"snap clip pesca isca artificial kit", ph:"snap clip pesca"},
-  {id:"garateia", cat:"terminais", ic:"treble", prio:"R", qty:1, fish:["tuc","tra","rob","cor","bass","dou"], min:20, max:50,
-   name:"Garateias e argolas de reposição",
-   spec:"<b>Garateia</b> nº 2 a 6 e argola (split ring). Troque as das iscas baratas, que costumam abrir no tranco.",
-   q:"garateia pesca kit argola split ring", ph:"garateia de pesca"},
-  {id:"offset", cat:"terminais", ic:"hook", prio:"E", qty:1, fish:["tra","tuc","bass","rob"], min:15, max:35,
-   name:"Anzóis com anti-enrosco (offset / EWG) 2/0–4/0",
-   spec:"<b>Para soft bait e sapo:</b> a ponta fica escondida na isca e passa pelo mato sem enroscar.",
-   q:"anzol offset ewg anti enrosco 3/0", ph:"anzol offset ewg"},
-  {id:"jighead", cat:"terminais", ic:"jig", prio:"R", qty:1, fish:["tuc","bass","rob","cor"], min:15, max:40,
-   name:"Anzóis sem anti-enrosco (jig head 7–14 g)",
-   spec:"<b>Para shad e minhoca</b> em água aberta e no fundo. Fisga melhor que o offset quando não tem mato.",
-   q:"jig head 10g kit pesca", ph:"jig head pesca"},
-  {id:"anzol-peq", cat:"terminais", ic:"hook", prio:"E", qty:1, fish:["til","lam","pia"], min:10, max:25,
-   name:"Anzóis pequenos nº 8 a 20",
-   spec:"<b>Boca pequena, anzol pequeno:</b> nº 16–20 para lambari, nº 10–14 para tilápia, nº 8–10 para piapara.",
-   q:"anzol pequeno pesca tilápia lambari kit", ph:"anzol pequeno pesca"},
-  {id:"anzol-med", cat:"terminais", ic:"hook", prio:"E", qty:1, fish:["pac","tamb","car","jun","cor","pir"], min:15, max:35,
-   name:"Anzóis médios reforçados 1/0 a 4/0",
-   spec:"<b>Para isca natural e massa</b> com peixe de boca forte: pacu, tambaqui, carpa, bagre e piranha.",
-   q:"anzol 2/0 reforçado pesca", ph:"anzol 2/0 pesca"},
-  {id:"anzol-gr", cat:"terminais", ic:"hook", prio:"E", qty:1, fish:["pin","dou"], min:20, max:45,
-   name:"Anzóis grandes circle 5/0 a 8/0",
-   spec:"<b>Para isca viva grande:</b> o circle fisga no canto da boca e facilita a soltura.",
-   q:"anzol circle 6/0", ph:"anzol circle 6/0"},
-  {id:"chumbo", cat:"terminais", ic:"sinker", prio:"E", qty:1, fish:["til","lam","pac","pia","car","jun","pin","tamb","tra"], min:15, max:35,
-   name:"Chumbadas e boias (kit sortido)",
-   spec:"<b>Chumbada oliva ou de fundo</b> para levar a isca até o peixe; <b>boia</b> para isca em meia-água e para ver a beliscada.",
-   q:"chumbada oliva boia pesca kit", ph:"chumbada oliva e boia pesca"},
-  {id:"chuveirinho", cat:"terminais", ic:"treble", prio:"R", qty:2, fish:["car","til","pia","tamb"], min:10, max:30,
-   name:"Chuveirinho para massa",
-   spec:"<b>Mola com vários anzóis</b> que segura a massa no fundo. Clássico para carpa e tilápia.",
-   q:"chuveirinho pesca carpa", ph:"chuveirinho pesca"},
-  /* ---- iscas artificiais ---- */
-  {id:"zara", cat:"iscas", ic:"stick", prio:"E", qty:2, fish:["tuc","tra","rob","bass"], min:30, max:70,
-   name:"Zara / stick de superfície 9–11 cm",
-   spec:"<b>Zigue-zague na superfície.</b> Clássica para tucunaré e traíra em água calma. Leve uma clara e uma escura.",
-   q:"isca zara superfície tucunaré traíra", ph:"isca artificial zara superfície"},
-  {id:"helice", cat:"iscas", ic:"prop", prio:"E", qty:2, fish:["tuc"], min:30, max:75,
-   name:"Isca de hélice (simples ou dupla)",
-   spec:"<b>Faz barulho e espirra água:</b> chama o tucunaré de longe. Trabalhe com puxadas e pausas.",
-   q:"isca hélice tucunaré", ph:"isca artificial hélice tucunaré"},
-  {id:"popper", cat:"iscas", ic:"popper", prio:"R", qty:1, fish:["tuc","tra","bass","rob"], min:20, max:50,
-   name:"Popper 6–9 cm",
-   spec:"<b>“Estala” na superfície.</b> Bom quando o peixe está batendo mas não pega a zara.",
-   models:"Kits de 4 poppers são comuns e baratos.",
-   q:"isca popper superfície tucunaré traíra", ph:"isca popper pesca"},
-  {id:"meiaagua", cat:"iscas", ic:"minnow", prio:"E", qty:2, fish:["tuc","tra","rob","cor"], min:25, max:65,
-   name:"Meia-água (minnow / jerkbait) 8–10 cm",
-   spec:"<b>Para quando o sol esquenta</b> e o peixe desce. Trabalhe com toques de ponta de vara. A Rei do Rio é das mais usadas no Brasil.",
-   q:"isca meia água minnow 9cm tucunaré", ph:"isca Marine Sports Rei do Rio"},
-  {id:"iscadourado", cat:"iscas", ic:"minnow", prio:"E", qty:2, fish:["dou"], min:60, max:100,
-   name:"Meia-água grande 12–15 cm, reforçada",
-   spec:"<b>Para dourado:</b> corpo maciço e garateia forte, porque a boca dele esmaga isca fraca.",
-   q:"isca meia água 12cm dourado", ph:"isca artificial dourado meia água"},
-  {id:"crank", cat:"iscas", ic:"minnow", prio:"R", qty:1, fish:["bass","tuc","tra"], min:25, max:75,
-   name:"Crankbait pequeno 5–7 cm",
-   spec:"<b>Mergulha e vibra</b> ao recolher. Muito usado para black bass em pedra e galhada.",
-   q:"isca crankbait 6cm", ph:"isca crankbait"},
-  {id:"sapo", cat:"iscas", ic:"frog", prio:"E", qty:1, fish:["tra","bass"], min:30, max:75,
-   name:"Sapo anti-enrosco (kit 3–5)",
-   spec:"<b>A isca da traíra no mato:</b> passa por cima de vegetação e aguapé sem enroscar.",
-   q:"isca sapo anti enrosco traíra", ph:"isca sapo frog traíra"},
-  {id:"soft", cat:"iscas", ic:"soft", prio:"E", qty:1, fish:["tuc","tra","bass","rob","cor"], min:20, max:50,
-   name:"Soft bait: shad e minhoca (kit)",
-   spec:"<b>Use com anzol offset ou jig head.</b> Versátil e barata, ótima para dias difíceis.",
-   q:"isca soft shad silicone kit tucunaré", ph:"isca soft shad pesca"},
-  {id:"camarao", cat:"iscas", ic:"soft", prio:"E", qty:1, fish:["rob","cor","tuc"], min:15, max:45,
-   name:"Camarão artificial de silicone",
-   spec:"<b>A isca número um do robalo</b> e ótima para corvina. Trabalhe devagar, perto do fundo.",
-   q:"camarão artificial silicone pesca robalo", ph:"camarão artificial pesca"},
-  {id:"jig", cat:"iscas", ic:"jig", prio:"R", qty:2, fish:["cor","dou","rob","tuc"], min:13, max:40,
-   name:"Jig 10–20 g",
-   spec:"<b>Para pescar no fundo e em correnteza:</b> solte até o fundo e dê toques de ponta de vara.",
-   q:"isca jig 12g pesca", ph:"isca jig pesca"},
-  {id:"spinner", cat:"iscas", ic:"spinner", prio:"R", qty:1, fish:["tra","tuc","bass"], min:20, max:75,
-   name:"Spinnerbait / spinner anti-enrosco",
-   spec:"<b>Atravessa galhada e mato</b> com pouco enrosco. Boa em água turva por causa do brilho e da vibração.",
-   q:"spinnerbait pesca traíra", ph:"spinnerbait isca"},
-  {id:"colher", cat:"iscas", ic:"spoon", prio:"O", qty:1, fish:["tra","dou"], min:15, max:35,
-   name:"Colher anti-enrosco (weedless)",
-   spec:"<b>Rasante sobre vegetação</b>, boa para traíra. Use com girador para não torcer a linha.",
-   q:"colher anti enrosco pesca traíra", ph:"isca colher anti enrosco"},
-  /* ---- naturais ---- */
-  {id:"massa", cat:"naturais", ic:"bucket", prio:"E", qty:1, fish:["til","pac","tamb","car","pia","lam"], min:15, max:50,
-   name:"Massa pronta, ração e milho",
-   spec:"<b>A base da pesca em pesqueiro e represa.</b> Ração flutuante para pacu e tambaqui, massa e milho para tilápia, carpa e piapara.",
-   q:"massa pronta pesca tilápia carpa", ph:"massa de pesca pronta"},
-  {id:"ceva", cat:"naturais", ic:"bucket", prio:"R", qty:1, fish:["pia","til","car"], min:15, max:40,
-   name:"Ceva (milho, quirera ou farelo)",
-   spec:"<b>Joga no ponto antes de pescar</b> para juntar o cardume. Confira se o local permite cevar.",
-   q:"ceva pesca piapara tilápia", ph:"ceva para pesca"},
-  {id:"minhoca", cat:"naturais", ic:"soft", prio:"R", qty:1, fish:["jun","pin","til","lam","tra"], min:10, max:40,
-   name:"Minhoca ou minhocuçu",
-   spec:"<b>Isca natural que pega quase tudo</b> no fundo. Costuma ser comprada na loja de isca perto do rio.",
-   q:"minhocuçu isca pesca", ph:"minhocuçu isca"},
-  /* ---- isca viva ---- */
-  {id:"peneira", cat:"tuvira", ic:"net", prio:"O", qty:1, fish:["tra","pin","dou","cor","tuc"], min:30, max:90,
-   name:"Peneira ou puçá para pegar tuvira e lambari",
-   spec:"<b>Tuvira fica no brejo e na vegetação da margem.</b> Peneira de tela fina ou puçá de cabo.",
-   q:"puçá pesca isca viva malha fina", ph:"puçá de pesca"},
-  {id:"viveiro", cat:"tuvira", ic:"bucket", prio:"O", qty:1, fish:["tra","pin","dou","cor","tuc"], min:40, max:120,
-   name:"Balde ou viveiro com aerador a pilha",
-   spec:"<b>Mantém a isca viva</b> durante a pescaria. O aerador faz toda a diferença.",
-   q:"aerador oxigenador a pilha isca viva balde", ph:"balde viveiro isca viva aerador"},
-  {id:"anzolvivo", cat:"tuvira", ic:"hook", prio:"O", qty:1, fish:["tra","cor","tuc"], min:15, max:30,
-   name:"Anzóis para isca viva 1/0 a 3/0",
-   spec:"<b>Wide gap ou circle:</b> fisga no canto da boca e machuca menos para soltar.",
-   q:"anzol wide gap 2/0 isca viva", ph:"anzol circle wide gap"},
-  /* ---- comuns a todas ---- */
-  {id:"lipgrip", cat:"ferramentas", ic:"lipgrip", prio:"E", qty:1, all:true, min:25, max:70,
-   name:"Alicate de contenção (lip grip)",
-   spec:"<b>Segura a boca do peixe</b> sem pôr a mão nos dentes nem nos espinhos. Prefira o de alumínio, que não enferruja.",
-   models:"Muitos já vêm com balança embutida.",
-   q:"alicate contenção pesca lip grip", ph:"alicate de contenção pesca"},
-  {id:"alicate", cat:"ferramentas", ic:"pliers", prio:"E", qty:1, all:true, min:25, max:80,
-   name:"Alicate de bico (tirar anzol e abrir argola)",
-   spec:"<b>Bico longo</b> para tirar o anzol da boca e ponta de abrir argola.",
-   q:"alicate bico pesca abrir argola", ph:"alicate de bico pesca"},
-  {id:"tesoura", cat:"ferramentas", ic:"scissors", prio:"R", qty:1, all:true, min:10, max:35,
-   name:"Tesoura de linha",
-   spec:"<b>Multifilamento não corta com cortador comum.</b> Tesoura própria economiza linha e paciência.",
-   q:"tesoura linha multifilamento pesca", ph:"tesoura para linha multifilamento"},
-  {id:"estojo", cat:"ferramentas", ic:"box", prio:"E", qty:2, all:true, min:20, max:70,
-   name:"Estojo / caixa organizadora",
-   spec:"<b>Uma para iscas, outra para anzóis, chumbadas e terminais.</b> Divisórias removíveis ajudam.",
-   q:"estojo caixa organizadora iscas artificiais", ph:"estojo organizador iscas pesca"},
-  {id:"bolsa", cat:"ferramentas", ic:"bag", prio:"R", qty:1, all:true, min:70, max:220,
-   name:"Bolsa ou mochila de pesca",
-   spec:"<b>Leva os estojos, alicates e água.</b> Fundo emborrachado não encharca no barranco nem no barco.",
-   q:"bolsa mochila pesca estojos", ph:"bolsa de pesca"},
-  {id:"capa", cat:"ferramentas", ic:"tube", prio:"O", qty:1, all:true, min:25, max:60,
-   name:"Capa para vara e carretilha",
-   spec:"<b>Protege no transporte</b> de carro ou ônibus.",
-   q:"capa vara pesca neoprene carretilha", ph:"capa protetora vara de pesca"},
-  {id:"oleo", cat:"ferramentas", ic:"oil", prio:"O", qty:1, all:true, min:20, max:50,
-   name:"Óleo e graxa para carretilha e molinete",
-   spec:"<b>Uma gota depois de cada pescaria</b> evita barulho e ferrugem e faz o equipamento durar anos.",
-   q:"óleo graxa manutenção carretilha molinete", ph:"óleo lubrificante carretilha"},
-  {id:"oculos", cat:"protecao", ic:"glasses", prio:"R", qty:1, all:true, min:40, max:150,
-   name:"Óculos polarizado",
-   spec:"<b>Corta o reflexo</b> da água e protege de anzol voando no arremesso. Teste na tela do celular: a imagem escurece ao girar.",
-   q:"óculos polarizado pesca", ph:"óculos polarizado pesca"},
-  {id:"uv", cat:"protecao", ic:"hat", prio:"R", qty:1, all:true, min:40, max:120,
-   name:"Chapéu com proteção de nuca e camiseta UV",
-   spec:"<b>Sol na beira da água queima rápido.</b> Manga longa UV 50+ dispensa reaplicar protetor nos braços.",
-   q:"camiseta uv pesca manga longa", ph:"chapéu pesca proteção nuca"},
-  {id:"protetor", cat:"protecao", ic:"sun", prio:"R", qty:1, all:true, min:30, max:70,
-   name:"Protetor solar e repelente",
-   spec:"<b>Mosquito e borrachudo</b> aparecem no fim da tarde, que costuma ser a melhor hora de pesca.",
-   q:"repelente protetor solar kit", ph:"repelente e protetor solar"},
-  {id:"socorros", cat:"protecao", ic:"aid", prio:"R", qty:1, all:true, min:25, max:60,
-   name:"Kit de primeiros socorros compacto",
-   spec:"<b>Antisséptico, curativo e esparadrapo</b> para corte de dente, espinho ou anzol.",
-   q:"kit primeiros socorros pequeno bolsa", ph:"kit primeiros socorros pequeno"},
-  {id:"fita", cat:"protecao", ic:"ruler", prio:"O", qty:1, all:true, min:20, max:60,
-   name:"Régua ou fita métrica de peixe",
-   spec:"<b>Para conferir tamanho mínimo</b> e registrar o peixe antes de soltar.",
-   q:"régua medir peixe pesca", ph:"régua para medir peixe"},
-  {id:"lanterna", cat:"util", ic:"lamp", prio:"R", qty:1, all:true, min:30, max:90,
-   name:"Lanterna de cabeça recarregável",
-   spec:"<b>Mãos livres para dar nó e tirar anzol</b> quando escurece. Essencial para pintado e bagre, que são de noite.",
-   q:"lanterna de cabeça recarregável pesca", ph:"lanterna de cabeça pesca"},
-  {id:"termica", cat:"util", ic:"cooler", prio:"R", qty:1, all:true, min:60, max:200,
-   name:"Caixa térmica pequena",
-   spec:"<b>Água gelada, lanche e, se a regra permitir, o peixe.</b> 12 a 26 litros é um bom tamanho para levar a pé.",
-   q:"caixa térmica 12 litros", ph:"caixa térmica pequena"},
-  {id:"agua", cat:"util", ic:"bottle", prio:"R", qty:1, all:true, min:30, max:80,
-   name:"Garrafa térmica de água",
-   spec:"<b>Pelo menos 1 litro por pessoa.</b> Sol e calor na beira da água desidratam rápido.",
-   q:"garrafa térmica 1 litro", ph:"garrafa térmica água 1 litro"},
-  {id:"chuva", cat:"util", ic:"rain", prio:"R", qty:1, all:true, min:25, max:80,
-   name:"Capa de chuva ou poncho",
-   spec:"<b>Pancada de chuva de verão</b> chega rápido na represa. Ocupa pouco espaço na mochila.",
-   q:"capa de chuva poncho impermeável", ph:"poncho capa de chuva"},
-  {id:"celular", cat:"util", ic:"phone", prio:"R", qty:1, all:true, min:15, max:40,
-   name:"Capa à prova d'água para celular",
-   spec:"<b>Bolsinha com cordão no pescoço.</b> Dá para tirar foto do peixe sem medo de molhar.",
-   q:"capa à prova d'água celular cordão", ph:"capa prova dagua celular"},
-  {id:"powerbank", cat:"util", ic:"power", prio:"R", qty:1, all:true, min:60, max:150,
-   name:"Carregador portátil (power bank)",
-   spec:"<b>10.000 mAh carrega o celular duas vezes.</b> Importante para GPS e emergência.",
-   q:"power bank 10000mah", ph:"power bank 10000 mah"},
-  {id:"canivete", cat:"util", ic:"knife", prio:"R", qty:1, all:true, min:40, max:120,
-   name:"Canivete ou alicate multiuso",
-   spec:"<b>Corta corda, abre embalagem e conserta</b> o que soltar no meio da pescaria.",
-   q:"alicate multiuso canivete", ph:"alicate multiuso canivete"},
-  {id:"lixo", cat:"util", ic:"trash", prio:"R", qty:1, all:true, min:10, max:30,
-   name:"Sacos de lixo e pano ou toalha",
-   spec:"<b>Leve seu lixo de volta</b> e tenha um pano para secar as mãos e segurar o peixe.",
-   q:"saco de lixo resistente rolo", ph:"saco de lixo"},
-  {id:"balanca", cat:"util", ic:"scale", prio:"O", qty:1, all:true, min:20, max:50,
-   name:"Balança digital de mão",
-   spec:"<b>Para pesar o peixe</b> antes de soltar. Dispensável se o alicate de contenção já tiver balança.",
-   q:"balança digital pesca 50kg", ph:"balança digital de pesca"},
-  {id:"cadeira", cat:"barranco", where:"bar", ic:"chair", prio:"R", qty:1, all:true, min:60, max:150,
-   name:"Cadeira ou banqueta dobrável",
-   spec:"<b>Leve e com bolsa de transporte.</b> Banqueta ocupa menos espaço; cadeira com encosto cansa menos.",
-   q:"cadeira dobrável pesca", ph:"cadeira dobrável pesca"},
-  {id:"suporte", cat:"barranco", where:"bar", ic:"holder", prio:"R", qty:2, all:true, min:20, max:60,
-   name:"Suporte de vara para barranco",
-   spec:"<b>Espeta no chão e segura a vara</b> enquanto você troca isca ou espera com isca natural.",
-   q:"suporte vara pesca barranco", ph:"suporte de vara barranco"},
-  {id:"bota", cat:"barranco", where:"bar", ic:"boot", prio:"R", qty:1, all:true, min:60, max:200,
-   name:"Bota de borracha ou perneira",
-   spec:"<b>Protege no brejo e no mato alto.</b> Perneira ajuda contra picada de cobra.",
-   q:"bota de borracha cano alto", ph:"bota de borracha cano alto"},
-  {id:"guarda", cat:"barranco", where:"bar", ic:"umbrella", prio:"O", qty:1, all:true, min:40, max:120,
-   name:"Guarda-sol com ponta para fincar",
-   spec:"<b>Sombra no barranco sem árvore.</b> Prefira o com proteção UV e ponta de espetar.",
-   q:"guarda sol pesca ponta", ph:"guarda sol pesca"},
-  {id:"colete", cat:"barco", where:"emb", ic:"vest", prio:"E", qty:1, all:true, min:60, max:230,
-   name:"Colete salva-vidas homologado pela Marinha",
-   spec:"<b>Obrigatório em embarcação.</b> Classe III serve para rios, lagos e represas. Confira o selo de homologação e a faixa de peso.",
-   q:"colete salva vidas homologado classe III", ph:"colete salva vidas homologado"},
-  {id:"apito", cat:"barco", where:"emb", ic:"whistle", prio:"R", qty:1, all:true, min:10, max:25,
-   name:"Apito preso ao colete",
-   spec:"<b>Chama atenção de longe</b> se o motor parar ou alguém cair na água.",
-   q:"apito de emergência náutico", ph:"apito de emergência"},
-  {id:"drybag", cat:"barco", where:"emb", ic:"drybag", prio:"R", qty:1, all:true, min:30, max:90,
-   name:"Bolsa estanque (dry bag) 10–20 L",
-   spec:"<b>Documento, chave e roupa seca</b> não molham nem se o barco virar.",
-   q:"bolsa estanque dry bag 20 litros", ph:"bolsa estanque dry bag"},
-  {id:"passagua", cat:"barco", where:"emb", ic:"net", prio:"R", qty:1, all:true, min:50, max:150,
-   name:"Passaguá (rede de embarque)",
-   spec:"<b>Tira o peixe da água sem forçar a linha</b> nem a vara. Rede emborrachada machuca menos para soltar.",
-   q:"passaguá rede pesca emborrachada", ph:"passaguá pesca"},
-  {id:"portavara", cat:"barco", where:"emb", ic:"rodboat", prio:"O", qty:2, all:true, min:30, max:80,
-   name:"Porta-vara para barco",
-   spec:"<b>Deixa as varas de reserva em pé</b> e longe do pé de quem está arremessando.",
-   q:"porta vara barco pesca", ph:"porta vara para barco"},
-  {id:"ancora", cat:"barco", where:"emb", ic:"anchor", prio:"O", qty:1, all:true, min:60, max:150,
-   name:"Âncora pequena com corda",
-   spec:"<b>Para ficar parado no ponto</b> sem o vento levar o barco. 20 a 30 m de corda.",
-   q:"âncora garatéia barco pequeno corda", ph:"âncora garatéia barco"},
-  {id:"licenca", cat:"docs", ic:"doc", prio:"E", qty:1, all:true, min:20, max:60,
-   name:"Licença de Pesca Amadora (anual)",
-   spec:"<b>Feita online no gov.br</b> com conta prata ou ouro. Desembarcada (barranco) ou embarcada (barco). Valor anual baixo; confira a taxa no site.",
-   q:"", official:"https://www.gov.br/pt-br/servicos/solicitar-licenca-de-pescador-amador-ou-esportivoo"}
-];
+/* Catálogo de produtos e marcas: vem embutido no arquivo e, no site, é trocado
+   pelo catalogo.json mais novo (atualizado toda semana). */
+let CATALOGO=(function(){try{return JSON.parse(document.getElementById("catalogo-embutido").textContent);}catch(e){return {tiers:{},items:[]};}})();
+let TIERS=CATALOGO.tiers||{};
+let ITEMS=CATALOGO.items||[];
 
 const STORES = [
   {id:"ml", name:"Mercado Livre", color:"#f5d000", url:(q,c)=>"https://lista.mercadolivre.com.br/"+slug(q)+(c?"_OrderId_PRICE_NoIndex_True":"")},
@@ -1067,7 +734,7 @@ function renderSummary(){
     <div class="stat budget"><div class="k">Falta comprar (faixa barata a média)</div><div class="v num">${range(lo,hi)}</div>
       <div class="small muted num">Só essenciais: ${range(essLo,essHi)}${gasto?` · Pedidos: ${brl(gasto)}`:""}</div></div>
     <div class="bar" aria-hidden="true"><span class="b-ok" style="width:${pOk}%"></span><span class="b-ped" style="width:${pPed}%"></span></div>
-    <div class="legend"><span><i style="background:var(--accent)"></i>Tenho ${tenho}</span><span><i style="background:var(--amber)"></i>Pedido ${pedido}</span><span><i style="background:var(--chip);border:1px solid var(--line)"></i>Falta ${total-tenho-pedido}</span>${nao?`<span><i style="background:transparent;border:1px dashed var(--muted)"></i>Não preciso ${nao} (fora da conta)</span>`:""}<span>${names.length?"Contando só: "+esc(joinPt(names)):"Contando todos os peixes"}${state.where&&state.where!=="todos"?" · "+WHERE[state.where]:""}</span></div>`;
+    <div class="legend"><span><i style="background:var(--accent)"></i>Tenho ${tenho}</span><span><i style="background:var(--amber)"></i>Pedido ${pedido}</span><span><i style="background:var(--chip);border:1px solid var(--line)"></i>Falta ${total-tenho-pedido}</span>${nao?`<span><i style="background:transparent;border:1px dashed var(--muted)"></i>Não preciso ${nao} (fora da conta)</span>`:""}<span>Preços de referência: ${esc(fmtDate(CATALOGO.atualizado))}</span><span>${names.length?"Contando só: "+esc(joinPt(names)):"Contando todos os peixes"}${state.where&&state.where!=="todos"?" · "+WHERE[state.where]:""}</span></div>`;
 }
 
 function renderFilters(){
@@ -1300,6 +967,203 @@ $("#addForm").addEventListener("submit",e=>{
 });
 window.addEventListener("hashchange",()=>{if(/^#facil/.test(location.hash)&&!easy){easy=true;try{localStorage.setItem(LS_EASY,"1");}catch(e){} applyEasy();}});
 
+/* ---------- catálogo: busca a versão mais nova publicada no site ---------- */
+function fmtDate(iso){ if(!iso)return ""; const p=String(iso).split("-"); return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:iso; }
+function loadCatalog(){
+  if(!/^https?:$/.test(location.protocol)||EMBEDDED)return;
+  fetch("catalogo.json?v="+Date.now(),{cache:"no-store"}).then(r=>r.ok?r.json():null).then(d=>{
+    if(!d||!Array.isArray(d.items)||!d.tiers)return;
+    if(String(d.atualizado||"")<String(CATALOGO.atualizado||""))return;
+    CATALOGO=d; TIERS=d.tiers; ITEMS=d.items; renderFilters(); render();
+  }).catch(()=>{});
+}
+
+/* ---------- clima no local da pescaria (Open-Meteo, sem cadastro) ---------- */
+const LS_PLACE="equipo-pesca-local";
+const PRESETS=[
+  {name:"Itaipu – Santa Helena (PR)",lat:-24.86,lon:-54.33},
+  {name:"Rio Paraná – Porto Rico (PR)",lat:-22.77,lon:-53.27},
+  {name:"Represa Capivari (PR)",lat:-25.14,lon:-48.87},
+  {name:"Represa do Passaúna – Curitiba (PR)",lat:-25.42,lon:-49.37},
+  {name:"Rio Iguaçu – União da Vitória (PR)",lat:-26.23,lon:-51.09},
+  {name:"Guaratuba – litoral (PR)",lat:-25.88,lon:-48.57},
+  {name:"Represa de Itá (SC)",lat:-27.29,lon:-52.33},
+  {name:"Jurumirim – Avaré (SP)",lat:-23.10,lon:-48.93},
+  {name:"Ilha Solteira (SP)",lat:-20.43,lon:-51.34},
+  {name:"Três Lagoas (MS)",lat:-20.75,lon:-51.68},
+  {name:"Pantanal – Corumbá (MS)",lat:-19.01,lon:-57.65}
+];
+const WCODE={0:"Céu limpo",1:"Poucas nuvens",2:"Parcialmente nublado",3:"Nublado",45:"Neblina",48:"Neblina",51:"Garoa fraca",53:"Garoa",55:"Garoa forte",56:"Garoa congelante",57:"Garoa congelante",61:"Chuva fraca",63:"Chuva",65:"Chuva forte",66:"Chuva congelante",67:"Chuva congelante",71:"Neve",73:"Neve",75:"Neve",77:"Neve",80:"Pancadas fracas",81:"Pancadas de chuva",82:"Pancadas fortes",85:"Neve",86:"Neve",95:"Trovoada",96:"Trovoada com granizo",99:"Trovoada com granizo"};
+const DIAS=["dom","seg","ter","qua","qui","sex","sáb"];
+function compass(deg){if(deg==null)return "";const d=["N","NE","L","SE","S","SO","O","NO"];return d[Math.round(((deg%360)+360)%360/45)%8];}
+function moonInfo(date){
+  const syn=29.530588853, ref=Date.UTC(2000,0,6,18,14);
+  let ph=((date.getTime()-ref)/86400000)%syn; if(ph<0)ph+=syn; const f=ph/syn;
+  const names=[["🌑","Lua nova"],["🌒","Crescente"],["🌓","Quarto crescente"],["🌔","Crescente gibosa"],["🌕","Lua cheia"],["🌖","Minguante gibosa"],["🌗","Quarto minguante"],["🌘","Minguante"]];
+  const i=Math.floor((f*8)+0.5)%8; return {icon:names[i][0],name:names[i][1],frac:f};
+}
+function hm(iso){return iso?String(iso).slice(11,16):"";}
+function addMin(iso,min){const d=new Date(iso);d.setMinutes(d.getMinutes()+min);return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");}
+
+function fishScore(day){
+  /* Regras práticas de pescador, não ciência exata. */
+  let sc=3; const why=[]; const warn=[];
+  if(day.code>=95){sc-=2;warn.push("Trovoada: saia da água e longe da vara quando trovejar.");}
+  if(day.windMax!=null){
+    if(day.windMax<12){sc+=1;why.push("vento fraco");}
+    else if(day.windMax>35){sc-=2;why.push("vento muito forte");}
+    else if(day.windMax>25){sc-=1;why.push("vento forte");}
+  }
+  if(day.rainSum!=null){
+    if(day.rainSum>15){sc-=1.5;why.push("muita chuva");}
+    else if(day.rainSum>=1&&day.rainSum<=5){why.push("garoa leve (às vezes ajuda)");}
+  }
+  if(day.dP!=null){
+    if(Math.abs(day.dP)<=2){sc+=1;why.push("pressão estável");}
+    else if(day.dP<-5){sc-=0.5;why.push("pressão caindo rápido");}
+    else if(day.dP<-2){sc+=0.5;why.push("pressão caindo (peixe costuma comer antes da frente)");}
+    else if(day.dP>4){sc-=1;why.push("pressão subindo após frente fria");}
+  }
+  if(day.tMax!=null&&day.tMax<18){sc-=1;why.push("frio: peixe de água quente fica parado");}
+  if(day.moon&&(day.moon.name==="Lua nova"||day.moon.name==="Lua cheia")){sc+=0.5;why.push(day.moon.name.toLowerCase()+" (tábua solunar)");}
+  sc=Math.max(1,Math.min(5,Math.round(sc)));
+  const lb=["","Ruim","Fraco","Regular","Bom","Ótimo"][sc];
+  return {sc,lb,why,warn};
+}
+
+function wStatus(html){$("#wOut").innerHTML=html;}
+function renderPresets(){
+  $("#wPre").innerHTML=PRESETS.map((p,i)=>`<button type="button" class="chip" data-wpre="${i}">${esc(p.name)}</button>`).join("");
+}
+async function geocode(q){
+  const u="https://geocoding-api.open-meteo.com/v1/search?count=8&language=pt&format=json&countryCode=BR&name="+enc(q);
+  const r=await fetch(u); if(!r.ok)throw new Error("geo"); const d=await r.json(); return d.results||[];
+}
+async function wSearch(q){
+  const box=$("#wRes"); box.innerHTML=`<span class="small muted">Buscando “${esc(q)}”…</span>`;
+  try{
+    const res=await geocode(q);
+    if(!res.length){box.innerHTML=`<span class="small muted">Nada encontrado para “${esc(q)}”. Tente o nome da cidade mais próxima.</span>`;return;}
+    box.innerHTML=res.map((p,i)=>`<button type="button" class="chip" data-wres="${i}">${esc(p.name)}${p.admin2&&p.admin2!==p.name?" – "+esc(p.admin2):""}${p.admin1?" ("+esc(p.admin1)+")":""}</button>`).join("");
+    box._res=res;
+  }catch(e){box.innerHTML=""; wOffline();}
+}
+function wOffline(){
+  wStatus(`<p class="guide-empty">Não consegui buscar a previsão aqui. Ela funciona no site <a href="https://fabioandrade86.github.io/equipo-de-pesca/">fabioandrade86.github.io/equipo-de-pesca</a> ou no arquivo aberto no navegador com internet.</p>`);
+}
+async function loadWeather(place){
+  try{localStorage.setItem(LS_PLACE,JSON.stringify(place));}catch(e){}
+  wStatus(`<p class="small muted">Carregando a previsão de ${esc(place.name)}…</p>`);
+  const u="https://api.open-meteo.com/v1/forecast?latitude="+place.lat+"&longitude="+place.lon+
+    "&current=temperature_2m,relative_humidity_2m,precipitation,cloud_cover,pressure_msl,wind_speed_10m,wind_direction_10m,wind_gusts_10m,weather_code"+
+    "&hourly=pressure_msl,precipitation_probability,wind_speed_10m"+
+    "&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum,precipitation_probability_max,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant,uv_index_max,sunrise,sunset"+
+    "&timezone=America%2FSao_Paulo&forecast_days=7&past_days=1&wind_speed_unit=kmh";
+  let d;
+  try{const r=await fetch(u); if(!r.ok)throw new Error("http "+r.status); d=await r.json();}
+  catch(e){wOffline();return;}
+  renderWeather(place,d);
+}
+function pressureChart(h){
+  if(!h||!h.time||!h.pressure_msl)return "";
+  const pts=h.pressure_msl.map((v,i)=>({t:h.time[i],v})).filter(p=>p.v!=null);
+  if(pts.length<4)return "";
+  const W=640,H=120,pl=34,pr=8,pt=10,pb=22;
+  const vs=pts.map(p=>p.v); let lo=Math.floor(Math.min(...vs)-1), hi=Math.ceil(Math.max(...vs)+1);
+  const x=i=>pl+(W-pl-pr)*i/(pts.length-1), y=v=>pt+(H-pt-pb)*(1-(v-lo)/(hi-lo));
+  const line=pts.map((p,i)=>(i?"L":"M")+x(i).toFixed(1)+" "+y(p.v).toFixed(1)).join(" ");
+  const area=line+` L ${x(pts.length-1).toFixed(1)} ${H-pb} L ${x(0).toFixed(1)} ${H-pb} Z`;
+  const now=Date.now(); let ni=pts.findIndex(p=>new Date(p.t).getTime()>=now); if(ni<0)ni=pts.length-1;
+  let ticks=""; pts.forEach((p,i)=>{ if(p.t.endsWith("T00:00")){const dt=new Date(p.t);ticks+=`<line x1="${x(i)}" x2="${x(i)}" y1="${pt}" y2="${H-pb}" stroke="var(--line)"/><text x="${x(i)+3}" y="${H-6}">${DIAS[dt.getDay()]}</text>`;} });
+  return `<svg class="w-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Pressão atmosférica de ${Math.round(Math.min(...vs))} a ${Math.round(Math.max(...vs))} hPa nos próximos dias">
+    ${ticks}
+    <text x="2" y="${y(hi)+4}">${hi}</text><text x="2" y="${y(lo)}">${lo}</text>
+    <path d="${area}" fill="var(--accent-soft)"/><path d="${line}" fill="none" stroke="var(--accent)" stroke-width="2"/>
+    <circle cx="${x(ni)}" cy="${y(pts[ni].v)}" r="4" fill="var(--accent)"/>
+  </svg>`;
+}
+let lastWeatherSpeech="";
+function renderWeather(place,d){
+  const c=d.current||{}, D=d.daily||{}, H=d.hourly||{};
+  const dayPress={}; (H.time||[]).forEach((t,i)=>{const k=t.slice(0,10);const v=H.pressure_msl[i];if(v==null)return;(dayPress[k]=dayPress[k]||[]).push(v);});
+  const meanP=k=>{const a=dayPress[k];return a&&a.length?a.reduce((x,y)=>x+y,0)/a.length:null;};
+  const days=(D.time||[]).map((t,i)=>{
+    const prev=i>0?meanP(D.time[i-1]):null, cur=meanP(t);
+    const dt=new Date(t+"T12:00:00");
+    const o={date:t,dt,code:D.weather_code?.[i],tMax:D.temperature_2m_max?.[i],tMin:D.temperature_2m_min?.[i],rainSum:D.precipitation_sum?.[i],rainP:D.precipitation_probability_max?.[i],
+      windMax:D.wind_speed_10m_max?.[i],gust:D.wind_gusts_10m_max?.[i],windDir:D.wind_direction_10m_dominant?.[i],uv:D.uv_index_max?.[i],sunrise:D.sunrise?.[i],sunset:D.sunset?.[i],
+      p:cur,dP:(cur!=null&&prev!=null)?cur-prev:null,moon:moonInfo(dt)};
+    o.score=fishScore(o); return o;
+  });
+  const todayIso=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,10);
+  const view=days.filter(x=>x.date>=todayIso).slice(0,7);
+  const today=view[0];
+  /* tendência de pressão nas próximas 3 h */
+  let trend="";
+  if(H.time&&H.pressure_msl){const now=Date.now();const i=H.time.findIndex(t=>new Date(t).getTime()>=now);if(i>=0&&i+3<H.pressure_msl.length){const dd=H.pressure_msl[i+3]-H.pressure_msl[i];trend=Math.abs(dd)<0.6?"estável":dd>0?"subindo":"caindo";}}
+  let best="";
+  if(today&&today.sunrise&&today.sunset){
+    const ok=today.score.sc>=3&&!(today.code>=95);
+    best=`<div class="w-best"><b>Melhores horários hoje:</b> ${hm(today.sunrise)}–${addMin(today.sunrise,150)} e ${addMin(today.sunset,-150)}–${hm(today.sunset)} (começo da manhã e fim da tarde, quando tucunaré e traíra mais atacam na superfície).${ok?"":" Hoje o tempo não ajuda: se for, prefira iscas de meia-água e fundo."}</div>`;
+  }
+  const now=`<div class="w-now">
+    <div class="cell"><div class="k">Agora</div><div class="v num">${c.temperature_2m!=null?Math.round(c.temperature_2m)+"°C":"–"}</div><div class="s">${esc(WCODE[c.weather_code]||"")}</div></div>
+    <div class="cell"><div class="k">Vento</div><div class="v num">${c.wind_speed_10m!=null?Math.round(c.wind_speed_10m):"–"} <small>km/h</small></div><div class="s">${compass(c.wind_direction_10m)}${c.wind_gusts_10m!=null?" · rajada "+Math.round(c.wind_gusts_10m):""}</div></div>
+    <div class="cell"><div class="k">Pressão</div><div class="v num">${c.pressure_msl!=null?Math.round(c.pressure_msl):"–"} <small>hPa</small></div><div class="s">${trend?"tendência "+trend:""}</div></div>
+    <div class="cell"><div class="k">Chuva</div><div class="v num">${c.precipitation!=null?c.precipitation.toFixed(1):"–"} <small>mm</small></div><div class="s">${c.cloud_cover!=null?"nuvens "+c.cloud_cover+"%":""}</div></div>
+    <div class="cell"><div class="k">Sol</div><div class="v num">${today?hm(today.sunrise):"–"}</div><div class="s">${today?"pôr "+hm(today.sunset)+" · UV "+Math.round(today.uv||0):""}</div></div>
+    <div class="cell"><div class="k">Lua</div><div class="v">${today?today.moon.icon:""}</div><div class="s">${today?today.moon.name:""}</div></div>
+  </div>`;
+  const cards=view.map((x,i)=>`<article class="wd${i===0?" today":""}">
+    <div class="top"><span class="day">${i===0?"Hoje":i===1?"Amanhã":DIAS[x.dt.getDay()]+" "+x.date.slice(8,10)+"/"+x.date.slice(5,7)}</span><span class="cond">${esc(WCODE[x.code]||"")}</span></div>
+    <div class="temps num">${x.tMin!=null?Math.round(x.tMin):"–"}° / ${x.tMax!=null?Math.round(x.tMax):"–"}°</div>
+    <div class="score"><span class="dots" aria-hidden="true">${[1,2,3,4,5].map(n=>`<i class="${n<=x.score.sc?"on":""}"></i>`).join("")}</span><span class="lb">Pesca: ${x.score.lb}</span></div>
+    <ul>
+      <li><b>Chuva:</b> ${x.rainSum!=null?x.rainSum.toFixed(1)+" mm":"–"}${x.rainP!=null?" · "+x.rainP+"%":""}</li>
+      <li><b>Vento:</b> até ${x.windMax!=null?Math.round(x.windMax):"–"} km/h ${compass(x.windDir)}${x.gust!=null?" · rajada "+Math.round(x.gust):""}</li>
+      <li><b>Pressão:</b> ${x.p!=null?Math.round(x.p)+" hPa":"–"}${x.dP!=null?" ("+(x.dP>0?"+":"")+x.dP.toFixed(1)+")":""}</li>
+      <li><b>Sol:</b> ${hm(x.sunrise)}–${hm(x.sunset)} · UV ${x.uv!=null?Math.round(x.uv):"–"}</li>
+      <li><b>Lua:</b> ${x.moon.icon} ${x.moon.name}</li>
+    </ul>
+    ${x.score.warn.map(w=>`<div class="warnline">${esc(w)}</div>`).join("")}
+    <div class="why">${esc(x.score.why.join(", "))}</div>
+  </article>`).join("");
+  const tips=`<details class="w-tips"><summary>Como o clima mexe com a pesca</summary><ul>
+    <li><b>Pressão estável</b> costuma ser o melhor cenário. Pouco antes de uma frente fria a pressão cai e o peixe costuma comer mais; depois que a frente passa, a pressão sobe, esfria e o peixe fica parado.</li>
+    <li><b>Vento fraco</b> deixa arremessar com precisão e trabalhar isca de superfície. Vento forte pede iscas mais pesadas e pontos abrigados.</li>
+    <li><b>Sol forte</b> manda o peixe para a sombra e para o fundo: use meia-água e procure galhada. Começo da manhã e fim da tarde são os horários de superfície.</li>
+    <li><b>Chuva leve</b> pode ajudar; chuva forte suja a água e derruba a atividade. <b>Trovoada:</b> saia da água.</li>
+    <li><b>Temperatura:</b> tucunaré e traíra gostam de água quente. Abaixo de 18 °C o ataque cai bastante.</li>
+    <li><b>Lua:</b> pela tábua solunar, lua nova e cheia rendem mais. É tradição de pescador, vale como palpite.</li>
+  </ul></details>`;
+  wStatus(`<div class="w-place"><h3>${esc(place.name)}</h3><button type="button" class="say" data-wsay="1">${svg("speak")}Ouvir previsão</button></div>
+    ${now}${best}
+    <div><div class="small muted" style="margin-bottom:4px">Pressão atmosférica (hPa) nos próximos dias</div>${pressureChart(H)}</div>
+    <div class="w-days">${cards}</div>
+    ${tips}
+    <p class="small muted" style="margin:0">Nota de pesca é uma estimativa por regras de pescador (vento, chuva, pressão, temperatura e lua). Previsão: Open-Meteo.</p>`);
+  lastWeatherSpeech=`Previsão para ${place.name}. `+view.slice(0,3).map((x,i)=>`${i===0?"Hoje":i===1?"Amanhã":"Depois de amanhã"}: ${WCODE[x.code]||""}, mínima de ${Math.round(x.tMin)} e máxima de ${Math.round(x.tMax)} graus, chuva de ${x.rainSum!=null?x.rainSum.toFixed(0):0} milímetros, vento até ${Math.round(x.windMax)} quilômetros por hora. Pesca: ${x.score.lb}.`).join(" ");
+  fixLinks();
+}
+function initWeather(){
+  renderPresets();
+  $("#wForm").addEventListener("submit",e=>{e.preventDefault();const q=$("#wq").value.trim();if(q.length>=2)wSearch(q);});
+  document.addEventListener("click",e=>{
+    const b=e.target.closest("button"); if(!b)return;
+    if(b.dataset.wpre!=null){loadWeather(PRESETS[+b.dataset.wpre]);return;}
+    if(b.dataset.wres!=null){const p=$("#wRes")._res[+b.dataset.wres];$("#wRes").innerHTML="";loadWeather({name:p.name+(p.admin1?" ("+p.admin1+")":""),lat:p.latitude,lon:p.longitude});return;}
+    if(b.dataset.wsay){if(lastWeatherSpeech)speak(lastWeatherSpeech);return;}
+    if(b.id==="wGeo"){
+      if(!navigator.geolocation){toast("Este navegador não informa a localização");return;}
+      toast("Buscando sua localização…");
+      navigator.geolocation.getCurrentPosition(pos=>loadWeather({name:"Minha localização",lat:+pos.coords.latitude.toFixed(3),lon:+pos.coords.longitude.toFixed(3)}),
+        ()=>toast("Não deu para pegar a localização. Busque pelo nome da cidade."),{timeout:10000,maximumAge:600000});
+    }
+  });
+  let saved=null; try{saved=JSON.parse(localStorage.getItem(LS_PLACE)||"null");}catch(e){}
+  if(saved&&saved.lat!=null)loadWeather(saved);
+}
+
 /* ---------- salvar: aparelho + conta (quando a pessoa estiver logada) ---------- */
 let docRef=null, writing=false, dirty=false, timer=null;
 function snapshotState(){return JSON.parse(JSON.stringify({status:state.status,price:state.price,link:state.link,custom:state.custom,cheap:state.cheap,addr:state.addr||"",cep:state.cep||"",where:state.where||"todos",fish:state.fish||[]}));}
@@ -1321,7 +1185,7 @@ async function flush(){
 }
 function setSync(on,text){$("#syncDot").classList.toggle("on",!!on); $("#syncText").textContent=text||(on?"Salvo na sua conta e neste aparelho":"Salvo neste aparelho");}
 
-applyScheme(); applyEasy(); renderFilters(); render();
+applyScheme(); applyEasy(); renderFilters(); render(); initWeather(); loadCatalog();
 if(!storageOk){const w=document.getElementById("storeWarn"); if(w)w.hidden=false;}
 try{if(window.speechSynthesis)window.speechSynthesis.getVoices();}catch(e){}
 
